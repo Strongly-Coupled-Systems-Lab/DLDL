@@ -33,7 +33,7 @@ def get_length(filename, data_dir):
         data_dir: str, path to file directory
     """
     file_path = os.path.join(data_dir, filename)
-    data = np.loadtxt(file_path)
+    data = np.loadtxt(file_path, use_cols=1)
 
     return data.shape[0]
 
@@ -47,7 +47,7 @@ def get_means(filename, data_dir):
         data_dir: str, path to file directory
     """
     file_path = os.path.join(data_dir, filename)
-    data = np.loadtxt(file_path)
+    data = np.loadtxt(file_path, use_cols=1)
 
     mean = np.mean(data)
     mean2 = np.mean(data**2)
@@ -72,7 +72,7 @@ def load_and_pad(filename, data_dir, max_length):
     padded_data = np.zeros(max_length)
     padded_data[:N] = data
 
-    return (shot_no, padded data)
+    return (shot_no, padded_data)
 
 
 def load_and_pad_norm(filename, data_dir, max_length, mean = None, std = None):
@@ -101,7 +101,7 @@ def load_and_pad_norm(filename, data_dir, max_length, mean = None, std = None):
     padded_data = np.zeros(max_length)
     padded_data[:N] = data
 
-    return (shot_no, padded data)
+    return (shot_no, padded_data)
 
 
 def load_and_pad_scale(filename, data_dir, max_length):
@@ -123,7 +123,7 @@ def load_and_pad_scale(filename, data_dir, max_length):
     padded_data = np.zeros(max_length)
     padded_data[:N] = data
 
-    return (shot_no, padded data)
+    return (shot_no, padded_data)
 
 
 ################################################################################
@@ -134,8 +134,8 @@ class Preprocessor:
         self.data_dir = data_dir
         self.dataset_path = os.path.join(dataset_dir,'processed_dataset.pt')
         self.labels_pt_path = os.path.join(dataset_dir,'processed_labels.pt')
-        self.max_length_file = os.path.join(self.dataset_dir,'max_length.txt')
-        self.mean_std_file = os.path.join(self.dataset_dir,'mean_std.txt')
+        self.max_length_file = os.path.join(dataset_dir,'max_length.txt')
+        self.mean_std_file = os.path.join(dataset_dir,'mean_std.txt')
         self.labels_path = labels_path
 
 
