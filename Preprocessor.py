@@ -33,9 +33,20 @@ def get_length(filename, data_dir):
         data_dir: str, path to file directory
     """
     file_path = os.path.join(data_dir, filename)
-    data = np.loadtxt(file_path, use_cols=1)
+    data = np.loadtxt(file_path, usecols=1)
 
-    return data.shape[0]
+    return len(data)
+
+
+def get_scaled_t_disrupt(shot_no, data_dir, t_disrupt, max_length):
+    """
+    Get scaled version of t_disrupt; i_disrupt/max_length
+    """
+    shot_file = os.path.join(data_dir,str(shot_no)+'.txt')
+    time = np.loadtxt(shot_file, usecols=0)
+    i_d = np.abs(time-t_disrupt).argmin()
+
+    return i_d/max_length
 
 
 def get_means(filename, data_dir):
@@ -47,7 +58,7 @@ def get_means(filename, data_dir):
         data_dir: str, path to file directory
     """
     file_path = os.path.join(data_dir, filename)
-    data = np.loadtxt(file_path, use_cols=1)
+    data = np.loadtxt(file_path, usecols=1)
 
     mean = np.mean(data)
     mean2 = np.mean(data**2)
@@ -67,7 +78,7 @@ def load_and_pad(filename, data_dir, max_length):
     """
     shot_no = int(filename[:-4])
     file_path = os.path.join(data_dir, filename)
-    data = np.loadtxt(file_path, use_cols=1, dtype=np.float32)
+    data = np.loadtxt(file_path, usecols=1, dtype=np.float32)
     N = min(len(data), max_length)
     padded_data = np.zeros(max_length)
     padded_data[:N] = data
@@ -89,7 +100,7 @@ def load_and_pad_norm(filename, data_dir, max_length, mean = None, std = None):
     """
     shot_no = int(filename[:-4])
     file_path = os.path.join(data_dir, filename)
-    data = np.loadtxt(file_path, use_cols=1, dtype=np.float32)
+    data = np.loadtxt(file_path, usecols=1, dtype=np.float32)
     
     if mean == None:
         mean = np.mean(data)
@@ -116,7 +127,7 @@ def load_and_pad_scale(filename, data_dir, max_length):
     """
     shot_no = int(filename[:-4])
     file_path = os.path.join(data_dir, filename)
-    data = np.loadtxt(file_path, use_cols=1, dtype=np.float32)
+    data = np.loadtxt(file_path, usecols=1, dtype=np.float32)
     data = data - np.min(data)
     data = data/np.max(data)
     N = min(len(data), max_length)
@@ -130,10 +141,10 @@ def load_and_pad_scale(filename, data_dir, max_length):
 ## Preprocessor Class
 ################################################################################
 class Preprocessor:
-    def __init__(self, dataset_dir, data_dir, labels_path):
+    def __init__(self, dataset_dir, data_dir, labels_path, ID = ""):
         self.data_dir = data_dir
-        self.dataset_path = os.path.join(dataset_dir,'processed_dataset.pt')
-        self.labels_pt_path = os.path.join(dataset_dir,'processed_labels.pt')
+        self.dataset_path = os.path.join(dataset_dir,'processed_dataset'+ID+'.pt')
+        self.labels_pt_path = os.path.join(dataset_dir,'processed_labels'+ID+'.pt')
         self.max_length_file = os.path.join(dataset_dir,'max_length.txt')
         self.mean_std_file = os.path.join(dataset_dir,'mean_std.txt')
         self.labels_path = labels_path
@@ -148,8 +159,8 @@ class Preprocessor:
             save: bool, True to save result in data_dir
             cpu_use: float in (0,1], fraction of cpu cores to use
         """
-        file_list = [f for f in os.listdir(self.data_dir) if\
-                (f.endswith('.txt') and not f.startswith('t_end'))]
+        valid_shots = np.loadtxt(self.labels_path, usecols=0).astype(int)
+        file_list = [str(num)+'.txt' for num in valid_shots]
         num_shots = len(file_list)
         print("Finding N_max for the {} shots in ".format(int(num_shots))\
                 +self.data_dir)
@@ -187,8 +198,8 @@ class Preprocessor:
             save: bool, True to save result in data_dir
             cpu_use: float in (0,1], fraction of cpu cores to use
         """
-        file_list = [f for f in os.listdir(self.data_dir) if\
-                (f.endswith('.txt') and not f.startswith('t_end'))]
+        valid_shots = np.loadtxt(self.labels_path, usecols=0).astype(int)
+        file_list = [str(num)+'.txt' for num in valid_shots]
         num_shots = len(file_list)
         print("Finding the mean and std. dev. for the {} shots in ".format(\
                 int(num_shots))+self.data_dir)
@@ -218,6 +229,55 @@ class Preprocessor:
 
         return np.array([mean, std])
 
+
+    def Make_Labels_Naive(self, save = False):
+        """
+        Makes labels tensor using a naive t_disrupt label
+        """
+        shotlist = np.loadtxt(self.labels_path)
+        labels = np.copy(shotlist)
+
+        for i in range(shotlist.shape[0]):
+            if shotlist[i,1] == -1.0:
+                labels[i,0] = 0
+            else:
+                labels[i,0] = 1
+
+        if save:
+            labels_pt = torch.tensor(labels)
+            torch.save(labels, self.labels_pt_path)
+
+        return labels
+
+        
+    def Make_Labels_Scaled(self, max_length = None, save = False):
+        """
+        Makes labels tensor using a scaled t_disrupt label
+        """
+        if max_length == None:
+            if check_file(self.max_length_file):
+                max_length = np.loadtxt(self.max_length_file).astype(int)
+            else:
+                raise RuntimeError("Max length hasn't been computed yet and "+\
+                        "wasn't supplied.")
+
+        shotlist = np.loadtxt(self.labels_path)
+        labels = np.copy(shotlist)
+
+        for i in range(shotlist.shape[0]):
+            if shotlist[i,1] == -1.0:
+                labels[i,0] = 0
+            else:
+                labels[i,0] = 1
+                labels[i,1] = get_scaled_t_disrupt(int(shotlist[i,0]),\
+                        self.data_dir, shotlist[i,1], max_length)
+
+        if save:
+            labels_pt = torch.tensor(labels)
+            torch.save(labels, self.labels_pt_path)
+
+        return labels
+
         
     def Make_Dataset(self, normalization = None, mean = None, std = None,\
                      max_length = None, cpu_use = 0.8):
@@ -226,8 +286,6 @@ class Preprocessor:
         entire dataset.
 
         Args:
-            dataset_dir: str, name of a directory that will house the complete
-                         dataset
             normalization: str, specifies normalization type, options are
                            'scale' 'meanvar-whole' and 'meanvar-single', leave 
                            blank for no normalization
@@ -236,13 +294,13 @@ class Preprocessor:
         """
         if max_length == None:
             if check_file(self.max_length_file):
-                max_length = np.loadtxt(self.max_length_file).astype(int)[0]
+                max_length = np.loadtxt(self.max_length_file).astype(int)
             else:
                 max_length = self.Get_Max_Length(cpu_use = cpu_use)
 
         if normalization == "meanvar-whole":
             if check_file(self.mean_std_file):
-                stats = np.loadtxt(self.max_length_file)
+                stats = np.loadtxt(self.mean_std_file)
                 mean = stats[0]
                 std = stats[1]
             else:
@@ -250,8 +308,8 @@ class Preprocessor:
                 mean = stats[0]
                 std = stats[1]
 
-        file_list = [f for f in os.listdir(self.data_dir) if\
-                (f.endswith('.txt') and not f.startswith('t_end'))]
+        valid_shots = np.loadtxt(self.labels_path, usecols=0).astype(int)
+        file_list = [str(num)+'.txt' for num in valid_shots]
         num_shots = len(file_list)
         print("Building dataset for the {} shots in ".format(int(num_shots))\
                 +self.data_dir)
@@ -282,13 +340,15 @@ class Preprocessor:
         t_e = time.time()
         T = t_e-t_b
 
-        labels = torch.tensor(np.loadtxt(self.labels_path).reshape((num_shots,1)))
+        labels = torch.tensor(self.Make_Labels_Naive())
         sorted_data = sorted(results, key=lambda x: x[0])
-        dataset = torch.zeros((num_shots, max_length))
+        dataset = np.zeros((num_shots, max_length))
         for i in range(num_shots):
-            dataset[i,:] = sorted_data[i]
+            dataset[i,:] = sorted_data[i][1]
+
+        dataset_pt = torch.tensor(dataset)
 
         print("Finished loading and preparing data in {} seconds.".format(T))
 
-        torch.save(self.dataset_path, dataset)
-        torch.save(self.labels_pt_path, labels)
+        torch.save(dataset_pt, self.dataset_path)
+        torch.save(labels, self.labels_pt_path)
