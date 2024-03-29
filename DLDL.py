@@ -1,15 +1,15 @@
 import numpy as np
 import torch
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import Dataset, Subset
 import torch.nn as nn
 import torch.nn.functional as F
 
 classification_loss = nn.BCEWithLogitsLoss()
 time_prediction_loss = nn.MSELoss()
 
-def compute_loss(outputs, labels):
-    # Assuming outputs = [classification_logits, time_predictions]
-    # and labels = [binary_class_labels, normalized_time_steps]
+def loss(outputs, labels):
+    # outputs = [classification_logits, time_predictions]
+    # labels = [binary_class_labels, normalized_time_steps]
     class_loss = classification_loss(outputs[:, 0], labels[:, 0])
     
     # Apply time prediction loss only to disruptive shots
@@ -21,6 +21,23 @@ def compute_loss(outputs, labels):
         time_loss = 0
 
     return class_loss + time_loss
+
+
+def split(dataset, train_size = 0.8):
+    dev_size = (1 - train_size)/2
+
+    total_size = len(dataset)
+    train_end = int(train_size * total_size)
+    dev_end = int((train_size+dev_size) * total_size)
+    train_indices = range(0, train_end)
+    dev_indices = range(train_end, dev_end)
+    test_indices = range(dev_end, total_size)
+
+    train = Subset(dataset, train_indices)
+    dev = Subset(dataset, dev_indices)
+    test = Subset(dataset, test_indices)
+
+    return train, dev, test
 
 
 class ipDataset(Dataset):
