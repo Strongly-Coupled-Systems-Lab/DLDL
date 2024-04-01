@@ -4,8 +4,10 @@ import os
 import shutil
 import multiprocessing as mp
 from concurrent.futures import ProcessPoolExecutor
+from DLDL import ipDataset
 try:
     import torch
+    from torch.utils.data import DataLoader
 except:
     pass
 
@@ -352,3 +354,102 @@ class Preprocessor:
 
         torch.save(dataset_pt, self.dataset_path)
         torch.save(labels, self.labels_pt_path)
+
+
+    def load_example_from_raw(self, idx, normalization = None, mean = None,\
+            std = None, scale_labels = True, max_length = None):
+        """
+        Loads a single example from the raw files directly for comparison with
+        preprocessed data
+
+        Args are described elsewhere.
+        """
+        if max_length == None:
+            if check_file(self.max_length_file):
+                max_length = np.loadtxt(self.max_length_file).astype(int)
+            else:
+                raise RuntimeError("Max length hasn't been computed yet and "+\
+                        "wasn't supplied.")
+
+        shotlist = np.loadtxt(self.labels_path)
+        label = np.array([0,0])
+        if shotlist[idx,1] == -1.0:
+            label[0] = 0
+            label[1] = -1.0
+        else:
+            label[0] = 1
+            if scale_labels:
+                label[1] = get_scaled_t_disrupt(int(shotlist[idx,0]),\
+                            self.data_dir, shotlist[idx,1], max_length)
+            else:
+                label[1] = shotlist[idx,1]
+
+        if normalization == "meanvar-whole" and mean == None:
+            if check_file(self.mean_std_file):
+                stats = np.loadtxt(self.mean_std_file)
+                mean = stats[0]
+                std = stats[1]
+            else:
+                raise RuntimeError("Statistics haven't been computed yet and "+\
+                        "weren't supplied.")
+
+        shot_no = shotlist[idx,0]
+        filename = str(shot_no)+'.txt'
+        if normalization == None:
+            data = load_and_pad(filename, self.data_dir, max_length)
+        elif normalization == "scale":
+            data = load_and_pad_scale(filename, self.data_dir, max_length)
+        elif normalization.startswith("meanvar"):
+            data = load_and_pad_norm(filename, self.data_dir, max_length,\
+                    mean, std)
+
+        return data, label
+
+
+    def dataset_checker(self, dset_path = None, labels_path = None, num_checks=100,\
+            normalization = None, mean = None, std = None, scale_labels = True,\
+            max_length = None):
+        """
+        Checks the integrity of the processed dataset by comparing randomly selected examples
+        against the output of 'load_example_from_raw'.
+
+        Parameters:
+        - load_example_from_raw: A function that takes an identifier or file path as input and
+          returns a processed example and its label.
+        - num_checks: The number of random examples to check for validation.
+        """
+        # Load Dataset
+        if dset_path is None:
+            d_path = self.dataset_path
+        if labels_path in None:
+            l_path = self.labels_pt_path
+        dset = ipDataset(d_path, l_path)
+
+        # Generate a list of random indices to check
+        total_examples = len(processed_dataset)
+        check_indices = random.sample(range(total_examples), num_checks)
+
+        # Flag to indicate if the dataset is correctly processed
+        dataset_correct = True
+
+        for idx in check_indices:
+            # Load processed example and label from the DataLoader
+            processed_data, processed_label = dset[idx]
+
+            # Load the expected example and label using the raw data function
+            expected_data, expected_label = self.load_example_from_raw(idx,\
+                    normalization, mean, std, scale_labels, max_length)
+
+            # Compare the processed and expected examples
+            if not torch.equal(processed_data.squeeze(0), expected_data) or\
+                    not torch.equal(processed_label.squeeze(0), expected_label):
+                print(f"Mismatch found at index {idx}")
+                dataset_correct = False
+                break
+
+        if dataset_correct:
+            print("Dataset check passed: Processed data matches expected data"+\
+                  " for checked examples.")
+        else:
+            print("Dataset check failed: Some processed examples do not match"+\
+                  " the expected outputs.")
