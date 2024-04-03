@@ -1,6 +1,7 @@
 import numpy as np
 import time
 import os
+import random
 import shutil
 import multiprocessing as mp
 from concurrent.futures import ProcessPoolExecutor
@@ -247,7 +248,7 @@ class Preprocessor:
 
         if save:
             labels_pt = torch.tensor(labels)
-            torch.save(labels, self.labels_pt_path)
+            torch.save(labels_pt, self.labels_pt_path)
 
         return labels
 
@@ -276,7 +277,7 @@ class Preprocessor:
 
         if save:
             labels_pt = torch.tensor(labels)
-            torch.save(labels, self.labels_pt_path)
+            torch.save(labels_pt, self.labels_pt_path)
 
         return labels
 
@@ -372,7 +373,7 @@ class Preprocessor:
                         "wasn't supplied.")
 
         shotlist = np.loadtxt(self.labels_path)
-        label = np.array([0,0])
+        label = np.array([0,0.0])
         if shotlist[idx,1] == -1.0:
             label[0] = 0
             label[1] = -1.0
@@ -393,7 +394,7 @@ class Preprocessor:
                 raise RuntimeError("Statistics haven't been computed yet and "+\
                         "weren't supplied.")
 
-        shot_no = shotlist[idx,0]
+        shot_no = int(shotlist[idx,0])
         filename = str(shot_no)+'.txt'
         if normalization == None:
             data = load_and_pad(filename, self.data_dir, max_length)
@@ -403,12 +404,12 @@ class Preprocessor:
             data = load_and_pad_norm(filename, self.data_dir, max_length,\
                     mean, std)
 
-        return data, label
+        return torch.tensor(data[1]), torch.tensor(label)
 
 
-    def dataset_checker(self, dset_path = None, labels_path = None, num_checks=100,\
+    def Check_Dataset(self, dset_path = None, labels_path = None, num_checks=100,\
             normalization = None, mean = None, std = None, scale_labels = True,\
-            max_length = None):
+            max_length = None, verbose = False):
         """
         Checks the integrity of the processed dataset by comparing randomly selected examples
         against the output of 'load_example_from_raw'.
@@ -418,21 +419,31 @@ class Preprocessor:
           returns a processed example and its label.
         - num_checks: The number of random examples to check for validation.
         """
+        print("Checking dataset alignment...")
         # Load Dataset
         if dset_path is None:
             d_path = self.dataset_path
-        if labels_path in None:
+        else:
+            d_path = dset_path
+        if labels_path is None:
             l_path = self.labels_pt_path
+        else:
+            l_path = labels_path
         dset = ipDataset(d_path, l_path)
+        print("loaded ipDataset")
 
         # Generate a list of random indices to check
-        total_examples = len(processed_dataset)
+        if verbose:
+            shotlist = np.loadtxt(self.labels_path)
+        total_examples = len(dset)
         check_indices = random.sample(range(total_examples), num_checks)
 
         # Flag to indicate if the dataset is correctly processed
         dataset_correct = True
 
         for idx in check_indices:
+            if verbose:
+                print(f"Checking shot {int(shotlist[idx,0])}.")
             # Load processed example and label from the DataLoader
             processed_data, processed_label = dset[idx]
 

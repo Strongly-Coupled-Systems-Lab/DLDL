@@ -1,8 +1,12 @@
 import numpy as np
-import torch
-from torch.utils.data import Dataset, Subset
-import torch.nn as nn
-import torch.nn.functional as F
+try:
+    import torch
+    from torch.utils.data import Dataset, Subset
+    import torch.nn as nn
+    import torch.nn.functional as F
+except:
+    print("WARNING: pytorch not installed!")
+    pass
 
 classification_loss = nn.BCEWithLogitsLoss()
 time_prediction_loss = nn.MSELoss()
