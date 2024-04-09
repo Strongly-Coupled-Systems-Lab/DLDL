@@ -1,6 +1,11 @@
 import os
-import torch.optim as optim
+local_rank = os.environ.get("PMI_LOCAL_RANK")
+os.environ["CUDA_VISIBLE_DEVICES"] = local_rank
 from DLDL import ipDataset, ipCNN, loss, split
+from datetime import timedelta
+import numpy as np
+import torch
+import torch.optim as optim
 from torch.utils.data import DataLoader
 import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
@@ -10,10 +15,22 @@ from torch.utils.tensorboard import SummaryWriter
 
 def setup(rank, world_size):
     dist.init_process_group(
-        backend='nccl',  # 'nccl' is recommended for GPUs, 'gloo' for CPUs
-        init_method='env://',  # Assumes environment variables are set by the job script
+        backend='nccl',
+        init_method='env://',
         world_size=world_size,
         rank=rank,
+        timeout=timedelta(minutes=10)
+    )
+    torch.cuda.set_device(rank)  # Assign a GPU to each process
+
+
+def setup_file(rank, world_size, rendezvous_file):
+    dist.init_process_group(
+        backend='nccl',
+        init_method=f'file://{rendezvous_file}',
+        world_size=world_size,
+        rank=rank,
+        timeout=timedelta(minutes=10)
     )
     torch.cuda.set_device(rank)  # Assign a GPU to each process
 
@@ -22,7 +39,7 @@ def cleanup():
     dist.destroy_process_group()
 
 
-def train(rank, world_size, data_path, labels_path, prog_dir, jobID,\
+def train(rank, world_size, data_path, labels_path, prog_dir, max_length, jobID,\
         num_epochs = 100, log_interval = 20):
     setup(rank, world_size)
 
@@ -36,7 +53,7 @@ def train(rank, world_size, data_path, labels_path, prog_dir, jobID,\
     train_sampler = DistributedSampler(train, num_replicas=world_size, rank=rank, shuffle=True)
     train_loader = DataLoader(train, batch_size=128, sampler=train_sampler, pin_memory=True)
 
-    model = ipCNN().cuda(rank)
+    model = ipCNN(max_length = max_length).cuda(rank)
     model = DDP(model, device_ids=[rank])
 
     optimizer = optim.Adam(model.parameters(), lr=0.001)
@@ -77,9 +94,11 @@ def train(rank, world_size, data_path, labels_path, prog_dir, jobID,\
 if __name__ == "__main__":
     data_path = '/eagle/fusiondl_aesp/jrodriguez/processed_data/processed_dataset.pt'
     labels_path = '/eagle/fusiondl_aesp/jrodriguez/processed_data/processed_labels.pt'
+    max_length = np.loadtxt('/eagle/fusiondl_aesp/jrodriguez/processed_data/max_length.txt')\
+                    .astype(int)
     prog_dir = '/eagle/fusiondl_aesp/jrodriguez/train_progress/'
 
-    rank = int(os.getenv('OMPI_COMM_WORLD_RANK', '0'))
-    world_size = int(os.getenv('OMPI_COMM_WORLD_SIZE', '1'))  # Default to 1 if not set
-    train(rank, world_size, data_path, labels_path, prog_dir,\
+    rank = int(os.getenv('PMI_RANK', '0'))
+    world_size = int(os.getenv('PMI_SIZE', '1'))  # Default to 1 if not set
+    train(rank, world_size, data_path, labels_path, prog_dir, max_length,\
             jobID = "DLDL_test", num_epochs = 100, log_interval = 20)

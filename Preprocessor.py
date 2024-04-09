@@ -162,6 +162,9 @@ class Preprocessor:
             save: bool, True to save result in data_dir
             cpu_use: float in (0,1], fraction of cpu cores to use
         """
+        if check_file(self.max_length_file):
+            return np.loadtxt(self.max_length_file).astype(int)
+
         valid_shots = np.loadtxt(self.labels_path, usecols=0).astype(int)
         file_list = [str(num)+'.txt' for num in valid_shots]
         num_shots = len(file_list)
@@ -283,7 +286,8 @@ class Preprocessor:
 
         
     def Make_Dataset(self, normalization = None, mean = None, std = None,\
-                     max_length = None, cpu_use = 0.8):
+                     max_length = None, make_labels = True, labels = 'scaled',\
+                     cpu_use = 0.8):
         """
         Acquires the maximum length of the current time series across the
         entire dataset.
@@ -343,7 +347,12 @@ class Preprocessor:
         t_e = time.time()
         T = t_e-t_b
 
-        labels = torch.tensor(self.Make_Labels_Naive())
+        if make_labels:
+            if labels == 'scaled':
+                labels = torch.tensor(self.Make_Labels_Scaled(max_length))
+            else:
+                labels = torch.tensor(self.Make_Labels_Naive())
+
         sorted_data = sorted(results, key=lambda x: x[0])
         dataset = np.zeros((num_shots, max_length))
         for i in range(num_shots):
@@ -354,7 +363,8 @@ class Preprocessor:
         print("Finished loading and preparing data in {} seconds.".format(T))
 
         torch.save(dataset_pt, self.dataset_path)
-        torch.save(labels, self.labels_pt_path)
+        if make_labels:
+            torch.save(labels, self.labels_pt_path)
 
 
     def load_example_from_raw(self, idx, normalization = None, mean = None,\

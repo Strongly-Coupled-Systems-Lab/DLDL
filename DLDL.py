@@ -59,7 +59,7 @@ class ipDataset(Dataset):
 
 
 class ipCNN(nn.Module):
-    def __init__(self, conv1 = (16, 9, 4), conv2 = (32, 5, 2),\
+    def __init__(self, max_length, conv1 = (16, 9, 4), conv2 = (32, 5, 2),\
                  conv3 = (64, 3, 1), pool_size = 4):
         super(ipCNN, self).__init__()
         self.conv1 = nn.Conv1d(1, conv1[0], kernel_size=conv1[1], stride=1,\
