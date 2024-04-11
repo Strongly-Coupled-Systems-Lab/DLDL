@@ -10,7 +10,8 @@ PP = Preprocessor(dataset_dir, data_dir, labels_path, ID = '_meanvar-whole')
 #labels = PP_s.Make_Labels_Scaled(save = True)
 #stats = PP.Get_Mean_Std(cpu_use = 1)
 #labels = PP.Make_Labels_Scaled(save = True)
-PP.Make_Dataset(normalization = 'meanvar-whole', make_labels = False, cpu_use = 1)
-PP.Check_Dataset(labels_path = dataset_dir+'processed_labels_scaled_labels.pt',\
-        normalization = 'meanvar-whole', scale_labels = True)
+#PP.Make_Dataset(normalization = 'meanvar-whole', make_labels = False, cpu_use = 1)
+#PP.Check_Dataset(labels_path = dataset_dir+'processed_labels_scaled_labels.pt',\
+#        normalization = 'meanvar-whole', scale_labels = True)
 #PP_s.Check_Dataset(scale_labels = False, verbose = True)
+PP.Convert_2_float(labels_path = dataset_dir+'processed_labels_scaled_labels.pt')

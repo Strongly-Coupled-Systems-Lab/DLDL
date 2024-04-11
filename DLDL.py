@@ -69,16 +69,34 @@ class ipCNN(nn.Module):
         self.conv3 = nn.Conv1d(conv2[0], conv3[0], kernel_size=conv3[1],\
                                stride=1, padding=conv3[2])
         self.pool = nn.MaxPool1d(kernel_size=pool_size, stride=pool_size, padding=0)
-        self.fc1 = nn.Linear(conv3[0] * max_length // pool_size**3, 120)
+        # Dynamically determine the correct input size to the first FC layer
+        with torch.no_grad():
+            dummy_input = torch.zeros(1, 1, max_length)  # Batch size of 1, 1 channel, max_length
+            dummy_output = self.forward_conv(dummy_input)
+            num_features_before_fc = dummy_output.numel()  # Total number of features from conv layers
+
+        self.fc1 = nn.Linear(num_features_before_fc, 120)
         self.fc2 = nn.Linear(120, 60)
         self.fc3 = nn.Linear(60, 2)  # Two outputs: classification and time of disruption
 
+
+    def forward_conv(self, x):
+        # Forward pass through conv and pool layers, used for initializing fc1
+        #print("Initial size:", x.size())
+        x = self.pool(F.relu(self.conv1(x)))
+        #print("After conv1 and pool:", x.size())
+        x = self.pool(F.relu(self.conv2(x)))
+        #print("After conv2 and pool:", x.size())
+        x = self.pool(F.relu(self.conv3(x)))
+        #print("After conv3 and pool:", x.size())
+        x = x.view(x.size(0), -1)
+        #print("After flattening:", x.size())
+        return x
+
+
     def forward(self, x):
         x = x.unsqueeze(1)  # Add a channel dimension
-        x = self.pool(F.relu(self.conv1(x)))
-        x = self.pool(F.relu(self.conv2(x)))
-        x = self.pool(F.relu(self.conv3(x)))
-        x = x.view(x.size(0), -1)  # Flatten
+        x = self.forward_conv(x)
         x = F.relu(self.fc1(x))
         x = F.relu(self.fc2(x))
         x = self.fc3(x)

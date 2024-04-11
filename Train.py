@@ -21,7 +21,8 @@ def setup(rank, world_size):
         rank=rank,
         timeout=timedelta(minutes=10)
     )
-    torch.cuda.set_device(rank)  # Assign a GPU to each process
+    torch.cuda.set_device(0)  # Assign a GPU to each process
+    # Each process sees only one GPU, so use ID 0
 
 
 def setup_file(rank, world_size, rendezvous_file):
@@ -53,8 +54,8 @@ def train(rank, world_size, data_path, labels_path, prog_dir, max_length, jobID,
     train_sampler = DistributedSampler(train, num_replicas=world_size, rank=rank, shuffle=True)
     train_loader = DataLoader(train, batch_size=128, sampler=train_sampler, pin_memory=True)
 
-    model = ipCNN(max_length = max_length).cuda(rank)
-    model = DDP(model, device_ids=[rank])
+    model = ipCNN(max_length = max_length).cuda()
+    model = DDP(model, device_ids=[0])
 
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
@@ -65,7 +66,7 @@ def train(rank, world_size, data_path, labels_path, prog_dir, max_length, jobID,
     for epoch in range(num_epochs):
         model.train()
         for batch_idx, (data, target) in enumerate(train_loader):
-            data, target = data.cuda(rank), target.cuda(rank)
+            data, target = data.cuda(), target.cuda()
             optimizer.zero_grad()
             output = model(data)
             L = loss(output, target)
@@ -92,13 +93,15 @@ def train(rank, world_size, data_path, labels_path, prog_dir, max_length, jobID,
 
 
 if __name__ == "__main__":
-    data_path = '/eagle/fusiondl_aesp/jrodriguez/processed_data/processed_dataset.pt'
-    labels_path = '/eagle/fusiondl_aesp/jrodriguez/processed_data/processed_labels.pt'
+    data_path = '/eagle/fusiondl_aesp/jrodriguez/processed_data/processed_dataset_meanvar-whole.pt'
+    labels_path = '/eagle/fusiondl_aesp/jrodriguez/processed_data/processed_labels_scaled_labels.pt'
     max_length = np.loadtxt('/eagle/fusiondl_aesp/jrodriguez/processed_data/max_length.txt')\
                     .astype(int)
     prog_dir = '/eagle/fusiondl_aesp/jrodriguez/train_progress/'
 
     rank = int(os.getenv('PMI_RANK', '0'))
     world_size = int(os.getenv('PMI_SIZE', '1'))  # Default to 1 if not set
+    print("GPUs Available:", torch.cuda.device_count())
+    print("Rank:", rank)
     train(rank, world_size, data_path, labels_path, prog_dir, max_length,\
             jobID = "DLDL_test", num_epochs = 100, log_interval = 20)

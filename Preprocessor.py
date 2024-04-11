@@ -153,6 +153,24 @@ class Preprocessor:
         self.labels_path = labels_path
 
 
+    def Convert_2_float(self, dataset_path = None, labels_path = None):
+        # Load the dataset tensor, convert to float, and re-save
+        if dataset_path is None:
+            dataset = torch.load(self.dataset_path).float()
+            torch.save(dataset, self.dataset_path)
+        else:
+            dataset = torch.load(dataset_path).float()
+            torch.save(dataset, dataset_path)
+
+        # Load the labels tensor, convert to float, and re-save
+        if labels_path is None:
+            labels = torch.load(self.labels_pt_path).float()
+            torch.save(labels, self.labels_pt_path)
+        else:
+            labels = torch.load(labels_path).float()
+            torch.save(labels, labels_path)
+
+
     def Get_Max_Length(self, save = True, cpu_use = 0.8):
         """
         Acquires the maximum length of the current time series across the
