@@ -11,6 +11,7 @@ import torch.distributed as dist
 from torch.nn.parallel import DistributedDataParallel as DDP
 from torch.utils.data.distributed import DistributedSampler
 from torch.utils.tensorboard import SummaryWriter
+from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
 
 
 def setup(rank, world_size):
@@ -41,23 +42,26 @@ def cleanup():
 
 
 def train(rank, world_size, data_path, labels_path, prog_dir, max_length, jobID,\
-        num_epochs = 100, log_interval = 20):
+        lr = 0.01, num_epochs = 100, log_interval = 20):
     setup(rank, world_size)
 
     # Make sure each process has a different seed if you are using any randomness
     torch.manual_seed(42 + rank)
 
     dataset = ipDataset(data_path, labels_path)
-    train, dev, test = split(dataset)
+    train, dev, _ = split(dataset)
 
     # Use DistributedSampler
     train_sampler = DistributedSampler(train, num_replicas=world_size, rank=rank, shuffle=True)
     train_loader = DataLoader(train, batch_size=128, sampler=train_sampler, pin_memory=True)
+    dev_loader = DataLoader(dev, batch_size=128, shuffle=False, pin_memory=True)
 
     model = ipCNN(max_length = max_length).cuda()
     model = DDP(model, device_ids=[0])
 
-    optimizer = optim.Adam(model.parameters(), lr=0.001)
+    optimizer = optim.Adam(model.parameters(), lr=lr)
+    bce_loss = torch.nn.BCEWithLogitsLoss()  # For binary classification
+    mse_loss = torch.nn.MSELoss()  # For regression
 
     if rank == 0:
         writer = SummaryWriter(prog_dir+jobID)
@@ -67,8 +71,14 @@ def train(rank, world_size, data_path, labels_path, prog_dir, max_length, jobID,
         model.train()
         for batch_idx, (data, target) in enumerate(train_loader):
             data, target = data.cuda(), target.cuda()
+            classification_targets, time_targets = target[:, 0], target[:, 1]
+
             optimizer.zero_grad()
             output = model(data)
+            classification_output, time_output = output[:, 0], output[:, 1]
+
+            loss_classification = bce_loss(classification_output, classification_targets)
+            loss_time = mse_loss(time_output, time_targets)
             L = loss(output, target)
             L.backward()
             optimizer.step()
@@ -80,12 +90,61 @@ def train(rank, world_size, data_path, labels_path, prog_dir, max_length, jobID,
                 if rank == 0:
                     writer.add_scalar('Training Loss', L.item(),\
                                       epoch*len(train_loader.dataset) + batch_idx)
+                    writer.add_scalar('Training Classification Loss',\
+                            loss_classification.item(),\
+                            epoch * len(train_loader.dataset) + batch_idx)
+                    writer.add_scalar('Training Time Loss', loss_time.item(),\
+                            epoch * len(train_loader.dataset) + batch_idx)
 
 
         # Save model - ensure only one orocess does this or save in each process with unique filenames
         if rank == 0:
-            torch.save(model.state_dict(), prog_dir+jobID+"_params_e"+\
-                      str(epoch)+".pt")
+            # Validation loop
+            model.eval()
+            total_val_loss = 0
+            all_classification_targets, all_classification_predictions = [], []
+            all_time_targets, all_time_predictions = [], []
+
+            with torch.no_grad():
+                for data, targets in dev_loader:
+                    data, targets = data.cuda(), targets.cuda()
+                    classification_targets, time_targets = targets[:, 0], targets[:, 1]
+
+                    output = model(data)
+                    classification_output, time_output = output[:, 0], output[:, 1]
+                    val_loss_classification = bce_loss(classification_output, classification_targets)
+                    val_loss_time = mse_loss(time_output, time_targets)
+                    val_total_loss = val_loss_classification + val_loss_time
+
+                    total_val_loss += val_total_loss.item()
+
+                    classification_predictions = torch.sigmoid(classification_output) > 0.5
+                    all_classification_targets.extend(classification_targets.cpu().numpy())
+                    all_classification_predictions.extend(classification_predictions.cpu().numpy())
+                    all_time_targets.extend(time_targets.cpu().numpy())
+                    all_time_predictions.extend(time_output.cpu().numpy())
+
+            avg_val_loss = total_val_loss / len(dev_loader)
+            writer.add_scalar('Validation Loss', avg_val_loss, epoch)
+            writer.add_scalar('Validation Accuracy',\
+                    accuracy_score(all_classification_targets,\
+                    all_classification_predictions), epoch)
+            writer.add_scalar('Validation Precision',\
+                    precision_score(all_classification_targets,\
+                    all_classification_predictions), epoch)
+            writer.add_scalar('Validation Recall',\
+                    recall_score(all_classification_targets,\
+                    all_classification_predictions), epoch)
+            writer.add_scalar('Validation F1 Score',\
+                    f1_score(all_classification_targets,\
+                    all_classification_predictions), epoch)
+            writer.add_scalar('Validation Time MSE',\
+                    mse_loss(torch.tensor(all_time_predictions),\
+                    torch.tensor(all_time_targets)).item(), epoch)
+
+        if epoch % 5 == 0 and rank == 0:
+            torch.save(model.state_dict(), f"{prog_dir}{jobID}_params_epoch{epoch}.pt")
+
     if rank == 0:
         writer.close()
 
@@ -104,4 +163,4 @@ if __name__ == "__main__":
     print("GPUs Available:", torch.cuda.device_count())
     print("Rank:", rank)
     train(rank, world_size, data_path, labels_path, prog_dir, max_length,\
-            jobID = "DLDL_test", num_epochs = 100, log_interval = 20)
+            jobID = "DLDL_test_lr01", lr = 0.01, num_epochs = 100, log_interval = 50)
