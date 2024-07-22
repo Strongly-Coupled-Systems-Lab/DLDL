@@ -114,7 +114,7 @@ def train(rank, world_size, data_path, labels_path, prog_dir, max_length, jobID,
                     classification_output, time_output = output[:, 0], output[:, 1]
                     val_loss_classification = bce_loss(classification_output, classification_targets)
                     val_loss_time = mse_loss(time_output, time_targets)
-                    val_total_loss = val_loss_classification + val_loss_time
+                    val_total_loss = loss(output, targets)
 
                     total_val_loss += val_total_loss.item()
 
@@ -163,4 +163,4 @@ if __name__ == "__main__":
     print("GPUs Available:", torch.cuda.device_count())
     print("Rank:", rank)
     train(rank, world_size, data_path, labels_path, prog_dir, max_length,\
-            jobID = "DLDL_test_lr01", lr = 0.01, num_epochs = 100, log_interval = 50)
+            jobID = "DLDL_test_lr0005", lr = 0.0005, num_epochs = 250, log_interval = 50)
