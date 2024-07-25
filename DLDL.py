@@ -45,22 +45,27 @@ def split(dataset, train_size = 0.8):
 
 
 class ipDataset(Dataset):
-    def __init__(self, data_file, labels_file):
+    def __init__(self, data_file, labels_file, classification = False):
         self.data = torch.load(data_file)
         self.labels = torch.load(labels_file)
+        self.classification = classification
 
     def __len__(self):
         return len(self.data)
 
     def __getitem__(self, idx):
-        sample = self.data[idx]
-        label = self.labels[idx]
+        if not classification:
+            sample = self.data[idx]
+            label = self.labels[idx]
+        else:
+            sample = self.data[idx]
+            label = self.labels[idx,0]
         return sample, label
 
 
 class ipCNN(nn.Module):
     def __init__(self, max_length, conv1 = (16, 9, 4), conv2 = (32, 5, 2),\
-                 conv3 = (64, 3, 1), pool_size = 4):
+                 conv3 = (64, 3, 1), pool_size = 4, classification = False):
         super(ipCNN, self).__init__()
         self.conv1 = nn.Conv1d(1, conv1[0], kernel_size=conv1[1], stride=1,\
                                padding=conv1[2])
@@ -77,7 +82,10 @@ class ipCNN(nn.Module):
 
         self.fc1 = nn.Linear(num_features_before_fc, 120)
         self.fc2 = nn.Linear(120, 60)
-        self.fc3 = nn.Linear(60, 2)  # Two outputs: classification and time of disruption
+        if classification:
+            self.fc3 = nn.Linear(60, 1)
+        else:
+            self.fc3 = nn.Linear(60, 2)  # Two outputs: classification and time of disruption
 
 
     def forward_conv(self, x):
