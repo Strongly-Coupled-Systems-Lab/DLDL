@@ -1,0 +1,14 @@
+\begin{thebibliography}{1}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[{Anthropic}(2026)]{claude2026}
+{Anthropic}.
+\newblock Claude code (opus 4.8).
+\newblock \url{https://www.anthropic.com/claude-code}, 2026.
+\newblock AI assistant used for code development and LaTeX formatting.
+
+\end{thebibliography}

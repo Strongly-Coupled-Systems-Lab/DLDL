@@ -16,7 +16,6 @@ from model.dataset import IpDataset
 from util.data_loading import _read_signal_file
 from util.disruption_predict import (
     predict_disruption_time,
-    apply_filter,
     get_oriented_current,
     clean_zeros,
 )
@@ -41,15 +40,15 @@ def _build_dataset() -> IpDataset:
     )
 
 
-def _make_draw(dataset: IpDataset, model, num_rows: int, zoom=False):
+def _make_draw(dataset: IpDataset, model, num_rows: int):
     """Build the per-shot draw function bound to a dataset/model.
 
-    The returned ``draw(ax1, ax2, i)`` renders one shot into the current-signal
-    axis ``ax1`` and the heuristic axis ``ax2``. It returns the shot view so
-    callers can title panels as they see fit.
+    The returned ``draw(ax, i)`` renders the raw current and the real disruption
+    time for one shot into ``ax``. It returns the shot view so callers can title
+    panels as they see fit.
     """
 
-    def draw(ax1, ax2, i: int, zoom=False):
+    def draw(ax, i: int):
         shot = dataset.load_shot_view(i)
 
         idx = max(0, min(int(i), num_rows - 1))
@@ -62,9 +61,7 @@ def _make_draw(dataset: IpDataset, model, num_rows: int, zoom=False):
         raw_current = _read_signal_file(raw_path, col=1)
         raw_time = _read_signal_file(raw_path, col=0)
         current, time = clean_zeros(raw_current, raw_time)
-        predicted_time_start, pred_time, predicted_time_end = predict_disruption_time(
-            raw_current, raw_time
-        )
+        _, pred_time, _ = predict_disruption_time(raw_current, raw_time)
 
         # t_disrupt is stored normalized (disruption_index / max_length); map it
         # back onto the SI time axis via the raw time samples.
@@ -75,12 +72,12 @@ def _make_draw(dataset: IpDataset, model, num_rows: int, zoom=False):
             else None
         )
 
-        ax1.clear()
-        ax1.set_title(f"CNN disruption probability: {100*cnn_prob:.2f}%", fontsize=10)
-        ax1.plot(time, current, label="Raw Current $I_\\mathrm{raw}(t)$")
+        ax.clear()
+        ax.set_title(f"CNN disruption probability: {100*cnn_prob:.2f}%", fontsize=10)
+        ax.plot(time, current, label="Current $I(t)$")
         flipped_current = get_oriented_current(current)
         if not np.array_equal(current, flipped_current):
-            ax1.plot(
+            ax.plot(
                 time,
                 flipped_current,
                 color="C0",
@@ -88,23 +85,8 @@ def _make_draw(dataset: IpDataset, model, num_rows: int, zoom=False):
                 linestyle=":",
             )
 
-        filtered, smoothed = apply_filter(current)
-        ax1.plot(
-            time,
-            smoothed,
-            color="C1",
-            label="Smoothed $I_\\mathrm{smooth}(t)$",
-            linestyle="--",
-        )
         if shot.disruptive:
-            ax1.axvline(
-                t_disrupt_si,
-                color="black",
-                ls="--",
-                linewidth=1,
-                label=f"Real disruption time: $t_0={t_disrupt_si:.3f}$s",
-            )
-            ax2.axvline(
+            ax.axvline(
                 t_disrupt_si,
                 color="black",
                 ls="--",
@@ -112,50 +94,10 @@ def _make_draw(dataset: IpDataset, model, num_rows: int, zoom=False):
                 label=f"Real disruption time: $t_0={t_disrupt_si:.3f}$s",
             )
 
-        ax1.set_xlabel("Time (s)")
-        ax1.set_ylabel("Current (MA)")
-        ax1.legend(loc="lower left")
-        ax1.grid(True)
-
-        ax2.clear()
-        ax2.set_ylabel("Disruption Heurisitic $f(t)$")
-        ax2.plot(time, filtered, label="Filter")
-        diff = (
-            (t_disrupt_si - predicted_time_start) if t_disrupt_si is not None else None
-        )
-        heuristic_label = (
-            f"Heuristic disruption time:\n$t={pred_time:.3f}$s, "
-            f"{f'{1e3*diff:.3f} ms diff' if diff else ''}"
-        )
-        ax2.axvline(pred_time, color="C3", ls="--", linewidth=1, label=heuristic_label)
-        ax1.axvline(pred_time, color="C3", ls="--", linewidth=1, label=heuristic_label)
-        ax2.axvspan(
-            xmin=predicted_time_start,
-            xmax=predicted_time_end,
-            alpha=0.2,
-            label="Disruption Interval ($t_0\leq t \leq t_f$)",
-            color="C3",
-        )
-        ax1.axvspan(
-            xmin=predicted_time_start,
-            xmax=predicted_time_end,
-            alpha=0.2,
-            label="Disruption Interval ($t_0\leq t \leq t_f$)",
-            color="C3",
-        )
-        ax2.legend(loc="lower left")
-        ax2.grid()
-
-        # Zoom to a window centered on the disruption (true time if known,
-        # else the heuristic prediction), clamped to the available time range.
-        if zoom:
-            window = 0.1
-            center = t_disrupt_si if t_disrupt_si is not None else pred_time
-            lo = max(time[0], center - window / 2)
-            hi = min(time[-1], center + window / 2)
-            ax1.set_xlim(lo, hi)
-            ax1.set_ylim(-0.1, 1.2 * current[time == predicted_time_start][0])
-            ax2.set_xlim(lo, hi)
+        ax.set_xlabel("Time (s)")
+        ax.set_ylabel("Current (MA)")
+        ax.legend(loc="lower left")
+        ax.grid(True)
 
         return shot
 
@@ -167,13 +109,13 @@ def run_interactive(dataset: IpDataset, model, num_rows: int) -> None:
     matplotlib.use("QtAgg")
     draw = _make_draw(dataset, model, num_rows)
 
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 7), sharex=True)
+    fig, ax = plt.subplots(1, 1, figsize=(10, 7))
     fig.subplots_adjust(bottom=0.2)
 
     with torch.no_grad():
 
         def redraw(i: int) -> None:
-            shot = draw(ax1, ax2, i)
+            shot = draw(ax, i)
             fig.suptitle(shot.title)
             fig.canvas.draw_idle()
 
@@ -198,48 +140,37 @@ def run_interactive(dataset: IpDataset, model, num_rows: int) -> None:
         plt.show()
 
 
-def save_grid(
-    dataset: IpDataset,
-    model,
-    num_rows: int,
-    indices: list[int],
-) -> None:
-    """Render the given shot indices as a grid of (current, heuristic) panels.
+def save_grid(dataset: IpDataset, model, num_rows: int, indices: list[int]) -> None:
+    """Render the given shot indices as a grid of raw-current panels.
 
-    Each shot occupies one grid column with two stacked rows: the current-signal
-    axis on top and the heuristic axis below, reusing the shared draw function.
-    Saves to ``shot_grid.png``.
+    Each shot occupies one panel, reusing the shared draw function. Saves to
+    ``shot_grid.png``.
     """
     matplotlib.use("Agg")
-    draw = _make_draw(dataset, model, num_rows, zoom=True)
+    draw = _make_draw(dataset, model, num_rows)
     out_path = Path("shot_grid.png")
 
     n = len(indices)
     ncols = min(n, math.ceil(math.sqrt(n)))
     nrows = math.ceil(n / ncols)
 
-    # Two physical rows (current + heuristic) per shot row.
     fig, axes = plt.subplots(
-        nrows * 2,
+        nrows,
         ncols,
-        figsize=(6 * ncols, 6 * nrows),
+        figsize=(6 * ncols, 4 * nrows),
         squeeze=False,
     )
+    flat = axes.flatten()
 
     with torch.no_grad():
         for cell, i in enumerate(indices):
-            row, col = divmod(cell, ncols)
-            ax1 = axes[row * 2][col]
-            ax2 = axes[row * 2 + 1][col]
-            shot = draw(ax1, ax2, i)
-            # draw() sets ax1's title to the CNN probability; prepend the shot id.
-            ax1.set_title(f"{shot.title}\n{ax1.get_title()}", fontsize=9)
+            shot = draw(flat[cell], i)
+            # draw() sets the title to the CNN probability; prepend the shot id.
+            flat[cell].set_title(f"{shot.title}\n{flat[cell].get_title()}", fontsize=9)
 
-    # Blank any unused panels in the final grid row.
+    # Blank any unused panels.
     for cell in range(n, nrows * ncols):
-        row, col = divmod(cell, ncols)
-        axes[row * 2][col].axis("off")
-        axes[row * 2 + 1][col].axis("off")
+        flat[cell].axis("off")
 
     fig.tight_layout()
     fig.savefig(out_path, dpi=300)
@@ -249,7 +180,7 @@ def save_grid(
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Browse preprocessed shots, or save a grid of specific shots."
+        description="Browse raw shot currents, or save a grid of specific shots."
     )
     parser.add_argument(
         "--indices",

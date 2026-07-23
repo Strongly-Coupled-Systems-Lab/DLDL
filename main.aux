@@ -1,0 +1,44 @@
+\relax 
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{}\protected@file@percent }
+\newlabel{sec:intro}{{1}{1}{}{section.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Neural Net Classifier}{1}{}\protected@file@percent }
+\newlabel{sec:methods}{{2}{1}{}{section.2}{}}
+\newlabel{current_tensor}{{1}{1}{}{equation.1}{}}
+\newlabel{current_norm}{{2}{1}{}{equation.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Model architecture for our disruption labeling Convolutional Neural Network. We have four convolutional layers and two fully connected layers, and utilize max pooling, batch normalization, and dropout, along with a ReLU activation function. }}{2}{}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:model_diagram}{{1}{2}{}{figure.1}{}}
+\newlabel{fbeta}{{3}{2}{}{equation.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The ROC curve for our disruption classifier. The integral (AUC) of the ROC characterizes a classifier's performance, with a score of 1 indicating 100\% true positives and 0\% false negatives. Our model has an AUC of 0.9902, close to the hypothetical maximum. }}{2}{}\protected@file@percent }
+\newlabel{fig:roc}{{2}{2}{}{figure.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Tuned Hyperparameters}}{2}{}\protected@file@percent }
+\newlabel{tab:hyperparams}{{1}{2}{}{table.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Convolutional Heuristic for Time of Disruption}{2}{}\protected@file@percent }
+\newlabel{sub:false_negatives}{{3a}{3}{}{subfigure.3.1}{}}
+\newlabel{sub@sub:false_negatives}{{a}{3}{}{subfigure.3.1}{}}
+\newlabel{sub:false_positives}{{3b}{3}{}{subfigure.3.2}{}}
+\newlabel{sub@sub:false_positives}{{b}{3}{}{subfigure.3.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Analysis of CNN classification errors for disruptive (Fig~\ref {sub:false_negatives}) and non-disruptive (Fig~\ref {sub:false_positives}) shots.}}{3}{}\protected@file@percent }
+\newlabel{fig:cnn_errors}{{3}{3}{}{figure.3}{}}
+\newlabel{raw_current}{{4}{3}{}{equation.4}{}}
+\newlabel{current_smooth}{{5}{3}{}{equation.5}{}}
+\newlabel{heuristic}{{6}{3}{}{equation.6}{}}
+\newlabel{time_of_disrupt}{{7}{3}{}{equation.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces We see the raw Eq~\eqref  {raw_current} and smooth Eq~\eqref  {current_smooth} currents above, and the convolutional heuristic $f(t)$ Eq~\eqref  {heuristic} below, both graphed versus time. The absolute maximum of $f(t)$ yields the start of disruption $t=t_0$ Eq~\eqref  {time_of_disrupt}, with the following minimum giving the end of disruption $t_f$. The root $t_\mathrm  {root}$ Eq~\eqref  {time_of_disrupt_root} gives an estimate closer to DIII-D's disruption labels (Fig~\ref {sub:disruption_time_diff_root}).}}{3}{}\protected@file@percent }
+\newlabel{fig:heuristic_example}{{4}{3}{}{figure.4}{}}
+\newlabel{time_of_disrupt_root}{{8}{3}{}{equation.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Conclusion}{3}{}\protected@file@percent }
+\newlabel{sec:conclusion}{{4}{3}{}{section.4}{}}
+\citation{claude2026}
+\bibstyle{unsrtnat}
+\bibdata{references}
+\bibcite{claude2026}{{1}{2026}{{Anthropic}}{{}}}
+\newlabel{sub:disruption_time_diff_root}{{5a}{4}{}{subfigure.5.1}{}}
+\newlabel{sub@sub:disruption_time_diff_root}{{a}{4}{}{subfigure.5.1}{}}
+\newlabel{sub:disruption_time_diff_start}{{5b}{4}{}{subfigure.5.2}{}}
+\newlabel{sub@sub:disruption_time_diff_start}{{b}{4}{}{subfigure.5.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Histogram of Fig~\ref {sub:disruption_time_diff_root} and non-disruptive Fig~\ref {sub:disruption_time_diff_start} shots.}}{4}{}\protected@file@percent }
+\newlabel{fig:heuristic_diff}{{5}{4}{}{figure.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Predicted disruption time Eq~\eqref  {time_of_disrupt} vs real disruption time for 889 test holdout shots. We see a few outliers, with the majority of predictions on the accurate $y=x$ line.}}{4}{}\protected@file@percent }
+\newlabel{fig:predictions_scatter}{{6}{4}{}{figure.6}{}}
+\gdef \@abspage@last{4}

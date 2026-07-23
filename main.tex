@@ -4,19 +4,14 @@
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{hyperref}
-\hypersetup{
-  colorlinks,
-  linkcolor={red!50!black},
-  citecolor={blue!50!black},
-  urlcolor={blue!80!black}
-}
 \usepackage{url}
 \usepackage{booktabs}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{microtype}
 \usepackage{graphicx}
 \usepackage{siunitx}
+\usepackage[font=small]{caption}
+\usepackage{subcaption} 
 
 \usepackage[numbers,square,comma,sort&compress]{natbib}
 
@@ -32,14 +27,18 @@
   Oregon State University \\
   Coupled Systems Laboratory
 }
+% For figures that stay within a single column
+\setlength{\textfloatsep}{8pt plus 2pt minus 4pt}
 
+% For wide figures that span across both columns (i.e., \begin{figure*})
+\setlength{\dbltextfloatsep}{8pt plus 2pt minus 4pt}
 \begin{document}
 
 \twocolumn[
   \maketitle
   \begin{@twocolumnfalse}
     \begin{abstract}
-    Plasma in a Tokamak fusion reactor frequently experiences disruption events that result in a current drop to zero. The existence of a computationally inexpensive model for identifying disruptive shots and accurately identifying time of disruption can assist the scientific community by auto-labeling shots for further analysis. We took a labeled disruption dataset from the DIII-D Tokamak reactor, utilizing shot numbers 125500-186000 (nearly 40,000 total shots) to develop a new disruption labeling model that can generate automated labeling up to the current day. We train a CNN (Convolutional Neural Network) to perform boolean disruption/not-disruption prediction and achieve a 99\% recall and 91\% precision on our test dataset. We additionally develop a convolutional heuristic that accurately identifies time of disruption within a standard deviation of $\qty{2.1}{\micro\s}$.
+    Plasma in a Tokamak fusion reactor frequently experience disruption events. The existence of a computationally inexpensive model for identifying disruptive shots and accurately identifying time of disruption can assist the scientific community by auto-labeling shots for further analysis. We took a labeled disruption dataset from the DIII-D Tokamak reactor, utilizing shot numbers 125500-186000 (nearly 40,000 total shots) to develop a new disruption labeling model that can generate automated labeling up to the current day. We train a CNN (Convolutional Neural Network) to perform boolean disruption/not-disruption prediction and achieve a 99\% recall and 91\% precision on our test dataset. We additionally develop a convolutional heuristic that accurately identifies time of disruption within a standard deviation of $\qty{1.1}{\milli\s}$.
     \end{abstract}
     \vspace{1em}
   \end{@twocolumnfalse}
@@ -49,72 +48,222 @@
 % ==================================================================
 \section{Introduction}
 \label{sec:intro}
+A Tokamak is a torus-shaped magnetic confinement fusion reactor and is a leading candidate to produce controlled thermonuclear fusion power. A prominent challenge facing Tokamak reactors is the issue of disruption events caused by turbulent instability within the plasma. Such disruption events cause the internal reactor current ($I(t)$) to drop to zero and can potentially cause damage to the interior of the reactor. The differential equations describing the evolution of such turbulent plasma are not solvable with conventional numerical methods; therefore, deep learning models trained on labeled plasma data are a promising approach for predicting such disruptions before they happen.
 
+A fraction of the data produced by long-running Tokamak fusion facilities such as the DIII-D reactor in Argonne National Laboratory have already been labeled for training of such models. We used nearly 40,000 DIII-D shots to train a model for labeling historical shots as disruptive or not disruptive. We also develop a convolutional heuristic for identifying a time of disruption that closely matches the labeled DIII-D disruption times.
 
 % ==================================================================
-\section{Methods}
+\section{Neural Net Classifier}
 \label{sec:methods}
 
 
-Current vs. time data from DIII-D was availabile to us in the form of timestamped `.txt` files. We normalized every shot using the maximum current and shot length throughout the entire dataset, adding trailing zeroes to each shot to match the shape of the largest current series. Our classifier consisted of four convolutional layers, max pooling layers, Batch Normalization layers, and used a sigmoid activation function. See ~\ref{fig:model_diagram}.
+We were provided 39438 labeled shot files from the DIII-D team, of which 13429 were disruptive shots and labeled with time of disruption. Each shot sampled reactor current at $\qty{40}{\kilo\hertz}$, giving us a discrete $1 \times m$ current vector $\mathbf{I}$ where the $m$th component is current at the $m$th timestep. 
 
+\begin{equation}
+  \label{current_tensor}
+  \mathbf{I}=\begin{bmatrix} I_1 & \dots & I_m \end{bmatrix}
+\end{equation}
 
+We used an 80/10/10 train/test/dev split, which left us with 31542 trainable shots. To prepare the data for a neural net classifier, we tested three different nornmalization methods, including per-shot min-max unit scale normalization,  per-shot Mean-Variance (meanvar) normalization, and dataset-wide meanvar normalization. We found most success with the dataset-wide meanvar approach. Letting the current mean and standard deviation across all shots be $\mu$ and $\sigma$, we computed a nornmalized shot tensor $I_\mathrm{N}$. 
+
+\begin{equation}
+  \label{current_norm}
+\mathbf{I}_{\mathrm{N}} =
+\begin{cases}
+\frac{1}{\sigma}(\mathbf{I} - \mu) & \sigma > 0 \\[0.5em]
+  0 & \sigma \leq 0  
+\end{cases}  
+\end{equation}
+
+The normalized data was then fed into a Convolutional Neural Network (see~Fig~\ref{fig:model_diagram}) consisting of four convolutional layers, each with a batch normalization layer, a Rectified Linear Unit (ReLU) activation function, and a final max pooling layer. The convolution outputs were then fed into two fully connected layers with batch normalization, ReLU, and a dropout layer to prevent overfitting. The dropout layer exposed a dropout rate \verb|dropout| hyperparameter. 
 
 
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=\columnwidth]{best_model/model_diagram.png}
-  \caption{Figure caption.}
+  \caption{Model architecture for our disruption labeling Convolutional Neural Network. We have four convolutional layers and two fully connected layers, and utilize max pooling, batch normalization, and dropout, along with a ReLU activation function.  }
   \label{fig:model_diagram}
 \end{figure}
 
-$$y[n]=\sum_{k=0}^{K}{x[k]h[n-k]}$$
 
-% ==================================================================
-\section{Results}
-\label{sec:results}
 
-Report quantitative and qualitative findings. Reference figures and tables as needed.
+The CNN was then trained using the Adam (Adaptive Moment Estimation) optimizer with weight decay and a learning rate tuned per-epoch with PyTorch's \verb|lr_scheduler.ReduceLROnPlateau| in "min" mode, with configurable learning rate factor and patience. We utilized PyTorch's \verb|torch.nn.BCEWithLogitsLoss| with configurable positive weight and gradient clipping, and stopped training when enough consecutive epochs showed no improvement (early stopping patience).
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=1\columnwidth]{best_model/predictions_scatter.png}
-  \caption{Figure caption.}
-  \label{fig:predictions_scatter}
-\end{figure}
+We tuned our hyperparameters with Bayesian Optimization, using the \verb|ExpectedImprovement| acquisition function with $\xi=0.05$. We additionally inserted random samples every 5 trials to escape local minima. Our scoring strategy was a weighted $F_\beta$, where parameter $\beta$ is the weighted harmonic mean of precision and recall Eq~\eqref{fbeta}. We chose $\beta=1.5$ to prioritize recall ($R$) over precision ($P$) and minimize false negatives, rejecting trials below a precision floor of 90\%. 
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=1\columnwidth]{best_model/disruption_time_diff.png}
-  \caption{Figure caption.}
-  \label{fig:disruption_time_diff}
-\end{figure}
+
+\begin{equation}
+  \label{fbeta}
+  F_\beta =  \frac{PR(1 + \beta^2)}{P\beta^2+R}
+\end{equation}
+
+We trained for 100+ trials on the Polaris supercomputer in Argonne National Lab, achieving a final precision of 90.52\% and recall of 98.84\%, along with an F1 score of $0.9450$ and F2 score of $0.9706$. The tuned hyperparameters are presented in Table~\ref{tab:hyperparams}.
+          
+\begin{table}[h]
+    \centering
+    \caption{Tuned Hyperparameters}
+    \label{tab:hyperparams}
+    \begin{tabular}{|l|r|}
+        \hline
+        \textbf{Hyperparameter} & \textbf{Value} \\
+        \hline
+          Learning Rate & 0.0005  \\
+        \hline
+          Number of Epochs & 200  \\
+        \hline
+          Dropout Rate & 0.35  \\
+        \hline
+          Weight Decay & 0.0001  \\
+        \hline
+          Training Batch Size & 128  \\
+        \hline
+          Gradient Clip & 1.0  \\
+        \hline
+          Learning Rate Scheduler Factor  &  0.5 \\
+        \hline
+          Learning Rate Patience  & 5  \\
+        \hline
+          Early Stopping Patience & 10  \\
+        \hline
+          Positive Weight  & 3.0  \\
+        \hline
+    \end{tabular}
+\end{table}
+
 
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=1\columnwidth]{best_model/roc_curve.png}
-  \caption{Figure caption.}
+  \caption{The ROC curve for our disruption classifier. The integral (AUC) of the ROC characterizes a classifier's performance, with a score of 1 indicating 100\% true positives and 0\% false negatives. Our model has an AUC of 0.9902, close to the hypothetical maximum.  }
   \label{fig:roc}
 \end{figure}
+
+
+The false negatives produced by the model all lack the characteristic drop to zero, and some look like faulty data. See Fig~\ref{fig:cnn_errors}. 
+
+\begin{figure*}[htp]
+  \centering
+  
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{best_model/select_false_negatives.png}
+    \caption{Four selected disruptive shots incorrectly identified as non-disruptive by the CNN. Each shot lacks the characteristic instant drop to zero that typically identifies a disruption. Shots 180501 and 177403 read like faulty data, as if the device stopped recording mid-experiment.}
+    \label{sub:false_negatives}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{best_model/select_false_positives.png}
+    \caption{Four selected non-disruptive shots incorrectly identified as disruptive by the CNN. Shots 178891 and 176423 have a drop that somewhat resembles a disruption, confusing the model. Notice that the CNN disruption probability is lower for the more confusing shots.}
+    \label{sub:false_positives}
+  \end{subfigure}
+
+  \caption{Analysis of CNN classification errors for disruptive (Fig~\ref{sub:false_negatives}) and non-disruptive (Fig~\ref{sub:false_positives}) shots.}
+  \label{fig:cnn_errors} 
+\end{figure*}
+
+\section{Convolutional Heuristic for Time of Disruption}
+
+For any given shot, let the current be $I(t)$, $t\in[0, T]$. We start by noting that shots with $\max{I(t)}\approx0$ are negative polarity shots and must be flipped before proceeding Eq~\eqref{raw_current}. 
+
+
+\begin{equation}
+  I_\mathrm{raw}(t) = \begin{cases}
+    -I(t) & \max{I}\approx0 \\
+    I(t) & \text{otherwise}
+  \end{cases}
+  \label{raw_current}
+\end{equation}
+
+We then calculate a smoothed current $I_\mathrm{smooth}(t)$ by applying a moving average convolution with a window size $K=T / S$, where $S=300$ is an experimentally determined smoothing parameter. The convolution of $I(t)$ with a function $g(t)$ is given by $g\ast f(t)=\int_{0}^{t}g(\tau)\,f(t-\tau)\,d\tau$; for a moving average, $g$ is a constant, simplifying our expression to Eq~\eqref{current_smooth}.
+
+\begin{equation}
+  \label{current_smooth}
+  I_\mathrm{smooth}(t) = \frac{1}{K} \int_{t-K}^{t}I(\tau)\,d\tau
+\end{equation}
+
+Note that we compute the moving average on our dataset as a discrete convolution, applying \verb|np.convolve| on the current tensor Eq~\eqref{current_tensor}. The $i$th component of the smooth current $\mathbf{I}_\mathrm{smooth}$ is $\mathbf{I}_{\mathrm{smooth}_i} = \frac{1}{K} \sum_{k=1}^{K} I_{i-k}$.
+
+We then define the time of disruption heuristic $f(t)$ as the difference between the raw $I(t)$ and smooth current Eq~\eqref{current_smooth}. 
+
+
+\begin{equation}
+  \label{heuristic}
+  f(t)=I_\mathrm{raw}(t) - I_\mathrm{smooth}(t)
+\end{equation}
+
+To find the start $t=t_0$ of a disruption, we simply search for the global maximum of $f(t)$. The first local minimum of $f(t), \ t>t_0$ identifies the end of disruption $t_f$.
+
+
+\begin{equation}
+  \label{time_of_disrupt}
+  t_0=\max(f(t))
+\end{equation}
+
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=1\columnwidth]{best_model/heuristic_example.png}
+  \caption{We see the raw Eq~\eqref{raw_current} and smooth Eq~\eqref{current_smooth} currents above, and the convolutional heuristic $f(t)$ Eq~\eqref{heuristic} below, both graphed versus time. The absolute maximum of $f(t)$ yields the start of disruption $t=t_0$ Eq~\eqref{time_of_disrupt}, with the following minimum giving the end of disruption $t_f$. The root $t_\mathrm{root}$ Eq~\eqref{time_of_disrupt_root} gives an estimate closer to DIII-D's disruption labels (Fig~\ref{sub:disruption_time_diff_root}).}
+  \label{fig:heuristic_example}
+\end{figure}
+
+
+\begin{figure*}[t]
+  \centering
+
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{best_model/disruption_time_diff_pred_root.png}
+    \caption{Histogram of the difference $\Delta t$ between heuristic root $t_\mathrm{root}$ Eq~\eqref{time_of_disrupt_root} and labeled time of disruption in milliseconds. The Gaussian is centered with $\mu\approx \qty{0}{\milli\s}$, $\sigma=\qty{1.1}{\milli\s}$}
+    \label{sub:disruption_time_diff_root}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{best_model/disruption_time_diff_pred_start.png}
+    \caption{Histogram of the difference $\Delta t$ between predicted start of disruption Eq~\eqref{time_of_disrupt} and labeled time of disruption in milliseconds. Most of our predictions are early, with a mean $\Delta t \approx \qty{-4}{\milli\s}$}
+    \label{sub:disruption_time_diff_start}
+  \end{subfigure}
+
+  \caption{Histogram of  Fig~\ref{sub:disruption_time_diff_root} and non-disruptive Fig~\ref{sub:disruption_time_diff_start} shots.}
+  \label{fig:heuristic_diff}
+\end{figure*}
+
+We apply this heuristic on our test holdout set, consisting of 3943 total shots, of which 889 are disruptive.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=1\columnwidth]{best_model/predictions_scatter_pred_root.png}
+  \caption{Predicted disruption time Eq~\eqref{time_of_disrupt} vs real disruption time for 889 test holdout shots. We see a few outliers, with the majority of predictions on the accurate $y=x$ line.}
+  \label{fig:predictions_scatter}
+\end{figure}
+
+Comparing $t_0$ against the labeled time of disruption $t_D$ over our test set, we find that most of our predictions are early by $\Delta t = t_0-t_D \approx \qty{-4}{\milli\s}$ (Fig~\ref{sub:disruption_time_diff_start}). Therefore, we conclude that the DIII-D team is evidently applying labels mid-disruption, somewhere in the range $t_0\leq t \leq t_f$. If we use the first root $t_\mathrm{root}$ Eq~\eqref{time_of_disrupt_root} as the predicted time of disruption, we get a more normalized distribution of $\Delta t = t_\mathrm{root}-t_D$~Fig~\ref{sub:disruption_time_diff_root}.
+
+ \begin{equation}
+  \label{time_of_disrupt_root}
+  f(t_\mathrm{root})=0, \quad t_\mathrm{root}\in[t_0, t_f]
+ \end{equation}
+
 
 % ==================================================================
 \section{Conclusion}
 \label{sec:conclusion}
 
-Summarize findings and outline future work.
+Idk conclude somethin or whatever
+
+
+\section*{Acknowledgments}
+Our thanks to Argonne National Laboratory for providing us with the data to train our model. 
+
+\section*{Data and code availability}
+Code for the model, along with the best model weights and hyperparamters, are hosted at https://github.com/starlightjason2/DLDL.git.
 
 % ------------------------------------------------------------------
-% Optional back matter (uncomment as needed)
-% ------------------------------------------------------------------
-% \section*{Acknowledgments}
-% Funding and thanks.
-
-% \section*{Data and code availability}
-% Where artifacts are hosted.
-
-% ------------------------------------------------------------------
+\nocite{claude2026}
 \bibliographystyle{unsrtnat}
 \bibliography{references}
 
