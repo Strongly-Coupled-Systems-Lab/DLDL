@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gs -sDEVICE=png16m -r150 -dFirstPage=1 -dLastPage=1 -o intro_p1.png /Users/sparsj/Code/DLDL/main.pdf)",
+      "Bash(pdflatex -interaction=nonstopmode main.tex)"
+    ]
+  }
+}
