@@ -81,10 +81,11 @@ def plot_roc_curve(batch_size: int = 256) -> None:
     print(f"ROC AUC (n={len(y_true)} test holdout shots): {auc:.6f}")
 
     fig, ax = plt.subplots(figsize=(8, 8))
+    plt.rcParams.update({"font.size": 16})
     ax.plot(fpr, tpr, linewidth=2, label=f"CNN (Area Under Curve = {auc:.4f})")
     ax.plot([0, 1], [0, 1], "k--", linewidth=1, label="Chance (AUC = 0.5)")
-    ax.set_xlabel("False Rositive Rate ($x$)")
-    ax.set_ylabel("True Rositive Rate ($y$)")
+    ax.set_xlabel("False Positive Rate ($x$)")
+    ax.set_ylabel("True Positive Rate ($y$)")
     ax.legend(loc="lower right")
     ax.grid(True, alpha=0.3)
     ax.set_aspect("equal")

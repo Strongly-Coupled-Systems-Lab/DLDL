@@ -1,46 +1,19 @@
-This is BibTeX, Version 0.99d (TeX Live 2025)
-Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
-The top-level auxiliary file: main.aux
-The style file: unsrtnat.bst
-Database file #1: references.bib
-You've used 3 entries,
-            2481 wiz_defined-function locations,
-            569 strings with 4967 characters,
-and the built_in function-call counts, 1120 in all, are:
-= -- 86
-> -- 59
-< -- 3
-+ -- 24
-- -- 18
-* -- 68
-:= -- 184
-add.period$ -- 12
-call.type$ -- 3
-change.case$ -- 6
-chr.to.int$ -- 3
-cite$ -- 3
-duplicate$ -- 55
-empty$ -- 106
-format.name$ -- 21
-if$ -- 241
-int.to.chr$ -- 1
-int.to.str$ -- 4
-missing$ -- 1
-newline$ -- 26
-num.names$ -- 9
-pop$ -- 35
-preamble$ -- 1
-purify$ -- 3
-quote$ -- 0
-skip$ -- 38
-stack$ -- 0
-substring$ -- 18
-swap$ -- 12
-text.length$ -- 1
-text.prefix$ -- 0
-top$ -- 0
-type$ -- 21
-warning$ -- 0
-while$ -- 8
-width$ -- 0
-write$ -- 50
+[0] Config.pm:308> INFO - This is Biber 2.20
+[1] Config.pm:311> INFO - Logfile is 'main.blg'
+[135] biber-darwin:340> INFO - === Wed Aug  5, 2026, 02:09:25
+[173] Biber.pm:420> INFO - Reading 'main.bcf'
+[317] Biber.pm:994> INFO - Found 17 citekeys in bib section 0
+[350] Biber.pm:4463> INFO - Processing section 0
+[377] Biber.pm:4654> INFO - Looking for bibtex file 'references.bib' for section 0
+[392] bibtex.pm:1713> INFO - LaTeX decoding ...
+[452] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
+[4176] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[4176] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[4177] Biber.pm:4283> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'en-US'
+[4177] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[4294] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[5463] bbl.pm:779> INFO - Output to main.bbl
+[5464] Biber.pm:131> WARN - legacy month field 'apr' in entry 'Pavone_2023' is not an integer - this will probably not sort properly.
+[5464] Biber.pm:131> WARN - BibTeX subsystem: /var/folders/z9/sqdghy7d1mvf7p2x8yyb56jw0000gq/T/biber_tmp_iIsB/33e59b5ca9ec342068223d604c3f8d55_70799.utf8, line 91, warning: undefined macro "July"
+[5464] Biber.pm:131> WARN - BibTeX subsystem: /var/folders/z9/sqdghy7d1mvf7p2x8yyb56jw0000gq/T/biber_tmp_iIsB/33e59b5ca9ec342068223d604c3f8d55_70799.utf8, line 119, warning: undefined macro "June"
+[5464] Biber.pm:133> INFO - WARNINGS: 3

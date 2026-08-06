@@ -4,6 +4,20 @@
 
 A 1D CNN that uses plasma current to predict whether a DIII-D shot disrupts (binary classification on the `ipspr15V` PTDATA signal).
 
+```
+python src/plot_roc_curve.py
+
+python src/prediction_plots.py --prediction-type=pred_root
+
+python src/prediction_plots.py --prediction-type=pred_start
+
+python src/graph.py --shots 176423 180673 177030 178463 --out-path=best_model/select_false_positives.png --simple
+
+python src/graph.py --shots 180501 177518 178661 177402 --out-path=best_model/select_false_negatives.png --simple
+
+python src/graph.py --shots 125500 178323 --out-path=best_model/heuristic_example.png --zoom
+```
+
 ## Environment Setup
 
 1. **Create `.env`** from a template. Each example file lists the full variable set required by the code; do not use a paths-only snippet as your only `.env`:
@@ -38,7 +52,7 @@ Everything is read from the process environment. There is no JSON config file. *
 | `LABELS_PATH`       | ✓        | Shot list with disruption times.                                  |
 | `DATA_PATH`         | ✓        | Full path to preprocessed dataset tensor (`.pt`).                 |
 | `TRAIN_LABELS_PATH` | ✓        | Full path to preprocessed labels tensor (`.pt`).                  |
-| `PROG_DIR`          | ✓        | Training logs, checkpoints, and validation outputs.             |
+| `PROG_DIR`          | ✓        | Training logs, checkpoints, and validation outputs.               |
 | `JOB_ID`            | ✓        | Run identifier (filenames / logs).                                |
 
 \*Set `PROJECT_ROOT` in `.env` for local and PBS runs. PBS scripts `source` the project `.env` and `cd` to `PROJECT_ROOT`.
@@ -52,24 +66,24 @@ Everything is read from the process environment. There is no JSON config file. *
 
 #### Training hyperparameters (`train.py` / `model/cnn.py`)
 
-| Variable                  | Required                 | Description                                                                                                                                                                                                                                            |
-| ------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `EARLY_STOPPING_PATIENCE` | ✓                        | Integer ≥ 1.                                                                                                                                                                                                                                           |
-| `LEARNING_RATE`           | ✓                        | Positive float.                                                                                                                                                                                                                                        |
-| `NUM_EPOCHS`              | ✓                        | Integer ≥ 1.                                                                                                                                                                                                                                           |
-| `LOG_INTERVAL`            | ✓                        | Integer ≥ 1.                                                                                                                                                                                                                                           |
-| `WEIGHT_DECAY`            | ✓                        | Float ≥ 0.                                                                                                                                                                                                                                             |
-| `DROPOUT_RATE`            | ✓                        | Float in [0, 1].                                                                                                                                                                                                                                       |
-| `BATCH_SIZE`              | ✓                        | Integer ≥ 1.                                                                                                                                                                                                                                           |
-| `LR_SCHEDULER`            | ✓                        | `true` / `false` (or `1` / `0`, `yes` / `no`, `on` / `off`).                                                                                                                                                                                           |
-| `LR_SCHEDULER_FACTOR`     | ✓                        | Float in (0, 1).                                                                                                                                                                                                                                       |
-| `LR_SCHEDULER_PATIENCE`   | ✓                        | Integer ≥ 1.                                                                                                                                                                                                                                           |
-| `GRADIENT_CLIP`           | ✓                        | Float ≥ 0.                                                                                                                                                                                                                                             |
-| `DATALOADER_NUM_WORKERS`  | ✓                        | DataLoader workers (forced to `0` when no GPU).                                                                                                                                                                                                        |
-| `CLS_POS_WEIGHT`          | ✓                        | Positive-class (disruptive) weight in BCE loss (float ≥ 0). `>1` favors recall over precision. Tunable via `HP_TUNE_CLS_POS_WEIGHT_*`.                                                                                                                  |
-| `DECISION_THRESHOLD`      | ✓                        | Sigmoid probability cutoff for the disruptive class (float in [0, 1]). Fixed (not tuned); typically `0.5`.                                                                                                                                             |
-| `MIN_PRECISION`           | optional (default `0.90`) | Precision floor for checkpoint selection and the HP tune objective. Best epoch must meet this floor to be eligible.                                                                                                                                   |
-| `FBETA`                   | optional (default `1.8`) | Beta for the F-beta score used for model selection (best checkpoint + early stopping) and as the HP tune objective, which is **maximized**. `beta>1` weights recall over precision. This defines the objective and is not itself tuned. |
+| Variable                  | Required                  | Description                                                                                                                                                                                                                             |
+| ------------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `EARLY_STOPPING_PATIENCE` | ✓                         | Integer ≥ 1.                                                                                                                                                                                                                            |
+| `LEARNING_RATE`           | ✓                         | Positive float.                                                                                                                                                                                                                         |
+| `NUM_EPOCHS`              | ✓                         | Integer ≥ 1.                                                                                                                                                                                                                            |
+| `LOG_INTERVAL`            | ✓                         | Integer ≥ 1.                                                                                                                                                                                                                            |
+| `WEIGHT_DECAY`            | ✓                         | Float ≥ 0.                                                                                                                                                                                                                              |
+| `DROPOUT_RATE`            | ✓                         | Float in [0, 1].                                                                                                                                                                                                                        |
+| `BATCH_SIZE`              | ✓                         | Integer ≥ 1.                                                                                                                                                                                                                            |
+| `LR_SCHEDULER`            | ✓                         | `true` / `false` (or `1` / `0`, `yes` / `no`, `on` / `off`).                                                                                                                                                                            |
+| `LR_SCHEDULER_FACTOR`     | ✓                         | Float in (0, 1).                                                                                                                                                                                                                        |
+| `LR_SCHEDULER_PATIENCE`   | ✓                         | Integer ≥ 1.                                                                                                                                                                                                                            |
+| `GRADIENT_CLIP`           | ✓                         | Float ≥ 0.                                                                                                                                                                                                                              |
+| `DATALOADER_NUM_WORKERS`  | ✓                         | DataLoader workers (forced to `0` when no GPU).                                                                                                                                                                                         |
+| `CLS_POS_WEIGHT`          | ✓                         | Positive-class (disruptive) weight in BCE loss (float ≥ 0). `>1` favors recall over precision. Tunable via `HP_TUNE_CLS_POS_WEIGHT_*`.                                                                                                  |
+| `DECISION_THRESHOLD`      | ✓                         | Sigmoid probability cutoff for the disruptive class (float in [0, 1]). Fixed (not tuned); typically `0.5`.                                                                                                                              |
+| `MIN_PRECISION`           | optional (default `0.90`) | Precision floor for checkpoint selection and the HP tune objective. Best epoch must meet this floor to be eligible.                                                                                                                     |
+| `FBETA`                   | optional (default `1.8`)  | Beta for the F-beta score used for model selection (best checkpoint + early stopping) and as the HP tune objective, which is **maximized**. `beta>1` weights recall over precision. This defines the objective and is not itself tuned. |
 
 #### Architecture (`train.py` → `IpCNN`)
 
@@ -86,30 +100,30 @@ Everything is read from the process environment. There is no JSON config file. *
 
 Comma-separated lists must not be empty (e.g. `HP_TUNE_ALLOWED_EPOCHS=25,50,100`). All keys below are required when running `hp_tune_serial`.
 
-| Variable                                                                   | Required | Description                                                                                                                                                     |
-| -------------------------------------------------------------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `HP_TUNE_DIR`                                                               | ✓        | Absolute path to HP tune run root. Trials: `HP_TUNE_DIR/trials/trial_*`. Log CSV: `HP_TUNE_DIR/trials/trials.csv`. Controller logs: `HP_TUNE_DIR/controller_logs/`. |
-| `HP_TUNE_LR_MIN`, `HP_TUNE_LR_MAX`                                           | ✓        | Learning-rate search bounds (float; min must be less than max).                                                                                                 |
-| `HP_TUNE_DROPOUT_MIN`, `HP_TUNE_DROPOUT_MAX`                                 | ✓        | Dropout bounds (0–1; min must be less than max).                                                                                                                |
-| `HP_TUNE_ALLOWED_EPOCHS`                                                    | ✓        | Comma-separated positive integers.                                                                                                                              |
-| `HP_TUNE_NUM_INITIAL_TRIALS`                                                | ✓        | Integer ≥ 1.                                                                                                                                                    |
-| `HP_TUNE_WEIGHT_DECAY_LOG_MIN`, `HP_TUNE_WEIGHT_DECAY_LOG_MAX`               | ✓        | Log10 weight-decay bounds (min must be less than max).                                                                                                          |
-| `HP_TUNE_ALLOWED_BATCH_SIZES`                                               | ✓        | Comma-separated positive integers.                                                                                                                              |
-| `HP_TUNE_GRADIENT_CLIP_MIN`, `HP_TUNE_GRADIENT_CLIP_MAX`                     | ✓        | `min` ≤ `max`.                                                                                                                                                  |
-| `HP_TUNE_LR_SCHEDULER_FACTOR_MIN`, `HP_TUNE_LR_SCHEDULER_FACTOR_MAX`         | ✓        | In (0, 1); min must be less than max.                                                                                                                           |
-| `HP_TUNE_LR_SCHEDULER_PATIENCE_MIN`, `HP_TUNE_LR_SCHEDULER_PATIENCE_MAX`     | ✓        | Integers ≥ 1, `min` ≤ `max`.                                                                                                                                    |
-| `HP_TUNE_EARLY_STOPPING_PATIENCE_MIN`, `HP_TUNE_EARLY_STOPPING_PATIENCE_MAX` | ✓        | Integers ≥ 1, `min` ≤ `max`.                                                                                                                                    |
-| `HP_TUNE_CLS_POS_WEIGHT_MIN`, `HP_TUNE_CLS_POS_WEIGHT_MAX`                   | ✓        | BCE positive-class weight bounds (float ≥ 0; `min` ≤ `max`). Higher values push toward recall.                                                                  |
-| `HP_TUNE_RANDOM_INSERT_EVERY`                                               | ✓        | Insert a random trial every N completed trials after warmup (integer ≥ 0).                                                                                      |
-| `HP_TUNE_EI_XI`                                                             | ✓        | Expected-improvement ξ for Bayesian optimization (float ≥ 0).                                                                                                   |
+| Variable                                                                     | Required | Description                                                                                                                                                         |
+| ---------------------------------------------------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `HP_TUNE_DIR`                                                                | ✓        | Absolute path to HP tune run root. Trials: `HP_TUNE_DIR/trials/trial_*`. Log CSV: `HP_TUNE_DIR/trials/trials.csv`. Controller logs: `HP_TUNE_DIR/controller_logs/`. |
+| `HP_TUNE_LR_MIN`, `HP_TUNE_LR_MAX`                                           | ✓        | Learning-rate search bounds (float; min must be less than max).                                                                                                     |
+| `HP_TUNE_DROPOUT_MIN`, `HP_TUNE_DROPOUT_MAX`                                 | ✓        | Dropout bounds (0–1; min must be less than max).                                                                                                                    |
+| `HP_TUNE_ALLOWED_EPOCHS`                                                     | ✓        | Comma-separated positive integers.                                                                                                                                  |
+| `HP_TUNE_NUM_INITIAL_TRIALS`                                                 | ✓        | Integer ≥ 1.                                                                                                                                                        |
+| `HP_TUNE_WEIGHT_DECAY_LOG_MIN`, `HP_TUNE_WEIGHT_DECAY_LOG_MAX`               | ✓        | Log10 weight-decay bounds (min must be less than max).                                                                                                              |
+| `HP_TUNE_ALLOWED_BATCH_SIZES`                                                | ✓        | Comma-separated positive integers.                                                                                                                                  |
+| `HP_TUNE_GRADIENT_CLIP_MIN`, `HP_TUNE_GRADIENT_CLIP_MAX`                     | ✓        | `min` ≤ `max`.                                                                                                                                                      |
+| `HP_TUNE_LR_SCHEDULER_FACTOR_MIN`, `HP_TUNE_LR_SCHEDULER_FACTOR_MAX`         | ✓        | In (0, 1); min must be less than max.                                                                                                                               |
+| `HP_TUNE_LR_SCHEDULER_PATIENCE_MIN`, `HP_TUNE_LR_SCHEDULER_PATIENCE_MAX`     | ✓        | Integers ≥ 1, `min` ≤ `max`.                                                                                                                                        |
+| `HP_TUNE_EARLY_STOPPING_PATIENCE_MIN`, `HP_TUNE_EARLY_STOPPING_PATIENCE_MAX` | ✓        | Integers ≥ 1, `min` ≤ `max`.                                                                                                                                        |
+| `HP_TUNE_CLS_POS_WEIGHT_MIN`, `HP_TUNE_CLS_POS_WEIGHT_MAX`                   | ✓        | BCE positive-class weight bounds (float ≥ 0; `min` ≤ `max`). Higher values push toward recall.                                                                      |
+| `HP_TUNE_RANDOM_INSERT_EVERY`                                                | ✓        | Insert a random trial every N completed trials after warmup (integer ≥ 0).                                                                                          |
+| `HP_TUNE_EI_XI`                                                              | ✓        | Expected-improvement ξ for Bayesian optimization (float ≥ 0).                                                                                                       |
 
 #### HP tune step jobs and PBS
 
-| Variable                | Required | Description                                                                                                         |
-| ----------------------- | -------- | ------------------------------------------------------------------------------------------------------------------- |
+| Variable                 | Required | Description                                                                                                         |
+| ------------------------ | -------- | ------------------------------------------------------------------------------------------------------------------- |
 | `HP_TUNE_MAX_TRIALS`     | ✓        | Stop when this many trials exist and none are running or queued.                                                    |
 | `HP_TUNE_MAX_RETRIES`    | ✓        | Requeue failed trials up to this many times.                                                                        |
-| `TRIAL_TIMEOUT`         | ✓        | Seconds without log activity before a stale `RUNNING` trial (e.g. from a lost step) is requeued or failed.          |
+| `TRIAL_TIMEOUT`          | ✓        | Seconds without log activity before a stale `RUNNING` trial (e.g. from a lost step) is requeued or failed.          |
 | `HP_TUNE_QUEUE`          | ✓†       | PBS queue for the step jobs. Use `debug` (allows 1 running + 1 queued per user), not `debug-scaling` (1 job total). |
 | `HP_TUNE_TRAIN_WALLTIME` | ✓†       | Walltime for each step job (passed to `qsub`).                                                                      |
 
@@ -119,35 +133,35 @@ Comma-separated lists must not be empty (e.g. `HP_TUNE_ALLOWED_EPOCHS=25,50,100`
 
 Set by `scripts/start_arch_tune.sh`, which points `HP_TUNE_DIR` at `ARCH_TUNE_DIR` and keeps training hyperparameters fixed from `.env`. All `ARCH_TUNE_*` keys below are required for architecture tuning.
 
-| Variable | Required | Description |
-| -------- | -------- | ----------- |
-| `ARCH_TUNE_DIR` | ✓ | Root for architecture tune trials (default `data/arch_tune`). |
-| `ARCH_TUNE_CONV_FILTERS` | ✓ | Comma-separated conv filter sizes. |
-| `ARCH_TUNE_KERNELS` | ✓ | Comma-separated kernel sizes (same padding derived automatically). |
-| `ARCH_TUNE_POOL_SIZES` | ✓ | Comma-separated pool sizes. |
-| `ARCH_TUNE_FC1_MIN`, `ARCH_TUNE_FC1_MAX` | ✓ | FC1 size bounds (integers, min ≤ max). |
-| `ARCH_TUNE_FC2_MIN`, `ARCH_TUNE_FC2_MAX` | ✓ | FC2 size bounds (integers, min ≤ max). |
-| `ARCH_TUNE_NUM_INITIAL_TRIALS` | ✓ | Random warmup trials before Bayesian suggestions. |
-| `ARCH_TUNE_RANDOM_INSERT_EVERY` | ✓ | Insert a random trial every N completed trials after warmup. |
-| `ARCH_TUNE_EI_XI` | ✓ | Expected-improvement ξ for Bayesian optimization. |
+| Variable                                 | Required | Description                                                        |
+| ---------------------------------------- | -------- | ------------------------------------------------------------------ |
+| `ARCH_TUNE_DIR`                          | ✓        | Root for architecture tune trials (default `data/arch_tune`).      |
+| `ARCH_TUNE_CONV_FILTERS`                 | ✓        | Comma-separated conv filter sizes.                                 |
+| `ARCH_TUNE_KERNELS`                      | ✓        | Comma-separated kernel sizes (same padding derived automatically). |
+| `ARCH_TUNE_POOL_SIZES`                   | ✓        | Comma-separated pool sizes.                                        |
+| `ARCH_TUNE_FC1_MIN`, `ARCH_TUNE_FC1_MAX` | ✓        | FC1 size bounds (integers, min ≤ max).                             |
+| `ARCH_TUNE_FC2_MIN`, `ARCH_TUNE_FC2_MAX` | ✓        | FC2 size bounds (integers, min ≤ max).                             |
+| `ARCH_TUNE_NUM_INITIAL_TRIALS`           | ✓        | Random warmup trials before Bayesian suggestions.                  |
+| `ARCH_TUNE_RANDOM_INSERT_EVERY`          | ✓        | Insert a random trial every N completed trials after warmup.       |
+| `ARCH_TUNE_EI_XI`                        | ✓        | Expected-improvement ξ for Bayesian optimization.                  |
 
 #### Shell, conda, and runtime
 
-| Variable       | Required | Description                                                                         |
-| -------------- | -------- | ----------------------------------------------------------------------------------- |
-| `DLDL_CONDASH` | ✓‡       | Path to `conda.sh` (sourced by PBS scripts).                                        |
-| `CONDA_ENV`    | ✓‡       | Conda environment name.                                                             |
-| `TMPDIR`       |          | Temp directory (recommended on HPC).                                                |
+| Variable       | Required | Description                                                                                                                       |
+| -------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `DLDL_CONDASH` | ✓‡       | Path to `conda.sh` (sourced by PBS scripts).                                                                                      |
+| `CONDA_ENV`    | ✓‡       | Conda environment name.                                                                                                           |
+| `TMPDIR`       |          | Temp directory (recommended on HPC).                                                                                              |
 | `RESET`        |          | Set to `1` when calling `scripts/start_hp_tune.sh` or `scripts/start_arch_tune.sh` to wipe files under the active tune directory. |
 
 ‡Required by PBS training/preprocess/HP tune scripts.
 
 #### Set by PBS or the tuner (not in `.env`)
 
-| Variable       | Description                                                                                                                                                                                                                                                              |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `PBS_JOBID`    | PBS job id (set on compute nodes).                                                                                                                                                                                                                                       |
-| `HP_TUNE_MODE` | `training` (default) or `architecture`. Set by `start_arch_tune.sh`.                                                                                                                                                                                                     |
+| Variable       | Description                                                                                                                                                                                                                                                           |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `PBS_JOBID`    | PBS job id (set on compute nodes).                                                                                                                                                                                                                                    |
+| `HP_TUNE_MODE` | `training` (default) or `architecture`. Set by `start_arch_tune.sh`.                                                                                                                                                                                                  |
 | `TRIAL_DIR`    | Optional override path `HP_TUNE_DIR/trials/<trial_id>` whose `.env` `scripts/run_train.sh` sources for a manual single-trial run. The HP-tune chain does **not** use it — `run_step` trains each trial in-process and passes hyperparameters through the environment. |
 
 #### Thread caps (recommended on HPC)
@@ -190,11 +204,11 @@ python src/train.py
 
 **Outputs in `PROG_DIR`:**
 
-| File | Description |
-| ---- | ----------- |
-| `{JOB_ID}.log` | Training log (loguru). |
-| `{JOB_ID}_training_log.csv` | Per-epoch validation metrics. |
-| `{JOB_ID}_best_params.pt` | Weights for the best validation epoch. |
+| File                        | Description                            |
+| --------------------------- | -------------------------------------- |
+| `{JOB_ID}.log`              | Training log (loguru).                 |
+| `{JOB_ID}_training_log.csv` | Per-epoch validation metrics.          |
+| `{JOB_ID}_best_params.pt`   | Weights for the best validation epoch. |
 
 ### 3. Validation (optional)
 
@@ -229,11 +243,11 @@ python src/generate_scatter_plot.py          # predicted vs true disruption time
 python src/plot_disruption_time_diff.py      # histogram of prediction error
 ```
 
-| Script | Input | Output |
-| ------ | ----- | ------ |
-| `plot_tune_metrics.py` | `{ARCH_TUNE_DIR}/trials/trials.csv`, `{HP_TUNE_DIR}/trials/trials.csv` | `tune_metrics.png` in each trials dir |
-| `generate_scatter_plot.py` | `best_model/predictions.csv` | `best_model/predictions_scatter.png` |
-| `plot_disruption_time_diff.py` | `best_model/predictions.csv` | `best_model/disruption_time_diff.png` |
+| Script                         | Input                                                                  | Output                                |
+| ------------------------------ | ---------------------------------------------------------------------- | ------------------------------------- |
+| `plot_tune_metrics.py`         | `{ARCH_TUNE_DIR}/trials/trials.csv`, `{HP_TUNE_DIR}/trials/trials.csv` | `tune_metrics.png` in each trials dir |
+| `generate_scatter_plot.py`     | `best_model/predictions.csv`                                           | `best_model/predictions_scatter.png`  |
+| `plot_disruption_time_diff.py` | `best_model/predictions.csv`                                           | `best_model/disruption_time_diff.png` |
 
 Run `validate.py` before the prediction plots so `best_model/predictions.csv` exists.
 
@@ -290,15 +304,15 @@ column -t -s, /path/to/data/hp_tune_debug/trials/trials.csv | head
 
 **Key scripts and modules:**
 
-| Path | Role |
-| ---- | ---- |
-| `scripts/start_hp_tune.sh` | Submit the first HP tune step job. |
-| `scripts/start_arch_tune.sh` | Same, for architecture tuning under `ARCH_TUNE_DIR`. |
-| `scripts/run_hp_tune.sh` | PBS step job: sources `.env`, runs `python -m hp_tune_serial`. |
-| `src/hp_tune_serial.py` | CLI entry for `BayesianHpTuner.run_step()`. |
-| `src/model/bayesian_hp_tuner.py` | Trial planning, training subprocess, acquisition, PBS chaining. |
-| `src/service/trial_service.py` | Reads/writes `{HP_TUNE_DIR}/trials/trials.csv`. |
-| `scripts/run_train.sh` | Standalone training job (manual runs; optional `TRIAL_DIR/.env` override). |
+| Path                             | Role                                                                       |
+| -------------------------------- | -------------------------------------------------------------------------- |
+| `scripts/start_hp_tune.sh`       | Submit the first HP tune step job.                                         |
+| `scripts/start_arch_tune.sh`     | Same, for architecture tuning under `ARCH_TUNE_DIR`.                       |
+| `scripts/run_hp_tune.sh`         | PBS step job: sources `.env`, runs `python -m hp_tune_serial`.             |
+| `src/hp_tune_serial.py`          | CLI entry for `BayesianHpTuner.run_step()`.                                |
+| `src/model/bayesian_hp_tuner.py` | Trial planning, training subprocess, acquisition, PBS chaining.            |
+| `src/service/trial_service.py`   | Reads/writes `{HP_TUNE_DIR}/trials/trials.csv`.                            |
+| `scripts/run_train.sh`           | Standalone training job (manual runs; optional `TRIAL_DIR/.env` override). |
 
 **Tune data layout:**
 

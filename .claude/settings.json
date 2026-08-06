@@ -2,7 +2,24 @@
   "permissions": {
     "allow": [
       "Bash(gs -sDEVICE=png16m -r150 -dFirstPage=1 -dLastPage=1 -o intro_p1.png /Users/sparsj/Code/DLDL/main.pdf)",
-      "Bash(pdflatex -interaction=nonstopmode main.tex)"
+      "Bash(pdflatex -interaction=nonstopmode main.tex)",
+      "Bash(kpsewhich dblfloatfix.sty)",
+      "Bash(kpsewhich stfloats.sty)",
+      "Bash(latexmk -pdf -interaction=nonstopmode main.tex)",
+      "Bash(latexmk -g -pdf -interaction=nonstopmode main.tex)",
+      "Bash(pdfinfo /Users/sparsj/Code/DLDL/main.pdf)",
+      "Bash(latexmk -C)",
+      "Bash(python -m py_compile src/simple_graph.py)",
+      "Bash(python -m py_compile src/graph.py src/model/dataset.py)",
+      "Bash(python -m py_compile src/model/dataset.py)",
+      "Bash(python -c \"import os; [print\\(k,'=',os.environ.get\\(k\\)\\) for k in ['DATA_PATH']]\")",
+      "Bash(python -c \"import multiprocessing as mp; print\\(mp.get_start_method\\(\\)\\)\")",
+      "Bash(cd /Users/sparsj/Code/DLDL; rm -f main.bbl main.bcf main.aux main.blg main.run.xml; latexmk -pdf -interaction=nonstopmode main.tex > /tmp/latexmk.log 2>&1; echo \"exit=$?\"; echo \"--- biber backend detected? ---\"; grep -i \"run biber\\\\|Biber\\\\|biblatex\\\\|not created\" /tmp/latexmk.log | head)",
+      "Bash(cd /Users/sparsj/Code/DLDL; rm -f main.aux main.bbl main.bcf main.blg main.run.xml main.log *)",
+      "Bash(latexmk -pdf -g -interaction=nonstopmode main.tex)"
+    ],
+    "additionalDirectories": [
+      "/Users/sparsj/Code/DLDL"
     ]
   }
 }

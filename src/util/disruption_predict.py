@@ -14,7 +14,6 @@ class PredictionType(IntEnum):
 
 
 def get_window_size(current: np.ndarray):
-    # print(len(current), DEFAULT_SMOOTHING, len(current) // DEFAULT_SMOOTHING)
     return max(1, len(current) // DEFAULT_SMOOTHING)
 
 
@@ -32,7 +31,6 @@ def clean_zeros(current: np.ndarray, time: np.ndarray):
 def apply_smoothing(current: np.ndarray):
     window_size = get_window_size(current)
     weights = np.ones(window_size) / window_size
-    # print(np.ones(window_size), window_size)
     smoothed = np.convolve(current, weights, mode="same")
 
     # smoothing is rough around the edges, so flatten the curve
@@ -54,10 +52,11 @@ def apply_filter(current: np.ndarray):
     return oriented - smoothed, smoothed
 
 
-def predict_disruption_time(current, time) -> float:
+def predict_disruption_time(current: np.ndarray, time: np.ndarray) -> float:
     diff, _ = apply_filter(current)
 
-    idx_peak = np.argmax(diff)
+    # mask out zeroes
+    idx_peak = np.where(diff > 0, diff, -np.inf).argmax()
     idx_trough = np.argmin(diff[idx_peak:]) + idx_peak
 
     # first root after peak

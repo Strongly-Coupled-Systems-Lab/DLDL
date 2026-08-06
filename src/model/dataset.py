@@ -12,6 +12,7 @@ from loguru import logger
 from numpy import float32
 from numpy.typing import NDArray
 from torch import Tensor
+from tqdm import tqdm
 from torch.utils.data import Dataset, Subset
 
 from util.data_loading import (
@@ -39,7 +40,7 @@ class ShotView:
     @property
     def title(self) -> str:
         status = "disruptive" if self.disruptive else "non-disruptive"
-        return f"Shot {self.shot_no} (index {self.index}, {status})"
+        return f"Shot #{self.shot_no}"
 
 
 class IpDataset(Dataset):
@@ -101,6 +102,28 @@ class IpDataset(Dataset):
         self._ensure_shot_metadata()
         return int(self.sorted_shot_numbers[idx])
 
+    def has_shot(self, shot_no: int) -> bool:
+        """Return whether ``shot_no`` is present in the dataset."""
+        self._ensure_shot_metadata()
+        idx = int(np.searchsorted(self.sorted_shot_numbers, int(shot_no)))
+        return idx < len(self.sorted_shot_numbers) and int(
+            self.sorted_shot_numbers[idx]
+        ) == int(shot_no)
+
+    def shot_view(self, shot_no: int) -> ShotView:
+        """Build the :class:`ShotView` for a shot id, on demand.
+
+        The view is constructed from ``self.data``/``self.labels`` (already in
+        memory) rather than cached, so no per-shot signal duplication is stored.
+        """
+        self._ensure_shot_metadata()
+        idx = int(np.searchsorted(self.sorted_shot_numbers, int(shot_no)))
+        if idx >= len(self.sorted_shot_numbers) or int(
+            self.sorted_shot_numbers[idx]
+        ) != int(shot_no):
+            raise KeyError(f"Shot {shot_no} not found in dataset")
+        return self.load_shot_view(idx)
+
     def __len__(self) -> int:
         """Return dataset size."""
         return len(self.data)
@@ -114,18 +137,25 @@ class IpDataset(Dataset):
     ) -> NDArray:
         """Process files in parallel."""
         workers = min(get_use_cores(self.cpu_use), self.preprocessor_max_workers)
-        chunksize = max(1, self.num_shots // (workers * 4))  # Reduce IPC overhead
+        # Cap chunksize so tqdm updates frequently; executor.map yields results a
+        # full chunk at a time, so a large chunk stalls the bar at 0% for a while.
+        chunksize = min(50, max(1, self.num_shots // (workers * 4)))
         self.logger.info(f"{desc}: {self.num_shots} files, {workers} workers")
 
         with ProcessPoolExecutor(max_workers=workers) as executor:
             return np.asarray(
                 list(
-                    executor.map(
-                        func,
-                        self.file_list,
-                        [self.data_dir] * self.num_shots,
-                        *args,
-                        chunksize=chunksize,
+                    tqdm(
+                        executor.map(
+                            func,
+                            self.file_list,
+                            [self.data_dir] * self.num_shots,
+                            *args,
+                            chunksize=chunksize,
+                        ),
+                        total=self.num_shots,
+                        desc=desc,
+                        unit="shot",
                     )
                 )
             )
@@ -193,19 +223,24 @@ class IpDataset(Dataset):
         )
 
         workers = min(get_use_cores(self.cpu_use), self.preprocessor_max_workers)
-        chunksize = max(1, self.num_shots // (workers * 4))  # Reduce IPC overhead
+        # Cap chunksize so tqdm updates frequently (see _process_files_parallel).
+        chunksize = min(50, max(1, self.num_shots // (workers * 4)))
         self.logger.info(
             f"Loading and normalizing: {self.num_shots} files, {workers} workers"
         )
         with ProcessPoolExecutor(max_workers=workers) as executor:
             results = list(
-                executor.map(load_and_pad_norm, *loader_args, chunksize=chunksize)
+                tqdm(
+                    executor.map(load_and_pad_norm, *loader_args, chunksize=chunksize),
+                    total=self.num_shots,
+                    desc="Loading and normalizing",
+                    unit="shot",
+                )
             )
 
         sorted_data = sorted(results, key=lambda x: x[0])
         sorted_shot_numbers, dataset_data = zip(*sorted_data)
         self.sorted_shot_numbers = np.array(sorted_shot_numbers)
-
         torch.save(torch.tensor(np.array(dataset_data)), self.data_file)
         self.logger.info(f"Saved dataset: {self.data_file}")
 
@@ -253,12 +288,12 @@ class IpDataset(Dataset):
 
         return torch.tensor(
             load_and_pad_norm(
-                (f"{shot_no}.txt")[1],
+                f"{shot_no}.txt",
                 self.data_dir,
                 self.max_length,
                 self.mean,
                 self.std,
-            )
+            )[1]
         ), torch.tensor(label)
 
     def check_dataset(

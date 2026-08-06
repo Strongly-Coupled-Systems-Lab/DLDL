@@ -42,20 +42,19 @@ logger.add(
 # gridlines, and vector-friendly output. Individual scripts can still override
 # any of these per-figure.
 # ----------------------------------------------------------------------------
-
 mpl.rcParams.update(
     {
         # Typography: serif to match the paper body, sized for column figures.
         "font.family": "serif",
         "font.serif": ["Times New Roman", "Times", "DejaVu Serif"],
         "mathtext.fontset": "stix",
-        "font.size": 11,
-        "axes.titlesize": 12,
-        "axes.labelsize": 11,
-        "xtick.labelsize": 10,
-        "ytick.labelsize": 10,
-        "legend.fontsize": 10,
-        "figure.titlesize": 13,
+        "font.size": 12,
+        "axes.titlesize": 26,
+        "axes.labelsize": 26,
+        "xtick.labelsize": 26,
+        "ytick.labelsize": 26,
+        "legend.fontsize": 22,
+        "figure.titlesize": 24,
         # Axes / spines: drop the top and right box for a cleaner look.
         "axes.spines.top": False,
         "axes.spines.right": False,
@@ -73,8 +72,8 @@ mpl.rcParams.update(
         "xtick.major.width": 0.8,
         "ytick.major.width": 0.8,
         # Lines / markers.
-        "lines.linewidth": 1.5,
-        "lines.markersize": 5,
+        "lines.linewidth": 3,
+        "lines.markersize": 10,
         "scatter.edgecolors": "none",
         # Legend: light frame, no shadow.
         "legend.frameon": True,
@@ -82,7 +81,7 @@ mpl.rcParams.update(
         "legend.edgecolor": "#CCCCCC",
         "legend.fancybox": False,
         # Figure / output: white background, tight vector-friendly export.
-        "figure.dpi": 150,
+        "figure.dpi": 300,
         "savefig.dpi": 600,
         "figure.facecolor": "white",
         "savefig.facecolor": "white",

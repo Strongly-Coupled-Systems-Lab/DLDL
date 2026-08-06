@@ -65,8 +65,17 @@ def plot_gaussian(
         gaussian(x, mu, sigma),
         linewidth=2,
         color=color,
-        label=f"{label} ($\\mu$={mu:.2f}, $\\sigma$={sigma:.2f})",
+        label=label,
     )
+
+
+def get_pred_type_label(prediction_type: "pred_root" | "pred_start" | "pred_end"):
+    if prediction_type == "pred_start":
+        return "t_0"
+    elif prediction_type == "pred_root":
+        return "t_\\mathrm{root}"
+    else:
+        return "t_f"
 
 
 def generate_histogram(df: pd.DataFrame, prediction_type: str) -> None:
@@ -98,18 +107,26 @@ def generate_histogram(df: pd.DataFrame, prediction_type: str) -> None:
         alpha=0.9,
         range=(start, end),
     )
-    ax.axvline(0.0, color="#333333", linestyle=":", linewidth=1)
-    ax.set_xlabel(r"Difference from real disruption time $\Delta t$ (milliseconds)")
-    ax.set_ylabel("Count (# shots)")
+    ax.axvline(0.0, color="black", linewidth=1)
+    ax.set_xlabel(f"${get_pred_type_label(prediction_type)}$ (ms)")
+    ax.set_ylabel("Fraction of shots")
 
     # Overlay the best-fit Gaussian. Explicit high-contrast accents against the
     # neutral gray bars: full-data fit in blue, the 3-sigma-trimmed fit in orange.
-    plot_gaussian(ax, diff, color="#0072B2")
-    range_label = rf"${(mu - 3*sigma):.2f} < \Delta t < {(mu + 3*sigma):.2f}$"
     plot_gaussian(
         ax,
-        diff[np.abs(diff) < (3 * sigma)],
-        label=f"Best fit Gaussian within $3\\sigma$ ({range_label} ms)",
+        diff,
+        color="#0072B2",
+        label=f"Best fit Gaussian; $\\mu={mu:.2f},\\;\\sigma={sigma:.2f}$",
+    )
+
+    three_sigma = diff[np.abs(diff) < (3 * sigma)]
+    range_label = rf"{(mu - 3*sigma):.2f} < \Delta t < {(mu + 3*sigma):.2f}"
+    mu_sigma_label = f"\\mu_{{3\\sigma}}={three_sigma.mean():.2f},\\;\\sigma_{{3\\sigma}}={three_sigma.std():.2f}"
+    plot_gaussian(
+        ax,
+        three_sigma,
+        label=f"Best fit Gaussian within $3\\sigma$ (${range_label}$);\n ${mu_sigma_label}$",
         color="#D55E00",
     )
     ax.legend()
@@ -123,37 +140,29 @@ def generate_histogram(df: pd.DataFrame, prediction_type: str) -> None:
     logger.info(f"Wrote {out_path}")
 
 
-def generate_scatter_plot(df: pd.DataFrame, prediction_type: str) -> None:
+def generate_scatter_plot(
+    df: pd.DataFrame, prediction_type: "pred_root" | "pred_start" | "pred_end"
+) -> None:
     fig, ax = plt.subplots(figsize=(10, 6))
     ax.scatter(df[prediction_type], df["true_time"], alpha=0.85)
 
     lo, hi = ax.get_xlim()
     ax.plot([lo, hi], [lo, hi], "r--", linewidth=1, label="y = x")
-    ax.set_xlabel("Predicted disruption time (s)")
-    ax.set_ylabel("True disruption time (s)")
+
+    ax.set_xlabel(f"${get_pred_type_label(prediction_type)}$ (s)")
+    ax.set_ylabel("$t_D$ (s)")
     ax.legend()
     ax.grid(True, alpha=0.3)
     fig.tight_layout()
 
     out_path = model_dir / f"predictions_scatter_{prediction_type}.png"
-    fig.savefig(out_path, dpi=200)
+    fig.savefig(out_path, dpi=300)
     plt.close(fig)
     logger.info(f"Wrote {out_path}")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate prediction plots")
-    parser.add_argument(
-        "--prediction-type",
-        type=str,
-        default=256,
-        help="Prediction type can be one of 'pred_root', 'pred_start', 'pred_end'",
-    )
-    args = parser.parse_args()
-    if args.prediction_type not in ["pred_root", "pred_start", "pred_end"]:
-        raise ValueError(
-            "Prediction type must be one of 'pred_root', 'pred_start', 'pred_end'"
-        )
     load_best_model_env()
 
     df = pd.read_csv(predictions_csv)
@@ -165,9 +174,10 @@ def main() -> None:
         f"{len(shots_in_range)} / {len(df["true_time"])} shots in range ({len(shots_in_range) / len(df["true_time"])})."
     )
 
-    df["diff"] = df[args.prediction_type] - df["true_time"]
-    generate_scatter_plot(df, args.prediction_type)
-    generate_histogram(df, args.prediction_type)
+    for prediction_type in ["pred_root", "pred_start", "pred_end"]:
+        df["diff"] = df[prediction_type] - df["true_time"]
+        generate_scatter_plot(df, prediction_type)
+        generate_histogram(df, prediction_type)
 
 
 if __name__ == "__main__":
