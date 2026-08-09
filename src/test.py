@@ -73,10 +73,8 @@ def _disruption_time_for_shot(
     raw_current = _read_signal_file(raw_path, col=1)
     raw_time = _read_signal_file(raw_path, col=0)
     max_length = dataset.data.shape[1]
-    true_time = float(
-        raw_time[min(round(shot.t_disrupt * max_length), len(raw_time) - 1)]
-    )
-    return (shot.index, true_time)
+    t_D = float(raw_time[min(round(shot.t_disrupt * max_length), len(raw_time) - 1)])
+    return (shot.index, t_D)
 
 
 def _evaluate_split(

@@ -58,7 +58,6 @@ def simple_draw(ax: plt.Axes, shot: ShotView):
     raw_current = _read_signal_file(raw_path, col=1)
     raw_time = _read_signal_file(raw_path, col=0)
     current, time = clean_zeros(raw_current, raw_time)
-    _, pred_time, _ = predict_disruption_time(raw_current, raw_time)
 
     # t_disrupt is stored normalized (disruption_index / max_length); map it
     # back onto the SI time axis via the raw time samples.
@@ -70,7 +69,11 @@ def simple_draw(ax: plt.Axes, shot: ShotView):
     )
 
     ax.clear()
-    ax.set_title(shot.title + ": $P_\\mathrm{disrupt} = " + f"{100*cnn_prob:.0f}\\%$")
+    plt.suptitle(
+        shot.title + ": $P_\\mathrm{disrupt} = " + f"{100*cnn_prob:.0f}\\%$",
+    )
+    ax.set_ylim(min(-2.5, 2.5 * np.min(current)), max(2, 1.5 * np.max(current)))
+    ax.locator_params(axis="y", nbins=8)
     ax.plot(time, current, label="$I_\\mathrm{raw}$")
     flipped_current = get_oriented_current(current)
     if not np.array_equal(current, flipped_current):
@@ -122,7 +125,7 @@ def draw(ax1, ax2, shot: ShotView, zoom=False):
     )
 
     ax1.clear()
-    ax1.set_title(shot.title + ": $P_\\mathrm{disrupt} = " + f"{100*cnn_prob:.0f}\\%$")
+    plt.suptitle(shot.title + ": $P_\\mathrm{disrupt} = " + f"{100*cnn_prob:.0f}\\%$")
     ax1.plot(time, current, label="$I_\\mathrm{raw}$", color="C0")
     flipped_current = get_oriented_current(current)
     if not np.array_equal(current, flipped_current):
@@ -195,6 +198,7 @@ def draw(ax1, ax2, shot: ShotView, zoom=False):
         ax1.set_xlim(lo, hi)
         ax1.set_ylim(-0.1, 1.2 * current[time == predicted_time_start][0])
         ax2.set_xlim(lo, hi)
+        ax2.set_ylim(-2, 1)
 
     return shot
 
@@ -208,9 +212,9 @@ def run_interactive(zoom=False, simple=False) -> None:
     matplotlib.use("QtAgg")
     num_rows = len(dataset)
     if simple:
-        fig, ax = plt.subplots(1, 1, figsize=(10, 7))
+        fig, ax = plt.subplots(1, 1, figsize=(10, 10))
     else:
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 7), sharex=True)
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
     fig.subplots_adjust(bottom=0.2)
 
     with torch.no_grad():
@@ -277,7 +281,7 @@ def save_grid(shots: list[ShotView], out_path: Path, zoom=False, simple=False) -
         fig, axes = plt.subplots(
             nrows * 2,
             ncols,
-            figsize=(6 * ncols, 6 * nrows),
+            figsize=(6 * ncols, 8 * nrows),
             squeeze=False,
         )
 

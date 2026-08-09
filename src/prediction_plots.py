@@ -52,7 +52,7 @@ def gaussian(x: np.ndarray, mu: float, sigma: float):
 def plot_gaussian(
     ax: matplotlib.axes.Axes,
     arr: np.ndarray,
-    label="Best fit Gaussian",
+    label="",
     color=None,
 ):
     sigma = arr.std()
@@ -69,10 +69,10 @@ def plot_gaussian(
     )
 
 
-def get_pred_type_label(prediction_type: "pred_root" | "pred_start" | "pred_end"):
-    if prediction_type == "pred_start":
+def get_pred_type_label(prediction_type: "t_root" | "t_0" | "t_f"):
+    if prediction_type == "t_0":
         return "t_0"
-    elif prediction_type == "pred_root":
+    elif prediction_type == "t_root":
         return "t_\\mathrm{root}"
     else:
         return "t_f"
@@ -117,7 +117,7 @@ def generate_histogram(df: pd.DataFrame, prediction_type: str) -> None:
         ax,
         diff,
         color="#0072B2",
-        label=f"Best fit Gaussian; $\\mu={mu:.2f},\\;\\sigma={sigma:.2f}$",
+        label=f"$\\mu={mu:.2f},\\;\\sigma={sigma:.2f}$",
     )
 
     three_sigma = diff[np.abs(diff) < (3 * sigma)]
@@ -126,7 +126,7 @@ def generate_histogram(df: pd.DataFrame, prediction_type: str) -> None:
     plot_gaussian(
         ax,
         three_sigma,
-        label=f"Best fit Gaussian within $3\\sigma$ (${range_label}$);\n ${mu_sigma_label}$",
+        label=f"No outliers",
         color="#D55E00",
     )
     ax.legend()
@@ -141,10 +141,10 @@ def generate_histogram(df: pd.DataFrame, prediction_type: str) -> None:
 
 
 def generate_scatter_plot(
-    df: pd.DataFrame, prediction_type: "pred_root" | "pred_start" | "pred_end"
+    df: pd.DataFrame, prediction_type: "t_root" | "t_0" | "t_f"
 ) -> None:
     fig, ax = plt.subplots(figsize=(10, 6))
-    ax.scatter(df[prediction_type], df["true_time"], alpha=0.85)
+    ax.scatter(df[prediction_type], df["t_D"], alpha=0.85)
 
     lo, hi = ax.get_xlim()
     ax.plot([lo, hi], [lo, hi], "r--", linewidth=1, label="y = x")
@@ -167,15 +167,13 @@ def main() -> None:
 
     df = pd.read_csv(predictions_csv)
 
-    shots_in_range = df[
-        (df["true_time"] < df["pred_end"]) & (df["true_time"] > df["pred_start"])
-    ]
+    shots_in_range = df[(df["t_D"] < df["t_f"]) & (df["t_D"] > df["t_0"])]
     logger.info(
-        f"{len(shots_in_range)} / {len(df["true_time"])} shots in range ({len(shots_in_range) / len(df["true_time"])})."
+        f"{len(shots_in_range)} / {len(df["t_D"])} shots in range ({len(shots_in_range) / len(df["t_D"])})."
     )
 
-    for prediction_type in ["pred_root", "pred_start", "pred_end"]:
-        df["diff"] = df[prediction_type] - df["true_time"]
+    for prediction_type in ["t_root", "t_0", "t_f"]:
+        df["diff"] = df[prediction_type] - df["t_D"]
         generate_scatter_plot(df, prediction_type)
         generate_histogram(df, prediction_type)
 

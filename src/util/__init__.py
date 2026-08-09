@@ -54,7 +54,7 @@ mpl.rcParams.update(
         "xtick.labelsize": 26,
         "ytick.labelsize": 26,
         "legend.fontsize": 22,
-        "figure.titlesize": 24,
+        "figure.titlesize": 30,
         # Axes / spines: drop the top and right box for a cleaner look.
         "axes.spines.top": False,
         "axes.spines.right": False,

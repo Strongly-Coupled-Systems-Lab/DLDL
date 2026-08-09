@@ -23,9 +23,10 @@ def clean_zeros(current: np.ndarray, time: np.ndarray):
     We want to remove that jump and shift up by the last value to flatten the curve
     """
     # remove trailing zeroes
+    zero_idx = np.argmin(np.abs(time))
     processed_current = np.trim_zeros(current).copy()
     processed_time = time[: len(processed_current)].copy()
-    return processed_current, processed_time
+    return processed_current[zero_idx:], processed_time[zero_idx:]
 
 
 def apply_smoothing(current: np.ndarray):
@@ -40,7 +41,6 @@ def apply_smoothing(current: np.ndarray):
     return smoothed
 
 
-# 31642
 def get_oriented_current(current: np.ndarray):
     return -current if np.isclose(np.max(current), 0) else current
 

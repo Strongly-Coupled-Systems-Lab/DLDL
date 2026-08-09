@@ -66,11 +66,9 @@ def _disruption_time_for_shot(
     raw_current = _read_signal_file(raw_path, col=1)
     raw_time = _read_signal_file(raw_path, col=0)
     max_length = dataset.data.shape[1]
-    pred_start, pred_time, pred_end = predict_disruption_time(raw_current, raw_time)
-    true_time = float(
-        raw_time[min(round(shot.t_disrupt * max_length), len(raw_time) - 1)]
-    )
-    return (shot.index, true_time, pred_start, pred_time, pred_end)
+    t_0, pred_time, t_f = predict_disruption_time(raw_current, raw_time)
+    t_D = float(raw_time[min(round(shot.t_disrupt * max_length), len(raw_time) - 1)])
+    return (shot.index, t_D, t_0, pred_time, t_f)
 
 
 def predict_disruption_times(dataset: IpDataset) -> None:
@@ -93,10 +91,10 @@ def predict_disruption_times(dataset: IpDataset) -> None:
         disruption_times,
         columns=[
             "index",
-            "true_time",
-            "pred_start",
-            "pred_root",
-            "pred_end",
+            "t_D",
+            "t_0",
+            "t_root",
+            "t_f",
         ],
     )
     df.to_csv(predictions_csv, index=False)

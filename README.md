@@ -7,9 +7,9 @@ A 1D CNN that uses plasma current to predict whether a DIII-D shot disrupts (bin
 ```
 python src/plot_roc_curve.py
 
-python src/prediction_plots.py --prediction-type=pred_root
+python src/prediction_plots.py --prediction-type=t_root
 
-python src/prediction_plots.py --prediction-type=pred_start
+python src/prediction_plots.py --prediction-type=t_0
 
 python src/graph.py --shots 176423 180673 177030 178463 --out-path=best_model/select_false_positives.png --simple
 

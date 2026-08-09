@@ -115,6 +115,85 @@
       \verb https://www.mdpi.com/2071-1050/16/10/4089
       \endverb
     \endentry
+    \entry{deVries2016}{article}{}{}
+      \name{author}{8}{}{%
+        {{hash=75f234afc08d4522ba61cd4c9edde572}{%
+           family={Vries},
+           familyi={V\bibinitperiod},
+           given={P.\bibnamedelimi C.},
+           giveni={P\bibinitperiod\bibinitdelim C\bibinitperiod},
+           prefix={de},
+           prefixi={d\bibinitperiod}}}%
+        {{hash=05bf0a3724d9e3c9f25c95ab78bd8a4e}{%
+           family={Pautasso},
+           familyi={P\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod}}}%
+        {{hash=14be44943b17a0590b79565efcca9fea}{%
+           family={Humphreys},
+           familyi={H\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod}}}%
+        {{hash=770270a438c21a1a0549408e335ab1cc}{%
+           family={Lehnen},
+           familyi={L\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=819c5605c9025d5891e1fff4058ab4d6}{%
+           family={Maruyama},
+           familyi={M\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=7455fcab0f754ab0c1cbb9108b0cd7ce}{%
+           family={Snipes},
+           familyi={S\bibinitperiod},
+           given={J.\bibnamedelimi A.},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=8b327739187ff5cef57c28fdbf332552}{%
+           family={Vergara},
+           familyi={V\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=f874225ed48877e1d1499dc61c49c592}{%
+           family={Zabeo},
+           familyi={Z\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Informa UK Limited}%
+      }
+      \strng{namehash}{9819dcd53c83ddd2f515a1dee8de1d58}
+      \strng{fullhash}{75f87b7d0f784652955284efac9709bd}
+      \strng{fullhashraw}{75f87b7d0f784652955284efac9709bd}
+      \strng{bibnamehash}{9819dcd53c83ddd2f515a1dee8de1d58}
+      \strng{authorbibnamehash}{9819dcd53c83ddd2f515a1dee8de1d58}
+      \strng{authornamehash}{9819dcd53c83ddd2f515a1dee8de1d58}
+      \strng{authorfullhash}{75f87b7d0f784652955284efac9709bd}
+      \strng{authorfullhashraw}{75f87b7d0f784652955284efac9709bd}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1943-7641}
+      \field{journaltitle}{Fusion Science and Technology}
+      \field{month}{4}
+      \field{number}{2}
+      \field{title}{Requirements for Triggering the ITER Disruption Mitigation System}
+      \field{volume}{69}
+      \field{year}{2016}
+      \field{pages}{471\bibrangedash 484}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.13182/fst15-176
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.13182/FST15-176
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.13182/FST15-176
+      \endverb
+    \endentry
     \entry{Pavone_2023}{article}{}{}
       \name{author}{4}{}{%
         {{hash=6de250a57d5798fd838bc9e2d0f5aa4c}{%
@@ -149,8 +228,8 @@
       \strng{authornamehash}{1956fd90f1bfb3de7ab581a4761d122a}
       \strng{authorfullhash}{a16b777603b50ca5f6c29e0e83be62b5}
       \strng{authorfullhashraw}{a16b777603b50ca5f6c29e0e83be62b5}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Plasma Physics and Controlled Fusion}
@@ -6336,8 +6415,8 @@
       \strng{authornamehash}{7d996113a687f1e67aeaea45d5600856}
       \strng{authorfullhash}{71326092c36b502048122e2ec6b9ef0c}
       \strng{authorfullhashraw}{71326092c36b502048122e2ec6b9ef0c}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{1745-2481}
@@ -6412,8 +6491,8 @@
       \strng{authornamehash}{79052102ae08cb344be97bbb144f6e39}
       \strng{authorfullhash}{0adfb874b1b84903a06d39e67c580278}
       \strng{authorfullhashraw}{0adfb874b1b84903a06d39e67c580278}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Fusion Science and Technology}
@@ -6480,8 +6559,8 @@
       \strng{authornamehash}{3f6537de83793caa0aa9686687a8414a}
       \strng{authorfullhash}{3a4e1b6c303e471ceec511eb207ea354}
       \strng{authorfullhashraw}{3a4e1b6c303e471ceec511eb207ea354}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{1741-4326}
@@ -6593,8 +6672,8 @@
       \strng{authornamehash}{c153433e18148453548515fcf0f0aa72}
       \strng{authorfullhash}{0e92762154dd69fc3c094dc59d30b47d}
       \strng{authorfullhashraw}{0e92762154dd69fc3c094dc59d30b47d}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{2399-3650}
@@ -6611,6 +6690,55 @@
       \endverb
       \verb{url}
       \verb http://dx.doi.org/10.1038/s42005-023-01296-9
+      \endverb
+    \endentry
+    \entry{Churchill2020}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=e06343661dd4676e31ef067d8fb389bb}{%
+           family={Churchill},
+           familyi={C\bibinitperiod},
+           given={R.\bibnamedelimi M.},
+           giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=f5033b1f73968d760f60bf0540a72a1c}{%
+           family={Tobias},
+           familyi={T\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+        {{hash=0e64190a8e8e59ddfa3601c189642593}{%
+           family={Zhu},
+           familyi={Z\bibinitperiod},
+           given={Y.\bibnamedelimi and},
+           giveni={Y\bibinitperiod\bibinitdelim a\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {AIP Publishing}%
+      }
+      \strng{namehash}{bd8d92d9f162e2de891ae01058d88b9b}
+      \strng{fullhash}{4a9c2409f36cebc3d1f234c75d221e31}
+      \strng{fullhashraw}{4a9c2409f36cebc3d1f234c75d221e31}
+      \strng{bibnamehash}{4a9c2409f36cebc3d1f234c75d221e31}
+      \strng{authorbibnamehash}{4a9c2409f36cebc3d1f234c75d221e31}
+      \strng{authornamehash}{bd8d92d9f162e2de891ae01058d88b9b}
+      \strng{authorfullhash}{4a9c2409f36cebc3d1f234c75d221e31}
+      \strng{authorfullhashraw}{4a9c2409f36cebc3d1f234c75d221e31}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1089-7674}
+      \field{journaltitle}{Physics of Plasmas}
+      \field{number}{6}
+      \field{title}{Deep convolutional neural networks for multi-scale time-series classification and application to tokamak disruption prediction using raw, high temporal resolution diagnostic data}
+      \field{volume}{27}
+      \field{year}{2020}
+      \verb{doi}
+      \verb 10.1063/1.5144458
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1063/1.5144458
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1063/1.5144458
       \endverb
     \endentry
     \entry{bn}{inproceedings}{}{}
@@ -6640,8 +6768,8 @@
       \strng{authornamehash}{471fdb37b34deecc3604f22e1a373d02}
       \strng{authorfullhash}{7e8dee717d54c2984b1c6bd3f3c0561f}
       \strng{authorfullhashraw}{7e8dee717d54c2984b1c6bd3f3c0561f}
-      \field{sortinit}{8}
-      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{Training Deep Neural Networks is complicated by the fact that the distribution of each layer's inputs changes during training, as the parameters of the previous layers change. This slows down the training by requiring lower learning rates and careful parameter initialization, and makes it notoriously hard to train models with saturating nonlinearities. We refer to this phenomenon as internal covariate shift, and address the problem by normalizing layer inputs. Our method draws its strength from making normalization a part of the model architecture and performing the normalization for each training mini-batch. Batch Normalization allows us to use much higher learning rates and be less careful about initialization, and in some cases eliminates the need for Dropout. Applied to a state-of-the-art image classification model, Batch Normalization achieves the same accuracy with 14 times fewer training steps, and beats the original model by a significant margin. Using an ensemble of batch-normalized networks, we improve upon the best published result on ImageNet classification: reaching 4.82\% top-5 test error, exceeding the accuracy of human raters.}
@@ -6679,8 +6807,8 @@
       \strng{authornamehash}{80469b95363d8e8f1f3c532e82175db1}
       \strng{authorfullhash}{08d64b697ddc0d522928febb8e7c119b}
       \strng{authorfullhashraw}{08d64b697ddc0d522928febb8e7c119b}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{Restricted Boltzmann machines were developed using binary stochastic hidden units. These can be generalized by replacing each binary unit by an infinite number of copies that all have the same weights but have progressively more negative biases. The learning and inference rules for these "Stepped Sigmoid Units" are unchanged. They can be approximated efficiently by noisy, rectified linear units. Compared with binary units, these units learn features that are better for object recognition on the NORB dataset and face verification on the Labeled Faces in the Wild dataset. Unlike binary units, rectified linear units preserve information about relative intensities as information travels through multiple layers of feature detectors.}

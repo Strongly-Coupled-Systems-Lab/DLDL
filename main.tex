@@ -50,13 +50,11 @@
 \section{Introduction}
 \label{sec:intro}
 
-A Tokamak is a torus-shaped magnetic confinement fusion reactor and is a leading candidate to produce controlled thermonuclear fusion power~\cite{WANG2023163}. A prominent challenge facing Tokamak reactors is the issue of disruption events caused by turbulent instability within the plasma. Such disruption events cause the internal reactor current ($I(t)$) to drop to zero and can potentially cause damage to the interior of the reactor. Abnormalities such as plasma disruptions are a prominent challenge for upcoming flagship fusion experiments such The International Thermonuclear Experimental Reactor (ITER)~\cite{su16104089, WANG2023163}.
-
-
+A Tokamak is a torus-shaped magnetic confinement fusion reactor and is a leading candidate to produce controlled thermonuclear fusion power~\cite{WANG2023163}. A prominent challenge facing Tokamak reactors is the issue of disruption events caused by turbulent instability within the plasma. Such disruption events cause the internal reactor current ($I(t)$) to drop to zero and can potentially cause damage to the interior of the reactor. Abnormalities such as plasma disruptions are a prominent challenge for upcoming flagship fusion experiments such The International Thermonuclear Experimental Reactor (ITER)~\cite{su16104089, WANG2023163}, which requires a $\qty{30}{\milli\s}$ warning time for successful disruption mitigation~\cite{deVries2016}.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=1\columnwidth]{best_model/predictions_scatter_pred_root.png}
+  \includegraphics[width=1\columnwidth]{best_model/predictions_scatter_t_root.png}
   \caption{Predicted disruption time Eq~\eqref{time_of_disrupt} vs real disruption time for 889 test holdout shots. }
   \label{fig:predictions_scatter}
 \end{figure}
@@ -82,13 +80,16 @@ A Tokamak is a torus-shaped magnetic confinement fusion reactor and is a leading
 
 Decades of Tokamak experiments have created a large corpus of fusion data, leading to a growing body of literature utilizing machine learning for problems infeasible to address with classical methods, including disruption prediction~\cite{Pavone_2023}. A variety of classical machine learning algorithms have demonstrated promise; support vector machines, fuzzy logic, generative topographic mapping, and artificial neural networks have all been studied on a broad range of Tokamaks across the United States, India, China, and Europe~\cite{Vega2022}. In the deep learning space, sequence based models such as Long-Short Term Memory Networks (LSTMs) show promise for dynamic time-series forecasting of plasma disruptions~\cite{Muruganandham03102025}.  A variety of approaches have also been proposed for knowledge transfer from existing devices to new ones, using hybrid architectures ~\cite{Zhu2020} and transfer learning~\cite{Zheng2023}. 
 
-Such models require large labeled datasets for training and testing, and would greatly benefit from an algorithm capable of auto-labeling novel fusion shots. We posit such an algorithm in this paper, seeing promising performance on 889 disruptive shots in our test holdout dataset (Figure~\ref{fig:predictions_scatter}). We hope that our work can enable the scientific community to generate larger labeled datasets for training the next generation of disruption prediction models. 
+
+A large fraction of the data produced by long-running Tokamak fusion facilities such as the DIII-D reactor operated by General Atomics has already been labeled for training machine learning models. A team at Princeton trained a Convolutional Neural Network on Electron Cyclotron Emission imaging (ECEi) diagnostic data from the DIII-D tokamak, achieving an F1 score of $0.91$~\cite{Churchill2020}. Another team at MIT trained a neural network on 14 plasma signatures from $22669$ shots from the C-Mod, DIII-D, and EAST tokamaks, correctly identifying 84\% of disruptive events with a model AUC of $0.94$ and an early warning time of $\qty{15}{\milli\s}$. Similarly at Harvard, researchers achieved an AUC of $0.94$ on time-series disruption forecasting using a multilayer long/short-term memory network (LSTM) trained on $8959$ shots from DIII-D and JET, optimizing models for performance at deadlines of both $\qty{30}{\milli\s}$ and $\qty{1}{\s}$. Our CNN does not perform forecasting, but outperforms each of these results on classication with an exceptional AUC of $0.99$ (\ref{fig:roc}).
+
+We test our time-of-disruption model on 889 disruptive shots in our test holdout set (Figure~\ref{fig:predictions_scatter}); note that plasma current drops to zero after a disruption, which is why we do not see many late predictions. Our predicted disruption time has a standard deviation of $\qty{1}{\milli\s}$, well within the $\qty{30}{\milli\s}$ ITER warning deadline (Figure~\ref{fig:heuristic_diff}); therefore, our model can be used to generate accurate disruption labels for every historical DIII-D plasma shot, giving researchers access to more training data than every before.
 
 % ==================================================================
 \section{Neural Net Classifier}
 \label{sec:methods}
 
-A large fraction of the data produced by long-running Tokamak fusion facilities such as the DIII-D reactor operated by General Atomics has already been labeled for training deep learning models.  We were provided $39438$ disruption-labeled shot files from the DIII-D team, of which $13429$ were disruptive shots with a given time of disruption. 
+Our dataset consisted of $39438$ shot files from the DIII-D team, of which $13429$ are disruptive shots with a labeled disruption time $t_D$, and the rest are non-disruptive with a labeled disruption time $t_D=-1$. The labels appear to be generated through a combination of manual and automated methods, as evidenced by the presence of incorrect labels in a number of shots (Figure~\ref{fig:cnn_errors}).
 
 \begin{figure}[h]
   \centering
@@ -119,9 +120,7 @@ We used an 80/10/10 train/test/dev split, which left us with 31542 shots in the 
 
 
 
-The normalized data was then fed into a Convolutional Neural Network (see Figure~\ref{fig:model_diagram}) consisting of four convolutional layers with stride $1$, each with batch normalization~\cite{bn}, a Rectified Linear Unit (ReLU) activation function~\cite{relu}, and a final max pool layer~\cite{maxpool}. The convolution outputs were then fed into two fully connected layers with batch normalization, ReLU, and a dropout layer with a tunable dropout rate \verb|dropout| hyperparameter. 
-
-The CNN was programmed in PyTorch~\cite{pytorch} and trained using the Adam (Adaptive Moment Estimation) optimizer~\cite{adam} with weight decay and a learning rate tuned per-epoch with PyTorch's \verb|lr_scheduler.ReduceLROnPlateau| in "min" mode~\cite{lr}. We utilized PyTorch's \verb|torch.nn.BCEWithLogitsLoss| with configurable positive weight and gradient clipping, and stopped training when enough consecutive epochs showed no improvement.
+The normalized data was then fed into a Convolutional Neural Network (see Figure~\ref{fig:model_diagram}) consisting of four convolutional layers with stride $1$, each with batch normalization~\cite{bn}, a Rectified Linear Unit (ReLU) activation function~\cite{relu}, and a final max pool layer~\cite{maxpool}. The convolution outputs were then fed into two fully connected layers with batch normalization, ReLU, and a dropout layer with a tunable dropout rate \verb|dropout| hyperparameter. The code was written in PyTorch~\cite{pytorch} and trained using the Adam (Adaptive Moment Estimation) optimizer~\cite{adam} with weight decay and a learning rate tuned per-epoch with \verb|ReduceLROnPlateau| in "min" mode~\cite{lr}. We utilized the \verb|BCEWithLogitsLoss| loss function with configurable positive weight and gradient clipping, and stopped training when enough consecutive epochs showed no improvement.
 
 We tuned our hyperparameters with Bayesian Optimization using the \verb|ExpectedImprovement| acquisition function with $\xi=0.05$~\cite{bayes}. We additionally inserted random samples every 5 trials to escape local minima. Our scoring strategy was a weighted $F_\beta$~\cite{fbeta}, where parameter $\beta$ is the weighted harmonic mean of precision and recall (Eq~\eqref{fbeta}). We chose $\beta=1.5$ to prioritize recall ($R$) over precision ($P$) and minimize false negatives, rejecting trials below a precision floor of 90\%. 
 
@@ -131,8 +130,11 @@ We tuned our hyperparameters with Bayesian Optimization using the \verb|Expected
   F_\beta =  \frac{PR(1 + \beta^2)}{P\beta^2+R}
 \end{equation}
 
-We tuned model and architecture hyperparameters for 100+ trials on the Polaris supercomputer in Argonne National Lab, with each trial sampling fresh hyperparameters and training a new model for up to 200 epochs. Increasing the decision threshold gave us higher recall at the cost of precision, as seen in Figure~\ref{fig:roc}. With a decision threshold of 50\%, our best model achieved a precision of 90.52\% and recall of 98.84\% on the test set, along with an F1 score of $0.9450$ and F2 score of $0.9706$.  The tuned hyperparameters are presented in Table~\ref{tab:hyperparams}. 
+We tuned model and architecture hyperparameters for 100+ trials on the Polaris supercomputer in Argonne National Lab, with each trial sampling fresh hyperparameters and training a new model for up to 200 epochs. Increasing the decision threshold gave us higher recall at the cost of precision. With a decision threshold of 50\%, our best model achieved a precision of 90.52\% and recall of 98.84\% on the test set, along with an F1 score of $0.9450$ and F2 score of $0.9706$. Due to our large dataset and relatively simple feature mapping, we see an unusally high AUC of $0.9902$ (Figure~\ref{fig:roc}). The tuned hyperparameters are presented in Table~\ref{tab:hyperparams}. 
           
+The model we present surpasses each of these results with a much simpler input data stream. 
+
+
 \begin{table}[h]
     \centering
     \caption{Tuned Hyperparameters}
@@ -172,17 +174,17 @@ We tuned model and architecture hyperparameters for 100+ trials on the Polaris s
 
   \begin{subfigure}[b]{0.48\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{best_model/disruption_time_diff_pred_start.png}
+    \includegraphics[width=\textwidth]{best_model/disruption_time_diff_t_0.png}
      \phantomsubcaption\label{sub:disruption_time_diff_start}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.48\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{best_model/disruption_time_diff_pred_root.png}
+    \includegraphics[width=\textwidth]{best_model/disruption_time_diff_t_root.png}
       \phantomsubcaption\label{sub:disruption_time_diff_root}
   \end{subfigure}
 
-  \caption{On the left, a histogram of the difference $\Delta t$ between predicted start of disruption Eq~\eqref{time_of_disrupt} and labeled time of disruption in milliseconds. Most of our predictions are early, with a mean $\Delta t \approx \qty{-4}{\milli\s}$ (\ref{sub:disruption_time_diff_start}). On the right, a histogram of the difference $\Delta t$ between heuristic root $t_\mathrm{root}$ Eq~\eqref{time_of_disrupt_root} and labeled time of disruption in milliseconds. The Gaussian is centered with $\mu\approx \qty{0}{\milli\s}$, $\sigma=\qty{1.1}{\milli\s}$ (\ref{sub:disruption_time_diff_root} ). }
+  \caption{On the left, a histogram of the difference $\Delta t$ between predicted start of disruption Eq~\eqref{time_of_disrupt} and labeled time of disruption in milliseconds. Most of our predictions are early, with a mean $\Delta t \approx \qty{-4}{\milli\s}$ (\ref{sub:disruption_time_diff_start}). We plot a Gaussian fit to the entire test set (blue) and a Gaussian with no outliers within $3\sigma$ (orange). On the right, a histogram of the difference $\Delta t$ between heuristic root $t_\mathrm{root}$ Eq~\eqref{time_of_disrupt_root} and labeled time of disruption in milliseconds. The Gaussian is centered with $\mu\approx \qty{0}{\milli\s}$, $\sigma=\qty{1.1}{\milli\s}$ (\ref{sub:disruption_time_diff_root} ). }
   \label{fig:heuristic_diff}
 \end{figure*}
 
@@ -213,19 +215,20 @@ We then define the time of disruption heuristic filter $f(t)$ as the difference 
   f(t)=I_\mathrm{raw}(t) - I_\mathrm{smooth}(t)
 \end{equation}
 
-To find the start $t=t_0$ of a disruption, we simply search for the global maximum of $f(t)$. The first local minimum of $f(t), \ t>t_0$ identifies the end of disruption $t_f$.
+The global maximum of $f(t)$ is our predicted disruption start $t=t_0$. The first local minimum of $f(t)$ where  $t>t_0$ identifies the disruption end $t_f$.
 
 
-\begin{equation}
+\begin{align}
   \label{time_of_disrupt}
-  t_0=\max(f(t))
-\end{equation}
+  t_0&=\max(f(t)) \\
+  t_f&=\min(f(t)), \quad t>t_0
+\end{align}
 
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=\columnwidth]{best_model/heuristic_example.png}
-  \caption{Two example shots (above) with their disruption heuristic $f(t)$ (below). On the left, we see shot \#125500 with a DIII-D label near the disruption start Eq~\eqref{time_of_disrupt}; on the right, we see shot \#178323 with a DIII-D label near the disruption root Eq~\eqref{time_of_disrupt_root}.
+  \caption{Two example shots (above) with their disruption heuristic $f(t)$ (below). On the left, we see shot \#125500 with a DIII-D label near the disruption start (Eq~\eqref{time_of_disrupt}); on the right, we see shot \#178323 with a DIII-D label near the disruption root (Eq~\eqref{time_of_disrupt_root}).
   }
   \label{fig:heuristic}
 \end{figure}
