@@ -13,8 +13,11 @@
 \usepackage{cuted}
 \usepackage{subcaption}
 \usepackage{dblfloatfix}
+\usepackage{numprint}
 \usepackage[backend=biber, style=numeric,  maxcitenames=1, sorting=none]{biblatex}
 
+% Define the separator to use every 3 digits
+\npthousandsep{,} 
 
 % Let columns end naturally instead of being vertically stretched to fill the
 % page (\flushbottom), which otherwise inflates the glue after section headings.
@@ -40,7 +43,7 @@
 \begin{strip}
   \maketitle
   \begin{abstract}
-  Experimental Tokamak fusion facilities like DIII-D frequently experience disruption events that result in a plasma current drop to zero. The existence of a computationally inexpensive model for identifying disruptive shots and accurately identifying time of disruption can assist the scientific community by auto-labeling shots for further analysis. We took a labeled plasma disruption dataset from the DIII-D Tokamak reactor, utilizing shot numbers 125500-186000 (nearly 40,000 total plasma shots) to develop a new disruption labeling model that can generate automated disruption labeling using only plasma current time series data. We train a CNN (Convolutional Neural Network) to perform boolean disruption/not-disruption prediction and achieve a 99\% recall and 91\% precision on our test dataset. We additionally develop a classical convolutional filter heuristic that is capable of accurately identifying time of disruption with a median of $0$ and standard deviation of $\qty{1.1}{\milli\s}$ on our test dataset.
+  Experimental Tokamak fusion facilities like DIII-D frequently experience disruption events that result in a plasma current drop to zero. The existence of a computationally inexpensive model for identifying disruptive shots and accurately identifying time of disruption can assist the scientific community by auto-labeling shots for further analysis. We took a labeled plasma disruption dataset from the DIII-D Tokamak reactor, utilizing shot numbers 125500-186000 (nearly 40,000 total plasma shots) to develop a new disruption labeling model that can generate automated disruption labeling using only plasma current time series data. We train a CNN (Convolutional Neural Network) to perform boolean disruption/not-disruption prediction and achieve a 99\% recall and 91\% precision on our test dataset, with an AUC (area under curve) of our ROC (reciever-operator) curve of $0.99$. We additionally develop a classical convolutional filter heuristic that is capable of accurately identifying time of disruption with a median of $0$ and standard deviation of $\qty{1.1}{\milli\s}$ on our test dataset.
   \end{abstract}
   \vspace{1.5em}
 \end{strip}
@@ -52,12 +55,6 @@
 
 A Tokamak is a torus-shaped magnetic confinement fusion reactor and is a leading candidate to produce controlled thermonuclear fusion power~\cite{WANG2023163}. A prominent challenge facing Tokamak reactors is the issue of disruption events caused by turbulent instability within the plasma. Such disruption events cause the internal reactor current ($I(t)$) to drop to zero and can potentially cause damage to the interior of the reactor. Abnormalities such as plasma disruptions are a prominent challenge for upcoming flagship fusion experiments such The International Thermonuclear Experimental Reactor (ITER)~\cite{su16104089, WANG2023163}, which requires a $\qty{30}{\milli\s}$ warning time for successful disruption mitigation~\cite{deVries2016}.
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=1\columnwidth]{best_model/predictions_scatter_t_root.png}
-  \caption{Predicted disruption time Eq~\eqref{time_of_disrupt} vs real disruption time for 889 test holdout shots. }
-  \label{fig:predictions_scatter}
-\end{figure}
 
 \begin{figure*}[!t]
   \centering
@@ -81,9 +78,18 @@ A Tokamak is a torus-shaped magnetic confinement fusion reactor and is a leading
 Decades of Tokamak experiments have created a large corpus of fusion data, leading to a growing body of literature utilizing machine learning for problems infeasible to address with classical methods, including disruption prediction~\cite{Pavone_2023}. A variety of classical machine learning algorithms have demonstrated promise; support vector machines, fuzzy logic, generative topographic mapping, and artificial neural networks have all been studied on a broad range of Tokamaks across the United States, India, China, and Europe~\cite{Vega2022}. In the deep learning space, sequence based models such as Long-Short Term Memory Networks (LSTMs) show promise for dynamic time-series forecasting of plasma disruptions~\cite{Muruganandham03102025}.  A variety of approaches have also been proposed for knowledge transfer from existing devices to new ones, using hybrid architectures ~\cite{Zhu2020} and transfer learning~\cite{Zheng2023}. 
 
 
-A large fraction of the data produced by long-running Tokamak fusion facilities such as the DIII-D reactor operated by General Atomics has already been labeled for training machine learning models. A team at Princeton trained a Convolutional Neural Network on Electron Cyclotron Emission imaging (ECEi) diagnostic data from the DIII-D tokamak, achieving an F1 score of $0.91$~\cite{Churchill2020}. Another team at MIT trained a neural network on 14 plasma signatures from $22669$ shots from the C-Mod, DIII-D, and EAST tokamaks, correctly identifying 84\% of disruptive events with a model AUC of $0.94$ and an early warning time of $\qty{15}{\milli\s}$. Similarly at Harvard, researchers achieved an AUC of $0.94$ on time-series disruption forecasting using a multilayer long/short-term memory network (LSTM) trained on $8959$ shots from DIII-D and JET, optimizing models for performance at deadlines of both $\qty{30}{\milli\s}$ and $\qty{1}{\s}$. Our CNN does not perform forecasting, but outperforms each of these results on classication with an exceptional AUC of $0.99$ (\ref{fig:roc}).
+A large fraction of the data produced by long-running Tokamak fusion facilities such as the DIII-D reactor operated by General Atomics has already been labeled for training deep learning models fir disruption classification and prediction. We use the standard AUC metric for determining the performance of these models. The AUC (area under curve) of a classifier is the integral of the Reciever-Operating Curve (ROC), a graph of the True Positive Rate on the y-axis and False Positive Rate on the x-axis~\cite{roc}. The integral of this curve yields a metric between 0-1, with the ideal classifier having an AUC of 1 (100\% true positives and 0\% false positives).
 
-We test our time-of-disruption model on 889 disruptive shots in our test holdout set (Figure~\ref{fig:predictions_scatter}); note that plasma current drops to zero after a disruption, which is why we do not see many late predictions. Our predicted disruption time has a standard deviation of $\qty{1}{\milli\s}$, well within the $\qty{30}{\milli\s}$ ITER warning deadline (Figure~\ref{fig:heuristic_diff}); therefore, our model can be used to generate accurate disruption labels for every historical DIII-D plasma shot, giving researchers access to more training data than every before.
+A team at Princeton trained a Convolutional Neural Network on Electron Cyclotron Emission imaging (ECEi) diagnostic data on 2747 DIII-D shots, achieving an AUC of $0.96$ with a multilayer long/short-term memory network (LSTM)~\cite{Churchill2020}. Another team at MIT trained a neural network on 14 plasma signatures from $22669$ shots from the C-Mod, DIII-D, and EAST Tokamaks, correctly identifying 84\% of disruptive events with a model AUC of $0.94$ and an early warning time of $\qty{15}{\milli\s}$~\cite{Montes2021}. Similarly at Harvard, researchers achieved an AUC of $0.94$ on time-series disruption forecasting using an LSTM trained on $8959$ shots from DIII-D and JET, optimizing models for performance at deadlines of both $\qty{30}{\milli\s}$ and $\qty{1}{\s}$~\cite{KatesHarbeck2019}. Our CNN does not perform forecasting, but outperforms each of these results on classication with an exceptional AUC of $0.99$ (Figure~\ref{fig:roc}).
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=1\columnwidth]{best_model/predictions_scatter_pred_root.png}
+  \caption{Predicted disruption time Eq~\eqref{time_of_disrupt} vs real disruption time for 889 test holdout shots. }
+  \label{fig:predictions_scatter}
+\end{figure}
+
+We test our time-of-disruption model on 889 disruptive shots in our test holdout set (Figure~\ref{fig:predictions_scatter}); note that plasma current drops to zero after a disruption so we see few late outliers. Our predicted disruption time has a standard deviation of $\qty{1}{\milli\s}$, well within the $\qty{30}{\milli\s}$ ITER warning deadline (Figure~\ref{fig:heuristic_diff}); therefore, our model can be used to generate accurate disruption labels for every historical DIII-D plasma shot, giving researchers access to more training data than every before.
 
 % ==================================================================
 \section{Neural Net Classifier}
@@ -174,13 +180,13 @@ The model we present surpasses each of these results with a much simpler input d
 
   \begin{subfigure}[b]{0.48\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{best_model/disruption_time_diff_t_0.png}
+    \includegraphics[width=\textwidth]{best_model/disruption_time_diff_pred_start.png}
      \phantomsubcaption\label{sub:disruption_time_diff_start}
   \end{subfigure}
   \hfill
   \begin{subfigure}[b]{0.48\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{best_model/disruption_time_diff_t_root.png}
+    \includegraphics[width=\textwidth]{best_model/disruption_time_diff_pred_root.png}
       \phantomsubcaption\label{sub:disruption_time_diff_root}
   \end{subfigure}
 

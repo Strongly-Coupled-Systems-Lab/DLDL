@@ -6692,6 +6692,47 @@
       \verb http://dx.doi.org/10.1038/s42005-023-01296-9
       \endverb
     \endentry
+    \entry{roc}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=9c15aa0b2a7683cefeaa12c991d0b1c2}{%
+           family={Fawcett},
+           familyi={F\bibinitperiod},
+           given={Tom},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier BV}%
+      }
+      \strng{namehash}{9c15aa0b2a7683cefeaa12c991d0b1c2}
+      \strng{fullhash}{9c15aa0b2a7683cefeaa12c991d0b1c2}
+      \strng{fullhashraw}{9c15aa0b2a7683cefeaa12c991d0b1c2}
+      \strng{bibnamehash}{9c15aa0b2a7683cefeaa12c991d0b1c2}
+      \strng{authorbibnamehash}{9c15aa0b2a7683cefeaa12c991d0b1c2}
+      \strng{authornamehash}{9c15aa0b2a7683cefeaa12c991d0b1c2}
+      \strng{authorfullhash}{9c15aa0b2a7683cefeaa12c991d0b1c2}
+      \strng{authorfullhashraw}{9c15aa0b2a7683cefeaa12c991d0b1c2}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0167-8655}
+      \field{journaltitle}{Pattern Recognition Letters}
+      \field{number}{8}
+      \field{title}{An introduction to ROC analysis}
+      \field{volume}{27}
+      \field{year}{2006}
+      \field{pages}{861\bibrangedash 874}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1016/j.patrec.2005.10.010
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1016/j.patrec.2005.10.010
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1016/j.patrec.2005.10.010
+      \endverb
+    \endentry
     \entry{Churchill2020}{article}{}{}
       \name{author}{3}{}{%
         {{hash=e06343661dd4676e31ef067d8fb389bb}{%
@@ -6721,8 +6762,8 @@
       \strng{authornamehash}{bd8d92d9f162e2de891ae01058d88b9b}
       \strng{authorfullhash}{4a9c2409f36cebc3d1f234c75d221e31}
       \strng{authorfullhashraw}{4a9c2409f36cebc3d1f234c75d221e31}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{1089-7674}
@@ -6739,6 +6780,126 @@
       \endverb
       \verb{url}
       \verb http://dx.doi.org/10.1063/1.5144458
+      \endverb
+    \endentry
+    \entry{Montes2021}{article}{}{}
+      \name{author}{6}{}{%
+        {{hash=0519ef7b76058b01fbf3e9676ab64712}{%
+           family={Montes},
+           familyi={M\bibinitperiod},
+           given={K.J.},
+           giveni={K\bibinitperiod}}}%
+        {{hash=4f4abaa2149746fb41c1004b7cd2787e}{%
+           family={Rea},
+           familyi={R\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod}}}%
+        {{hash=1c5139a7ad1cf26b9ad5683abdeb2bfb}{%
+           family={Tinguely},
+           familyi={T\bibinitperiod},
+           given={R.A.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=9586c07b1899cf87af8e1899793d7fdd}{%
+           family={Sweeney},
+           familyi={S\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=6c72831a314bee50d394cb3af13fb87b}{%
+           family={Zhu},
+           familyi={Z\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=620c60eb2e9ede7cec68ae43fcbb945a}{%
+           family={Granetz},
+           familyi={G\bibinitperiod},
+           given={R.S.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IOP Publishing}%
+      }
+      \strng{namehash}{07ee3c08534440cd5251313eb604ef4a}
+      \strng{fullhash}{7ad7c65bed0c63ff4cc4a186fde45b75}
+      \strng{fullhashraw}{7ad7c65bed0c63ff4cc4a186fde45b75}
+      \strng{bibnamehash}{07ee3c08534440cd5251313eb604ef4a}
+      \strng{authorbibnamehash}{07ee3c08534440cd5251313eb604ef4a}
+      \strng{authornamehash}{07ee3c08534440cd5251313eb604ef4a}
+      \strng{authorfullhash}{7ad7c65bed0c63ff4cc4a186fde45b75}
+      \strng{authorfullhashraw}{7ad7c65bed0c63ff4cc4a186fde45b75}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1741-4326}
+      \field{journaltitle}{Nuclear Fusion}
+      \field{month}{1}
+      \field{number}{2}
+      \field{title}{A semi-supervised machine learning detector for physics events in tokamak discharges}
+      \field{volume}{61}
+      \field{year}{2021}
+      \field{pages}{026022}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1088/1741-4326/abcdb9
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1088/1741-4326/abcdb9
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1088/1741-4326/abcdb9
+      \endverb
+    \endentry
+    \entry{KatesHarbeck2019}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=0cd545f6cd9df955efbbaf2b83d4a366}{%
+           family={Kates-Harbeck},
+           familyi={K\bibinithyphendelim H\bibinitperiod},
+           given={Julian},
+           giveni={J\bibinitperiod}}}%
+        {{hash=f504be962fed8d94d847b9167c1fe68b}{%
+           family={Svyatkovskiy},
+           familyi={S\bibinitperiod},
+           given={Alexey},
+           giveni={A\bibinitperiod}}}%
+        {{hash=9529999ab5bc795d30017fe60b007b78}{%
+           family={Tang},
+           familyi={T\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {Springer Science}%
+        {Business Media LLC}%
+      }
+      \strng{namehash}{187aa67011f60c1d2f29360119bdee43}
+      \strng{fullhash}{c885f7ce36d37975fe873a5870b6435e}
+      \strng{fullhashraw}{c885f7ce36d37975fe873a5870b6435e}
+      \strng{bibnamehash}{c885f7ce36d37975fe873a5870b6435e}
+      \strng{authorbibnamehash}{c885f7ce36d37975fe873a5870b6435e}
+      \strng{authornamehash}{187aa67011f60c1d2f29360119bdee43}
+      \strng{authorfullhash}{c885f7ce36d37975fe873a5870b6435e}
+      \strng{authorfullhashraw}{c885f7ce36d37975fe873a5870b6435e}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1476-4687}
+      \field{journaltitle}{Nature}
+      \field{month}{4}
+      \field{number}{7753}
+      \field{title}{Predicting disruptive instabilities in controlled fusion plasmas through deep learning}
+      \field{volume}{568}
+      \field{year}{2019}
+      \field{pages}{526\bibrangedash 531}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1038/s41586-019-1116-4
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1038/s41586-019-1116-4
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1038/s41586-019-1116-4
       \endverb
     \endentry
     \entry{bn}{inproceedings}{}{}
@@ -7159,8 +7320,8 @@
       \strng{authornamehash}{7d190026fe3b0d761537c572b0c2cb3d}
       \strng{authorfullhash}{7d190026fe3b0d761537c572b0c2cb3d}
       \strng{authorfullhashraw}{7d190026fe3b0d761537c572b0c2cb3d}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{edition}{2nd}
@@ -7181,8 +7342,8 @@
       \strng{authornamehash}{57d86b485ab1c48f55e5f496538c2e38}
       \strng{authorfullhash}{57d86b485ab1c48f55e5f496538c2e38}
       \strng{authorfullhashraw}{57d86b485ab1c48f55e5f496538c2e38}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{howpublished}{\url{https://www.cursor.com}}
@@ -7204,8 +7365,8 @@
       \strng{authornamehash}{f431db65cea024a5f19eab835afefee2}
       \strng{authorfullhash}{f431db65cea024a5f19eab835afefee2}
       \strng{authorfullhashraw}{f431db65cea024a5f19eab835afefee2}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{howpublished}{\url{https://www.anthropic.com/claude-code}}

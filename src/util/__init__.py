@@ -55,6 +55,7 @@ mpl.rcParams.update(
         "ytick.labelsize": 26,
         "legend.fontsize": 22,
         "figure.titlesize": 30,
+        "figure.titleweight": "bold",
         # Axes / spines: drop the top and right box for a cleaner look.
         "axes.spines.top": False,
         "axes.spines.right": False,
