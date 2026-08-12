@@ -146,8 +146,8 @@ def generate_scatter_plot(
     fig, ax = plt.subplots(figsize=(10, 6))
     ax.scatter(df[prediction_type], df["t_D"], alpha=0.85)
 
-    lo, hi = ax.get_xlim()
-    ax.plot([lo, hi], [lo, hi], "r--", linewidth=1, label="y = x")
+    _, hi = ax.get_xlim()
+    ax.plot([0, hi], [0, hi], "r--", linewidth=1, label="$t_D=t_\\mathrm{root}$")
 
     ax.set_xlabel(f"${get_pred_type_label(prediction_type)}$ (s)")
     ax.set_ylabel("$t_D$ (s)")

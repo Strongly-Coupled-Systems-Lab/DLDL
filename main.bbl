@@ -6733,6 +6733,45 @@
       \verb http://dx.doi.org/10.1016/j.patrec.2005.10.010
       \endverb
     \endentry
+    \entry{BRADLEY19971145}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=d519446455e965b6b837db7cd22c1d7c}{%
+           family={Bradley},
+           familyi={B\bibinitperiod},
+           given={Andrew\bibnamedelima P.},
+           giveni={A\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \strng{namehash}{d519446455e965b6b837db7cd22c1d7c}
+      \strng{fullhash}{d519446455e965b6b837db7cd22c1d7c}
+      \strng{fullhashraw}{d519446455e965b6b837db7cd22c1d7c}
+      \strng{bibnamehash}{d519446455e965b6b837db7cd22c1d7c}
+      \strng{authorbibnamehash}{d519446455e965b6b837db7cd22c1d7c}
+      \strng{authornamehash}{d519446455e965b6b837db7cd22c1d7c}
+      \strng{authorfullhash}{d519446455e965b6b837db7cd22c1d7c}
+      \strng{authorfullhashraw}{d519446455e965b6b837db7cd22c1d7c}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0031-3203}
+      \field{journaltitle}{Pattern Recognition}
+      \field{number}{7}
+      \field{title}{The use of the area under the ROC curve in the evaluation of machine learning algorithms}
+      \field{volume}{30}
+      \field{year}{1997}
+      \field{pages}{1145\bibrangedash 1159}
+      \range{pages}{15}
+      \verb{doi}
+      \verb https://doi.org/10.1016/S0031-3203(96)00142-2
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S0031320396001422
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S0031320396001422
+      \endverb
+      \keyw{The ROC curve,The area under the ROC curve (AUC),Accuracy measures,Cross-validation,Wilcoxon statistic,Standard error}
+    \endentry
     \entry{Churchill2020}{article}{}{}
       \name{author}{3}{}{%
         {{hash=e06343661dd4676e31ef067d8fb389bb}{%
@@ -7275,8 +7314,8 @@
       \strng{authornamehash}{33bcab044ac12b9f753145b580c87ce5}
       \strng{authorfullhash}{f1d49de9e1e2c16871928dc529e4c810}
       \strng{authorfullhashraw}{f1d49de9e1e2c16871928dc529e4c810}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{1573-2916}

@@ -20,6 +20,8 @@
 \abx@aux@segm{0}{0}{Zheng2023}
 \abx@aux@cite{0}{roc}
 \abx@aux@segm{0}{0}{roc}
+\abx@aux@cite{0}{BRADLEY19971145}
+\abx@aux@segm{0}{0}{BRADLEY19971145}
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{}\protected@file@percent }
 \newlabel{sec:intro}{{1}{1}{}{section.1}{}}
 \abx@aux@cite{0}{Churchill2020}
@@ -33,13 +35,13 @@
 \newlabel{sub@sub:false_positives}{{a}{2}{}{subfigure.1.1}{}}
 \newlabel{sub:false_negatives}{{1b}{2}{}{subfigure.1.2}{}}
 \newlabel{sub@sub:false_negatives}{{b}{2}{}{subfigure.1.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces On the left, four selected non-disruptive shots incorrectly identified as disruptive by the CNN. Shots 176423 and 177030 feature a drop resembling a disruption, thereby confusing our model, while shot 178463 appears to be garbage data based off the current peaking at $\approx \qty {0.02}{\mega \ampere }$. On the right, four selected disruptive shots incorrectly identified as non-disruptive by the CNN. Each shot lacks the characteristic instant drop to zero that typically identifies a disruption. Shots 180501 and 177403 do not present an evident disruption and seem erroneously labeled.}}{2}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces On the left, four selected non-disruptive shots incorrectly identified as disruptive by the CNN. Shots 176423 and 177030 feature a drop resembling a disruption, thereby confusing our model, while shot 178463 appears to be garbage data based off the current peaking at $\approx \qty {0.02}{\mega \ampere }$ (\ref {sub:false_positives}). On the right, four selected disruptive shots incorrectly identified as non-disruptive by the CNN. Each shot lacks the characteristic drop to zero that typically identifies a disruption, while shots 180501 and 177403 seem erroneously labeled and lacking an evident disruption (\ref {sub:false_negatives})}}{2}{}\protected@file@percent }
 \newlabel{fig:cnn_errors}{{1}{2}{}{figure.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Neural Net Classifier}{2}{}\protected@file@percent }
-\newlabel{sec:methods}{{2}{2}{}{section.2}{}}
+\newlabel{auc}{{1}{2}{}{equation.1}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Predicted disruption time Eq~\eqref  {time_of_disrupt} vs real disruption time for 889 test holdout shots. }}{2}{}\protected@file@percent }
 \newlabel{fig:predictions_scatter}{{2}{2}{}{figure.2}{}}
-\newlabel{current_tensor}{{1}{2}{}{equation.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Neural Net Classifier}{2}{}\protected@file@percent }
+\newlabel{sec:methods}{{2}{2}{}{section.2}{}}
 \abx@aux@cite{0}{bn}
 \abx@aux@segm{0}{0}{bn}
 \abx@aux@cite{0}{relu}
@@ -58,33 +60,34 @@
 \abx@aux@segm{0}{0}{fbeta}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Model architecture for our disruption labeling Convolutional Neural Network. We have four convolutional layers and two fully connected layers, and utilize max pooling, batch normalization, and dropout, along with a ReLU activation function. The model input is normalized current sampled at $\qty {4}{\kilo \hertz }$ and the output is disruption probability for the shot. }}{3}{}\protected@file@percent }
 \newlabel{fig:model_diagram}{{3}{3}{}{figure.3}{}}
-\newlabel{current_norm}{{2}{3}{}{equation.2}{}}
-\newlabel{fbeta}{{3}{3}{}{equation.3}{}}
+\newlabel{current_tensor}{{2}{3}{}{equation.2}{}}
+\newlabel{current_norm}{{3}{3}{}{equation.3}{}}
+\newlabel{fbeta}{{4}{3}{}{equation.4}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Tuned Hyperparameters}}{3}{}\protected@file@percent }
 \newlabel{tab:hyperparams}{{1}{3}{}{table.1}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Convolutional Heuristic for Time of Disruption}{3}{}\protected@file@percent }
-\newlabel{current_raw}{{4}{3}{}{equation.4}{}}
-\newlabel{current_smooth}{{5}{3}{}{equation.5}{}}
+\newlabel{current_raw}{{5}{3}{}{equation.5}{}}
 \abx@aux@cite{0}{cursor2026}
 \abx@aux@segm{0}{0}{cursor2026}
 \abx@aux@cite{0}{claude2026}
 \abx@aux@segm{0}{0}{claude2026}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The ROC curve for our disruption classifier. The integral (AUC) of the ROC characterizes a classifier's performance, with a score of 1 indicating 100\% true positives and 0\% false negatives. Our model has an AUC of 0.9902, close to the hypothetical maximum. }}{4}{}\protected@file@percent }
 \newlabel{fig:roc}{{4}{4}{}{figure.4}{}}
-\newlabel{heuristic}{{6}{4}{}{equation.6}{}}
-\newlabel{time_of_disrupt}{{7}{4}{}{equation.7}{}}
-\newlabel{time_of_disrupt_root}{{9}{4}{}{equation.9}{}}
+\newlabel{current_smooth}{{6}{4}{}{equation.6}{}}
+\newlabel{heuristic}{{7}{4}{}{equation.7}{}}
+\newlabel{time_of_disrupt}{{8}{4}{}{equation.8}{}}
+\newlabel{time_of_disrupt_root}{{10}{4}{}{equation.10}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {4}Conclusion}{4}{}\protected@file@percent }
 \newlabel{sec:conclusion}{{4}{4}{}{section.4}{}}
 \newlabel{sub:disruption_time_diff_start}{{5a}{5}{}{subfigure.5.1}{}}
 \newlabel{sub@sub:disruption_time_diff_start}{{a}{5}{}{subfigure.5.1}{}}
 \newlabel{sub:disruption_time_diff_root}{{5b}{5}{}{subfigure.5.2}{}}
 \newlabel{sub@sub:disruption_time_diff_root}{{b}{5}{}{subfigure.5.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces On the left, a histogram of the difference $\Delta t$ between predicted start of disruption Eq~\eqref  {time_of_disrupt} and labeled time of disruption in milliseconds. Most of our predictions are early, with a mean $\Delta t \approx \qty {-4}{\milli \s }$ (\ref {sub:disruption_time_diff_start}). We plot a Gaussian fit to the entire test set (blue) and a Gaussian with no outliers within $3\sigma $ (orange). On the right, a histogram of the difference $\Delta t$ between heuristic root $t_\mathrm  {root}$ Eq~\eqref  {time_of_disrupt_root} and labeled time of disruption in milliseconds. The Gaussian is centered with $\mu \approx \qty {0}{\milli \s }$, $\sigma =\qty {1.1}{\milli \s }$ (\ref {sub:disruption_time_diff_root} ). }}{5}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces On the left, a histogram of the difference $\Delta t=t_0-t_D$ (See Eq~\eqref  {time_of_disrupt}). Most of our predictions are early, with a mean $\Delta t \approx \qty {-3.9}{\milli \s }$ (\ref {sub:disruption_time_diff_start}). On the right, a histogram of the difference $\Delta t=t_\mathrm  {root}-t_D$. The Gaussian is centered with $\mu \approx \qty {0.1}{\milli \s }$, $\sigma =\qty {1.1}{\milli \s }$ (\ref {sub:disruption_time_diff_root}). For both charts, we plot a Gaussian fit over the entire test set (blue) and a Gaussian fit excluding outliers where $|\Delta t|>3\sigma $ (orange). }}{5}{}\protected@file@percent }
 \newlabel{fig:heuristic_diff}{{5}{5}{}{figure.5}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Two example shots (above) with their disruption heuristic $f(t)$ (below). On the left, we see shot \#125500 with a DIII-D label near the disruption start (Eq~\eqref  {time_of_disrupt}); on the right, we see shot \#178323 with a DIII-D label near the disruption root (Eq~\eqref  {time_of_disrupt_root}). }}{5}{}\protected@file@percent }
 \newlabel{fig:heuristic}{{6}{5}{}{figure.6}{}}
-\abx@aux@read@bbl@mdfivesum{337FC653F0A335D5A6548228D09AAB1F}
+\abx@aux@read@bbl@mdfivesum{DCD6CFD85FCCEC8FDC1429168F322160}
 \abx@aux@defaultrefcontext{0}{WANG2023163}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{su16104089}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{deVries2016}{none/global//global/global/global}
@@ -94,6 +97,7 @@
 \abx@aux@defaultrefcontext{0}{Zhu2020}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{Zheng2023}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{roc}{none/global//global/global/global}
+\abx@aux@defaultrefcontext{0}{BRADLEY19971145}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{Churchill2020}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{Montes2021}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{KatesHarbeck2019}{none/global//global/global/global}

@@ -1,21 +1,21 @@
 [0] Config.pm:308> INFO - This is Biber 2.20
 [0] Config.pm:311> INFO - Logfile is 'main.blg'
-[41] biber-darwin:340> INFO - === Sat Aug  8, 2026, 18:38:42
-[52] Biber.pm:420> INFO - Reading 'main.bcf'
-[99] Biber.pm:994> INFO - Found 22 citekeys in bib section 0
-[108] Biber.pm:4463> INFO - Processing section 0
-[115] Biber.pm:4654> INFO - Looking for bibtex file 'references.bib' for section 0
-[119] bibtex.pm:1713> INFO - LaTeX decoding ...
-[140] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
-[1187] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[1187] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[1187] Biber.pm:4283> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'en-US'
-[1187] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
-[1224] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[1793] bbl.pm:779> INFO - Output to main.bbl
-[1793] Biber.pm:131> WARN - legacy month field 'apr' in entry 'Pavone_2023' is not an integer - this will probably not sort properly.
-[1793] Biber.pm:131> WARN - BibTeX subsystem: /var/folders/z9/sqdghy7d1mvf7p2x8yyb56jw0000gq/T/biber_tmp_VKIM/33e59b5ca9ec342068223d604c3f8d55_83921.utf8, line 91, warning: undefined macro "July"
-[1794] Biber.pm:131> WARN - BibTeX subsystem: /var/folders/z9/sqdghy7d1mvf7p2x8yyb56jw0000gq/T/biber_tmp_VKIM/33e59b5ca9ec342068223d604c3f8d55_83921.utf8, line 119, warning: undefined macro "June"
-[1794] Biber.pm:131> WARN - BibTeX subsystem: /var/folders/z9/sqdghy7d1mvf7p2x8yyb56jw0000gq/T/biber_tmp_VKIM/33e59b5ca9ec342068223d604c3f8d55_83921.utf8, line 179, warning: undefined macro "June"
-[1794] Biber.pm:131> WARN - BibTeX subsystem: /var/folders/z9/sqdghy7d1mvf7p2x8yyb56jw0000gq/T/biber_tmp_VKIM/33e59b5ca9ec342068223d604c3f8d55_83921.utf8, line 193, warning: undefined macro "June"
-[1794] Biber.pm:133> INFO - WARNINGS: 5
+[43] biber-darwin:340> INFO - === Tue Aug 11, 2026, 17:05:47
+[58] Biber.pm:420> INFO - Reading 'main.bcf'
+[106] Biber.pm:994> INFO - Found 23 citekeys in bib section 0
+[116] Biber.pm:4463> INFO - Processing section 0
+[123] Biber.pm:4654> INFO - Looking for bibtex file 'references.bib' for section 0
+[127] bibtex.pm:1713> INFO - LaTeX decoding ...
+[149] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
+[1253] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1253] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1253] Biber.pm:4283> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'en-US'
+[1253] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[1310] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[1885] bbl.pm:779> INFO - Output to main.bbl
+[1886] Biber.pm:131> WARN - legacy month field 'apr' in entry 'Pavone_2023' is not an integer - this will probably not sort properly.
+[1886] Biber.pm:131> WARN - BibTeX subsystem: /var/folders/z9/sqdghy7d1mvf7p2x8yyb56jw0000gq/T/biber_tmp_dJ9b/33e59b5ca9ec342068223d604c3f8d55_23008.utf8, line 91, warning: undefined macro "July"
+[1886] Biber.pm:131> WARN - BibTeX subsystem: /var/folders/z9/sqdghy7d1mvf7p2x8yyb56jw0000gq/T/biber_tmp_dJ9b/33e59b5ca9ec342068223d604c3f8d55_23008.utf8, line 119, warning: undefined macro "June"
+[1886] Biber.pm:131> WARN - BibTeX subsystem: /var/folders/z9/sqdghy7d1mvf7p2x8yyb56jw0000gq/T/biber_tmp_dJ9b/33e59b5ca9ec342068223d604c3f8d55_23008.utf8, line 193, warning: undefined macro "June"
+[1886] Biber.pm:131> WARN - BibTeX subsystem: /var/folders/z9/sqdghy7d1mvf7p2x8yyb56jw0000gq/T/biber_tmp_dJ9b/33e59b5ca9ec342068223d604c3f8d55_23008.utf8, line 207, warning: undefined macro "June"
+[1886] Biber.pm:133> INFO - WARNINGS: 5

@@ -1,6 +1,7 @@
 """Browse preprocessed shots with a slider and index text box."""
 
 import argparse
+import logging
 import math
 import os
 from pathlib import Path
@@ -21,6 +22,8 @@ from util.disruption_predict import (
     clean_zeros,
 )
 from util.best_model import load_best_model_cnn, load_best_model_env
+
+logger = logging.getLogger(__name__)
 
 repo = Path(__file__).resolve().parents[1]
 load_best_model_env()
@@ -68,12 +71,17 @@ def simple_draw(ax: plt.Axes, shot: ShotView):
         else None
     )
 
+    t_disrupt_str = f"{t_disrupt_si:.3f}" if t_disrupt_si is not None else "n/a"
+    logger.info(
+        f"shot {shot.shot_no} (index {shot.index}): P_disrupt={cnn_prob:.3f}, "
+        f"disruptive={shot.disruptive}, t_D={t_disrupt_str} s"
+    )
+
     ax.clear()
-    plt.suptitle(
+    ax.set_title(
         shot.title + ": $P_\\mathrm{disrupt} = " + f"{100*cnn_prob:.0f}\\%$",
     )
     ax.set_ylim(min(-2.5, 2.5 * np.min(current)), max(2, 1.5 * np.max(current)))
-    ax.locator_params(axis="y", nbins=8)
     ax.plot(time, current, label="$I_\\mathrm{raw}$")
     flipped_current = get_oriented_current(current)
     if not np.array_equal(current, flipped_current):
@@ -124,8 +132,19 @@ def draw(ax1, ax2, shot: ShotView, zoom=False):
         else None
     )
 
+    diff = (t_disrupt_si - pred_time) if t_disrupt_si is not None else None
+    t_disrupt_str = f"{t_disrupt_si:.3f}" if t_disrupt_si is not None else "n/a"
+    diff_str = f"{diff:.3f}" if diff is not None else "n/a"
+    logger.info(
+        f"shot {shot.shot_no} (index {shot.index}): P_disrupt={cnn_prob:.3f}, "
+        f"disruptive={shot.disruptive}, t_D={t_disrupt_str} s, "
+        f"t_root={pred_time:.3f} s, "
+        f"window=[{predicted_time_start:.3f}, {predicted_time_end:.3f}] s, "
+        f"t_D-t_root={diff_str} s, "
+    )
+
     ax1.clear()
-    plt.suptitle(shot.title + ": $P_\\mathrm{disrupt} = " + f"{100*cnn_prob:.0f}\\%$")
+    ax1.set_title(shot.title + ": $P_\\mathrm{disrupt} = " + f"{100*cnn_prob:.0f}\\%$")
     ax1.plot(time, current, label="$I_\\mathrm{raw}$", color="C0")
     flipped_current = get_oriented_current(current)
     if not np.array_equal(current, flipped_current):
@@ -167,7 +186,6 @@ def draw(ax1, ax2, shot: ShotView, zoom=False):
     ax2.clear()
     ax2.set_ylabel("Heuristic")
     ax2.plot(time, filtered, label="$f$")
-    diff = (t_disrupt_si - predicted_time_start) if t_disrupt_si is not None else None
     heuristic_label = "$t_\\mathrm{root}$"
     ax2.axvline(pred_time, color="C3", ls="--", label=heuristic_label)
     ax1.axvline(pred_time, color="C3", ls="--", label=heuristic_label)
@@ -210,11 +228,27 @@ def run_interactive(zoom=False, simple=False) -> None:
     rendered as a stacked (current, heuristic) pair via :func:`draw`.
     """
     matplotlib.use("QtAgg")
+    # Interactive figures are small (10x7 @ 100 dpi), so the default matplotlib
+    # font sizes render oversized; shrink them here. Exports use large figures
+    # at 300 dpi and are unaffected (separate CLI invocation).
+    matplotlib.rcParams.update(
+        {
+            "font.size": 8,
+            "axes.titlesize": 9,
+            "axes.labelsize": 8,
+            "xtick.labelsize": 8,
+            "ytick.labelsize": 8,
+            "legend.fontsize": 7,
+            "figure.titlesize": 9,
+            "lines.linewidth": 1,
+            "lines.markersize": 2,
+        }
+    )
     num_rows = len(dataset)
     if simple:
-        fig, ax = plt.subplots(1, 1, figsize=(10, 10))
+        fig, ax = plt.subplots(1, 1, figsize=(10, 7), dpi=150)
     else:
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 10), sharex=True)
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 7), sharex=True, dpi=150)
     fig.subplots_adjust(bottom=0.2)
 
     with torch.no_grad():
@@ -242,7 +276,7 @@ def run_interactive(zoom=False, simple=False) -> None:
 
         index_slider.on_changed(lambda v: (redraw(v), box.set_val(str(int(v)))))
         box.on_submit(
-            lambda t: index_slider.set_val(int) if t.strip().isdigit() else None
+            lambda t: index_slider.set_val(int(t)) if t.strip().isdigit() else None
         )
 
         plt.show()
@@ -323,6 +357,11 @@ def main() -> None:
     parser.add_argument("--zoom", default=False, action="store_true")
     parser.add_argument("--simple", default=False, action="store_true")
     args = parser.parse_args()
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+    )
 
     if model is None:
         return

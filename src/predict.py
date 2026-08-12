@@ -68,7 +68,7 @@ def _disruption_time_for_shot(
     max_length = dataset.data.shape[1]
     t_0, pred_time, t_f = predict_disruption_time(raw_current, raw_time)
     t_D = float(raw_time[min(round(shot.t_disrupt * max_length), len(raw_time) - 1)])
-    return (shot.index, t_D, t_0, pred_time, t_f)
+    return (shot.index, shot.shot_no, t_D, t_0, pred_time, t_f, t_0 - t_D)
 
 
 def predict_disruption_times(dataset: IpDataset) -> None:
@@ -86,18 +86,19 @@ def predict_disruption_times(dataset: IpDataset) -> None:
         _, label = dataset[idx]
         if int(label[0].item()) == 1:
             disruption_times.append(_disruption_time_for_shot(dataset, idx))
-
     df = pd.DataFrame(
         disruption_times,
         columns=[
             "index",
+            "shot_no",
             "t_D",
             "t_0",
             "t_root",
             "t_f",
+            "diff",
         ],
     )
-    df.to_csv(predictions_csv, index=False)
+    df.sort_values(by="diff").to_csv(predictions_csv, index=False)
     logger.info(
         f"Wrote {len(disruption_times)} disruption-time pairs to {predictions_csv}",
     )
