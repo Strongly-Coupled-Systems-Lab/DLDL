@@ -250,6 +250,211 @@
       \verb https://doi.org/10.1088/1361-6587/acc60f
       \endverb
     \endentry
+    \entry{Liu2025}{article}{}{}
+      \name{author}{6}{}{%
+        {{hash=6152661945d791855f3dabdd3a52d7f0}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Dongmei},
+           giveni={D\bibinitperiod}}}%
+        {{hash=7c96c2503908f8c75bc233b9edf38f8e}{%
+           family={Zhu},
+           familyi={Z\bibinitperiod},
+           given={Xinli},
+           giveni={X\bibinitperiod}}}%
+        {{hash=fcee13ac49470189801516fb9f5eb09c}{%
+           family={Shu},
+           familyi={S\bibinitperiod},
+           given={Shuangbao},
+           giveni={S\bibinitperiod}}}%
+        {{hash=322023c9768a1822b55d801bd7a986e1}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Shun},
+           giveni={S\bibinitperiod}}}%
+        {{hash=c09dceec3f047068b9e37a2e34da5977}{%
+           family={Shen},
+           familyi={S\bibinitperiod},
+           given={Biao},
+           giveni={B\bibinitperiod}}}%
+        {{hash=ade902e1545681df9535d10468cd2554}{%
+           family={Guo},
+           familyi={G\bibinitperiod},
+           given={Bihao},
+           giveni={B\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier BV}%
+      }
+      \strng{namehash}{aba2fc744e7bc1816be82cd50788cec9}
+      \strng{fullhash}{6c85e44919cc2d82e2df9197e73bb48b}
+      \strng{fullhashraw}{6c85e44919cc2d82e2df9197e73bb48b}
+      \strng{bibnamehash}{aba2fc744e7bc1816be82cd50788cec9}
+      \strng{authorbibnamehash}{aba2fc744e7bc1816be82cd50788cec9}
+      \strng{authornamehash}{aba2fc744e7bc1816be82cd50788cec9}
+      \strng{authorfullhash}{6c85e44919cc2d82e2df9197e73bb48b}
+      \strng{authorfullhashraw}{6c85e44919cc2d82e2df9197e73bb48b}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0920-3796}
+      \field{journaltitle}{Fusion Engineering and Design}
+      \field{title}{A multi-classifier disruption predictor based on optimized support vector machine on EAST}
+      \field{volume}{216}
+      \field{year}{2025}
+      \field{pages}{115092}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.fusengdes.2025.115092
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1016/j.fusengdes.2025.115092
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1016/j.fusengdes.2025.115092
+      \endverb
+    \endentry
+    \entry{Murari_2008}{article}{}{}
+      \name{author}{7}{}{%
+        {{hash=d8d5510798b9803af3a5e3065d9f4238}{%
+           family={Murari},
+           familyi={M\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=851326040f3f2348c40352e038c117d9}{%
+           family={Vagliasindi},
+           familyi={V\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod}}}%
+        {{hash=1d86e38de7201c84a57cbbd8b3e5658b}{%
+           family={Arena},
+           familyi={A\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+        {{hash=a4bb34ec9c83bd1ca6f00b20dad299a3}{%
+           family={Fortuna},
+           familyi={F\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod}}}%
+        {{hash=2108a9d4d0cbd5e1a048a7905fe0f313}{%
+           family={Barana},
+           familyi={B\bibinitperiod},
+           given={O.},
+           giveni={O\bibinitperiod}}}%
+        {{hash=08d82841fe870d331e86c665ce0f7f68}{%
+           family={Johnson},
+           familyi={J\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=bbb9de81b98847623c7ca768efca796e}{%
+           family={Contributors},
+           familyi={C\bibinitperiod},
+           given={JET-EFDA},
+           giveni={J\bibinithyphendelim E\bibinitperiod}}}%
+      }
+      \strng{namehash}{02105fcdbeb90abfeabfc4db6bd72832}
+      \strng{fullhash}{18b3f1a8711dff2b80e73e0583f3f55f}
+      \strng{fullhashraw}{18b3f1a8711dff2b80e73e0583f3f55f}
+      \strng{bibnamehash}{02105fcdbeb90abfeabfc4db6bd72832}
+      \strng{authorbibnamehash}{02105fcdbeb90abfeabfc4db6bd72832}
+      \strng{authornamehash}{02105fcdbeb90abfeabfc4db6bd72832}
+      \strng{authorfullhash}{18b3f1a8711dff2b80e73e0583f3f55f}
+      \strng{authorfullhashraw}{18b3f1a8711dff2b80e73e0583f3f55f}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nuclear Fusion}
+      \field{month}{2}
+      \field{number}{3}
+      \field{title}{Prototype of an adaptive disruption predictor for JET based on fuzzy logic and regression trees}
+      \field{volume}{48}
+      \field{year}{2008}
+      \field{pages}{035010}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1088/0029-5515/48/3/035010
+      \endverb
+      \verb{urlraw}
+      \verb https://doi.org/10.1088/0029-5515/48/3/035010
+      \endverb
+      \verb{url}
+      \verb https://doi.org/10.1088/0029-5515/48/3/035010
+      \endverb
+    \endentry
+    \entry{Pau2019}{article}{}{}
+      \name{author}{7}{}{%
+        {{hash=acc711f18f1d3a494c912beb67a9e57d}{%
+           family={Pau},
+           familyi={P\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=5f478fe6ab15abc8a52722e61715e67f}{%
+           family={Fanni},
+           familyi={F\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=6cbcaced11c2d3fba007a76508aff556}{%
+           family={Carcangiu},
+           familyi={C\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=fdb2127bd67c12dd9793fcad07b8ac0f}{%
+           family={Cannas},
+           familyi={C\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+        {{hash=6125040bb496df22b130bdbd3956921e}{%
+           family={Sias},
+           familyi={S\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod}}}%
+        {{hash=d8d5510798b9803af3a5e3065d9f4238}{%
+           family={Murari},
+           familyi={M\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=82fe5a3d4186de5bfe40abf724581cc3}{%
+           family={Rimini},
+           familyi={R\bibinitperiod},
+           given={F.\bibnamedelimi and},
+           giveni={F\bibinitperiod\bibinitdelim a\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IOP Publishing}%
+      }
+      \strng{namehash}{c996459823c3e11fc85bc2bcee888e35}
+      \strng{fullhash}{0cfb4480431f468f3f9f7ffe9442c72b}
+      \strng{fullhashraw}{0cfb4480431f468f3f9f7ffe9442c72b}
+      \strng{bibnamehash}{c996459823c3e11fc85bc2bcee888e35}
+      \strng{authorbibnamehash}{c996459823c3e11fc85bc2bcee888e35}
+      \strng{authornamehash}{c996459823c3e11fc85bc2bcee888e35}
+      \strng{authorfullhash}{0cfb4480431f468f3f9f7ffe9442c72b}
+      \strng{authorfullhashraw}{0cfb4480431f468f3f9f7ffe9442c72b}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1741-4326}
+      \field{journaltitle}{Nuclear Fusion}
+      \field{month}{8}
+      \field{number}{10}
+      \field{title}{A machine learning approach based on generative topographic mapping for disruption prevention and avoidance at JET}
+      \field{volume}{59}
+      \field{year}{2019}
+      \field{pages}{106017}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1088/1741-4326/ab2ea9
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1088/1741-4326/ab2ea9
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1088/1741-4326/ab2ea9
+      \endverb
+    \endentry
     \entry{Vega2022}{article}{}{}
       \name{author}{1228}{}{%
         {{hash=d5c91d03a03863d3bcbab92af6cc4ab1}{%
@@ -6415,8 +6620,8 @@
       \strng{authornamehash}{7d996113a687f1e67aeaea45d5600856}
       \strng{authorfullhash}{71326092c36b502048122e2ec6b9ef0c}
       \strng{authorfullhashraw}{71326092c36b502048122e2ec6b9ef0c}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{1745-2481}
@@ -6491,8 +6696,8 @@
       \strng{authornamehash}{79052102ae08cb344be97bbb144f6e39}
       \strng{authorfullhash}{0adfb874b1b84903a06d39e67c580278}
       \strng{authorfullhashraw}{0adfb874b1b84903a06d39e67c580278}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Fusion Science and Technology}
@@ -6559,8 +6764,8 @@
       \strng{authornamehash}{3f6537de83793caa0aa9686687a8414a}
       \strng{authorfullhash}{3a4e1b6c303e471ceec511eb207ea354}
       \strng{authorfullhashraw}{3a4e1b6c303e471ceec511eb207ea354}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{1741-4326}
@@ -6672,8 +6877,8 @@
       \strng{authornamehash}{c153433e18148453548515fcf0f0aa72}
       \strng{authorfullhash}{0e92762154dd69fc3c094dc59d30b47d}
       \strng{authorfullhashraw}{0e92762154dd69fc3c094dc59d30b47d}
-      \field{sortinit}{8}
-      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{2399-3650}
@@ -6690,6 +6895,204 @@
       \endverb
       \verb{url}
       \verb http://dx.doi.org/10.1038/s42005-023-01296-9
+      \endverb
+    \endentry
+    \entry{Churchill2020}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=e06343661dd4676e31ef067d8fb389bb}{%
+           family={Churchill},
+           familyi={C\bibinitperiod},
+           given={R.\bibnamedelimi M.},
+           giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=f5033b1f73968d760f60bf0540a72a1c}{%
+           family={Tobias},
+           familyi={T\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+        {{hash=0e64190a8e8e59ddfa3601c189642593}{%
+           family={Zhu},
+           familyi={Z\bibinitperiod},
+           given={Y.\bibnamedelimi and},
+           giveni={Y\bibinitperiod\bibinitdelim a\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {AIP Publishing}%
+      }
+      \strng{namehash}{bd8d92d9f162e2de891ae01058d88b9b}
+      \strng{fullhash}{4a9c2409f36cebc3d1f234c75d221e31}
+      \strng{fullhashraw}{4a9c2409f36cebc3d1f234c75d221e31}
+      \strng{bibnamehash}{4a9c2409f36cebc3d1f234c75d221e31}
+      \strng{authorbibnamehash}{4a9c2409f36cebc3d1f234c75d221e31}
+      \strng{authornamehash}{bd8d92d9f162e2de891ae01058d88b9b}
+      \strng{authorfullhash}{4a9c2409f36cebc3d1f234c75d221e31}
+      \strng{authorfullhashraw}{4a9c2409f36cebc3d1f234c75d221e31}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1089-7674}
+      \field{journaltitle}{Physics of Plasmas}
+      \field{number}{6}
+      \field{title}{Deep convolutional neural networks for multi-scale time-series classification and application to tokamak disruption prediction using raw, high temporal resolution diagnostic data}
+      \field{volume}{27}
+      \field{year}{2020}
+      \verb{doi}
+      \verb 10.1063/1.5144458
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1063/1.5144458
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1063/1.5144458
+      \endverb
+    \endentry
+    \entry{Aymerich2022}{article}{}{}
+      \name{author}{10}{}{%
+        {{hash=3829f2b2d9fae169ee6f3d54f29ee1d3}{%
+           family={Aymerich},
+           familyi={A\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod}}}%
+        {{hash=6125040bb496df22b130bdbd3956921e}{%
+           family={Sias},
+           familyi={S\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod}}}%
+        {{hash=840690dfb7b67ccd9f4dc9d24de10ffb}{%
+           family={Pisano},
+           familyi={P\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod}}}%
+        {{hash=fdb2127bd67c12dd9793fcad07b8ac0f}{%
+           family={Cannas},
+           familyi={C\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+        {{hash=6cbcaced11c2d3fba007a76508aff556}{%
+           family={Carcangiu},
+           familyi={C\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=eaeba71fca1f3d6273fd709eb5863f16}{%
+           family={Sozzi},
+           familyi={S\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod}}}%
+        {{hash=52fe1b00c56a3a7dd7267cdd48665607}{%
+           family={Stuart},
+           familyi={S\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod}}}%
+        {{hash=fc17a71baa535896e0864b39e6688ec5}{%
+           family={Carvalho},
+           familyi={C\bibinitperiod},
+           given={P.J.},
+           giveni={P\bibinitperiod}}}%
+        {{hash=5f478fe6ab15abc8a52722e61715e67f}{%
+           family={Fanni},
+           familyi={F\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=b46c92cf2c9a3b452111701c469b6020}{%
+           family={Contributors},
+           familyi={C\bibinitperiod},
+           given={JET},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IOP Publishing}%
+      }
+      \strng{namehash}{d5ceb96042205868aaf691a73cf56873}
+      \strng{fullhash}{1c9f8788230f8722304ed3fe6ba7c705}
+      \strng{fullhashraw}{1c9f8788230f8722304ed3fe6ba7c705}
+      \strng{bibnamehash}{d5ceb96042205868aaf691a73cf56873}
+      \strng{authorbibnamehash}{d5ceb96042205868aaf691a73cf56873}
+      \strng{authornamehash}{d5ceb96042205868aaf691a73cf56873}
+      \strng{authorfullhash}{1c9f8788230f8722304ed3fe6ba7c705}
+      \strng{authorfullhashraw}{1c9f8788230f8722304ed3fe6ba7c705}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1741-4326}
+      \field{journaltitle}{Nuclear Fusion}
+      \field{month}{4}
+      \field{number}{6}
+      \field{title}{Disruption prediction at JET through deep convolutional neural networks using spatiotemporal information from plasma profiles}
+      \field{volume}{62}
+      \field{year}{2022}
+      \field{pages}{066005}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1088/1741-4326/ac525e
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1088/1741-4326/ac525e
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1088/1741-4326/ac525e
+      \endverb
+    \endentry
+    \entry{AYMERICH2023113668}{article}{}{}
+      \name{author}{6}{}{%
+        {{hash=3829f2b2d9fae169ee6f3d54f29ee1d3}{%
+           family={Aymerich},
+           familyi={A\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod}}}%
+        {{hash=6125040bb496df22b130bdbd3956921e}{%
+           family={Sias},
+           familyi={S\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod}}}%
+        {{hash=840690dfb7b67ccd9f4dc9d24de10ffb}{%
+           family={Pisano},
+           familyi={P\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod}}}%
+        {{hash=fdb2127bd67c12dd9793fcad07b8ac0f}{%
+           family={Cannas},
+           familyi={C\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+        {{hash=5f478fe6ab15abc8a52722e61715e67f}{%
+           family={Fanni},
+           familyi={F\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=18088e9a002f657799528e98c8008030}{%
+           family={the-JET-Contributors},
+           familyi={t\bibinithyphendelim J\bibinithyphendelim C\bibinitperiod}}}%
+      }
+      \strng{namehash}{d5ceb96042205868aaf691a73cf56873}
+      \strng{fullhash}{80f5c95d74007fd7626508d5d6db560d}
+      \strng{fullhashraw}{80f5c95d74007fd7626508d5d6db560d}
+      \strng{bibnamehash}{d5ceb96042205868aaf691a73cf56873}
+      \strng{authorbibnamehash}{d5ceb96042205868aaf691a73cf56873}
+      \strng{authornamehash}{d5ceb96042205868aaf691a73cf56873}
+      \strng{authorfullhash}{80f5c95d74007fd7626508d5d6db560d}
+      \strng{authorfullhashraw}{80f5c95d74007fd7626508d5d6db560d}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0920-3796}
+      \field{journaltitle}{Fusion Engineering and Design}
+      \field{title}{CNN disruption predictor at JET: Early versus late data fusion approach}
+      \field{volume}{193}
+      \field{year}{2023}
+      \field{pages}{113668}
+      \range{pages}{1}
+      \verb{doi}
+      \verb https://doi.org/10.1016/j.fusengdes.2023.113668
+      \endverb
+      \verb{urlraw}
+      \verb https://www.sciencedirect.com/science/article/pii/S092037962300251X
+      \endverb
+      \verb{url}
+      \verb https://www.sciencedirect.com/science/article/pii/S092037962300251X
       \endverb
     \endentry
     \entry{roc}{article}{}{}
@@ -6711,8 +7114,8 @@
       \strng{authornamehash}{9c15aa0b2a7683cefeaa12c991d0b1c2}
       \strng{authorfullhash}{9c15aa0b2a7683cefeaa12c991d0b1c2}
       \strng{authorfullhashraw}{9c15aa0b2a7683cefeaa12c991d0b1c2}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{0167-8655}
@@ -6771,55 +7174,6 @@
       \verb https://www.sciencedirect.com/science/article/pii/S0031320396001422
       \endverb
       \keyw{The ROC curve,The area under the ROC curve (AUC),Accuracy measures,Cross-validation,Wilcoxon statistic,Standard error}
-    \endentry
-    \entry{Churchill2020}{article}{}{}
-      \name{author}{3}{}{%
-        {{hash=e06343661dd4676e31ef067d8fb389bb}{%
-           family={Churchill},
-           familyi={C\bibinitperiod},
-           given={R.\bibnamedelimi M.},
-           giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
-        {{hash=f5033b1f73968d760f60bf0540a72a1c}{%
-           family={Tobias},
-           familyi={T\bibinitperiod},
-           given={B.},
-           giveni={B\bibinitperiod}}}%
-        {{hash=0e64190a8e8e59ddfa3601c189642593}{%
-           family={Zhu},
-           familyi={Z\bibinitperiod},
-           given={Y.\bibnamedelimi and},
-           giveni={Y\bibinitperiod\bibinitdelim a\bibinitperiod}}}%
-      }
-      \list{publisher}{1}{%
-        {AIP Publishing}%
-      }
-      \strng{namehash}{bd8d92d9f162e2de891ae01058d88b9b}
-      \strng{fullhash}{4a9c2409f36cebc3d1f234c75d221e31}
-      \strng{fullhashraw}{4a9c2409f36cebc3d1f234c75d221e31}
-      \strng{bibnamehash}{4a9c2409f36cebc3d1f234c75d221e31}
-      \strng{authorbibnamehash}{4a9c2409f36cebc3d1f234c75d221e31}
-      \strng{authornamehash}{bd8d92d9f162e2de891ae01058d88b9b}
-      \strng{authorfullhash}{4a9c2409f36cebc3d1f234c75d221e31}
-      \strng{authorfullhashraw}{4a9c2409f36cebc3d1f234c75d221e31}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{issn}{1089-7674}
-      \field{journaltitle}{Physics of Plasmas}
-      \field{number}{6}
-      \field{title}{Deep convolutional neural networks for multi-scale time-series classification and application to tokamak disruption prediction using raw, high temporal resolution diagnostic data}
-      \field{volume}{27}
-      \field{year}{2020}
-      \verb{doi}
-      \verb 10.1063/1.5144458
-      \endverb
-      \verb{urlraw}
-      \verb http://dx.doi.org/10.1063/1.5144458
-      \endverb
-      \verb{url}
-      \verb http://dx.doi.org/10.1063/1.5144458
-      \endverb
     \endentry
     \entry{Montes2021}{article}{}{}
       \name{author}{6}{}{%
@@ -6918,8 +7272,170 @@
       \strng{authornamehash}{187aa67011f60c1d2f29360119bdee43}
       \strng{authorfullhash}{c885f7ce36d37975fe873a5870b6435e}
       \strng{authorfullhashraw}{c885f7ce36d37975fe873a5870b6435e}
+      \field{extraname}{1}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1476-4687}
+      \field{journaltitle}{Nature}
+      \field{month}{4}
+      \field{number}{7753}
+      \field{title}{Predicting disruptive instabilities in controlled fusion plasmas through deep learning}
+      \field{volume}{568}
+      \field{year}{2019}
+      \field{pages}{526\bibrangedash 531}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1038/s41586-019-1116-4
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1038/s41586-019-1116-4
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1038/s41586-019-1116-4
+      \endverb
+    \endentry
+    \entry{astro}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=b983d74c1f6314c53a35e976282f2a82}{%
+           family={Smith},
+           familyi={S\bibinitperiod},
+           given={Joe},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {arXiv}%
+      }
+      \strng{namehash}{b983d74c1f6314c53a35e976282f2a82}
+      \strng{fullhash}{b983d74c1f6314c53a35e976282f2a82}
+      \strng{fullhashraw}{b983d74c1f6314c53a35e976282f2a82}
+      \strng{bibnamehash}{b983d74c1f6314c53a35e976282f2a82}
+      \strng{authorbibnamehash}{b983d74c1f6314c53a35e976282f2a82}
+      \strng{authornamehash}{b983d74c1f6314c53a35e976282f2a82}
+      \strng{authorfullhash}{b983d74c1f6314c53a35e976282f2a82}
+      \strng{authorfullhashraw}{b983d74c1f6314c53a35e976282f2a82}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Astrometric Binary Classification Via Artificial Neural Networks}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.48550/ARXIV.2409.09563
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2409.09563
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2409.09563
+      \endverb
+      \keyw{Instrumentation and Methods for Astrophysics (astro-ph.IM),Machine Learning (cs.LG),Data Analysis,Statistics and Probability (physics.data-an),FOS: Physical sciences,FOS: Physical sciences,FOS: Computer and information sciences,FOS: Computer and information sciences}
+    \endentry
+    \entry{Perdomo2019}{article}{}{}
+      \name{author}{7}{}{%
+        {{hash=d4731342a9cb25de68133aa8018726ab}{%
+           family={Perdomo},
+           familyi={P\bibinitperiod},
+           given={Oscar},
+           giveni={O\bibinitperiod}}}%
+        {{hash=4de79b5b217a56d5bff1a3aa2950a15e}{%
+           family={Rios},
+           familyi={R\bibinitperiod},
+           given={Hernán},
+           giveni={H\bibinitperiod}}}%
+        {{hash=239e3835341f25715938b4954af59e9c}{%
+           family={Rodríguez},
+           familyi={R\bibinitperiod},
+           given={Francisco\bibnamedelima J.},
+           giveni={F\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=34ba01a3355b5579b7fd66199f32c406}{%
+           family={Otálora},
+           familyi={O\bibinitperiod},
+           given={Sebastián},
+           giveni={S\bibinitperiod}}}%
+        {{hash=4fdd907545458a9fb7589439c2c5f971}{%
+           family={Meriaudeau},
+           familyi={M\bibinitperiod},
+           given={Fabrice},
+           giveni={F\bibinitperiod}}}%
+        {{hash=8e376efb9e5e4ad24dcc8a47c937f2a9}{%
+           family={Müller},
+           familyi={M\bibinitperiod},
+           given={Henning},
+           giveni={H\bibinitperiod}}}%
+        {{hash=d965398c4a824312ce2acdacfda98b44}{%
+           family={González},
+           familyi={G\bibinitperiod},
+           given={Fabio\bibnamedelima A.},
+           giveni={F\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier BV}%
+      }
+      \strng{namehash}{ccc9d533b9d42c7ddc0dc3c7253f3dec}
+      \strng{fullhash}{6738cddbc94c86c4451a9333aa9d461c}
+      \strng{fullhashraw}{6738cddbc94c86c4451a9333aa9d461c}
+      \strng{bibnamehash}{ccc9d533b9d42c7ddc0dc3c7253f3dec}
+      \strng{authorbibnamehash}{ccc9d533b9d42c7ddc0dc3c7253f3dec}
+      \strng{authornamehash}{ccc9d533b9d42c7ddc0dc3c7253f3dec}
+      \strng{authorfullhash}{6738cddbc94c86c4451a9333aa9d461c}
+      \strng{authorfullhashraw}{6738cddbc94c86c4451a9333aa9d461c}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0169-2607}
+      \field{journaltitle}{Computer Methods and Programs in Biomedicine}
+      \field{title}{Classification of diabetes-related retinal diseases using a deep learning approach in optical coherence tomography}
+      \field{volume}{178}
+      \field{year}{2019}
+      \field{pages}{181\bibrangedash 189}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1016/j.cmpb.2019.06.016
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1016/j.cmpb.2019.06.016
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1016/j.cmpb.2019.06.016
+      \endverb
+    \endentry
+    \entry{data}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=0cd545f6cd9df955efbbaf2b83d4a366}{%
+           family={Kates-Harbeck},
+           familyi={K\bibinithyphendelim H\bibinitperiod},
+           given={Julian},
+           giveni={J\bibinitperiod}}}%
+        {{hash=f504be962fed8d94d847b9167c1fe68b}{%
+           family={Svyatkovskiy},
+           familyi={S\bibinitperiod},
+           given={Alexey},
+           giveni={A\bibinitperiod}}}%
+        {{hash=9529999ab5bc795d30017fe60b007b78}{%
+           family={Tang},
+           familyi={T\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {Springer Science}%
+        {Business Media LLC}%
+      }
+      \strng{namehash}{187aa67011f60c1d2f29360119bdee43}
+      \strng{fullhash}{c885f7ce36d37975fe873a5870b6435e}
+      \strng{fullhashraw}{c885f7ce36d37975fe873a5870b6435e}
+      \strng{bibnamehash}{c885f7ce36d37975fe873a5870b6435e}
+      \strng{authorbibnamehash}{c885f7ce36d37975fe873a5870b6435e}
+      \strng{authornamehash}{187aa67011f60c1d2f29360119bdee43}
+      \strng{authorfullhash}{c885f7ce36d37975fe873a5870b6435e}
+      \strng{authorfullhashraw}{c885f7ce36d37975fe873a5870b6435e}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{1476-4687}
@@ -6968,8 +7484,8 @@
       \strng{authornamehash}{471fdb37b34deecc3604f22e1a373d02}
       \strng{authorfullhash}{7e8dee717d54c2984b1c6bd3f3c0561f}
       \strng{authorfullhashraw}{7e8dee717d54c2984b1c6bd3f3c0561f}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{Training Deep Neural Networks is complicated by the fact that the distribution of each layer's inputs changes during training, as the parameters of the previous layers change. This slows down the training by requiring lower learning rates and careful parameter initialization, and makes it notoriously hard to train models with saturating nonlinearities. We refer to this phenomenon as internal covariate shift, and address the problem by normalizing layer inputs. Our method draws its strength from making normalization a part of the model architecture and performing the normalization for each training mini-batch. Batch Normalization allows us to use much higher learning rates and be less careful about initialization, and in some cases eliminates the need for Dropout. Applied to a state-of-the-art image classification model, Batch Normalization achieves the same accuracy with 14 times fewer training steps, and beats the original model by a significant margin. Using an ensemble of batch-normalized networks, we improve upon the best published result on ImageNet classification: reaching 4.82\% top-5 test error, exceeding the accuracy of human raters.}
@@ -7007,8 +7523,8 @@
       \strng{authornamehash}{80469b95363d8e8f1f3c532e82175db1}
       \strng{authorfullhash}{08d64b697ddc0d522928febb8e7c119b}
       \strng{authorfullhashraw}{08d64b697ddc0d522928febb8e7c119b}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{abstract}{Restricted Boltzmann machines were developed using binary stochastic hidden units. These can be generalized by replacing each binary unit by an infinite number of copies that all have the same weights but have progressively more negative biases. The learning and inference rules for these "Stepped Sigmoid Units" are unchanged. They can be approximated efficiently by noisy, rectified linear units. Compared with binary units, these units learn features that are better for object recognition on the NORB dataset and face verification on the Labeled Faces in the Wild dataset. Unlike binary units, rectified linear units preserve information about relative intensities as information travels through multiple layers of feature detectors.}
@@ -7055,8 +7571,8 @@
       \strng{authornamehash}{dd2ddc978fe083bcff1aa1379cd19643}
       \strng{authorfullhash}{4dd3ca3cdc8023700c28169734d6ad61}
       \strng{authorfullhashraw}{4dd3ca3cdc8023700c28169734d6ad61}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{0018-9219}
@@ -7193,8 +7709,8 @@
       \strng{authornamehash}{724e74fc18651eb78eb82fbcd1d9dfb1}
       \strng{authorfullhash}{4842db6c92a33147f588935fdde44a69}
       \strng{authorfullhashraw}{4842db6c92a33147f588935fdde44a69}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{cs.LG}
@@ -7232,8 +7748,8 @@
       \strng{authornamehash}{0018e09b9f142d15c9693e18a17bdf3f}
       \strng{authorfullhash}{a09df9f123146b8e2c7f1134c9496932}
       \strng{authorfullhashraw}{a09df9f123146b8e2c7f1134c9496932}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{cs.LG}
@@ -7266,8 +7782,9 @@
       \strng{authornamehash}{eb6a39a428446862c3179c02093cb54c}
       \strng{authorfullhash}{eb6a39a428446862c3179c02093cb54c}
       \strng{authorfullhashraw}{eb6a39a428446862c3179c02093cb54c}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{eprintclass}{cs.LG}
@@ -7367,6 +7884,176 @@
       \field{title}{Information Retrieval}
       \field{year}{1979}
     \endentry
+    \entry{Brennan2002}{article}{}{}
+      \name{author}{9}{}{%
+        {{hash=63150d2929cb52ce4f30a9e7ef06aa43}{%
+           family={Brennan},
+           familyi={B\bibinitperiod},
+           given={D.\bibnamedelimi P.},
+           giveni={D\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=972a63e9aca05e31e020a8fd38597ff6}{%
+           family={Strait},
+           familyi={S\bibinitperiod},
+           given={E.\bibnamedelimi J.},
+           giveni={E\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=27994abea4b4ac93775c5cb6971783c6}{%
+           family={Turnbull},
+           familyi={T\bibinitperiod},
+           given={A.\bibnamedelimi D.},
+           giveni={A\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+        {{hash=1b3dd1aa0efb5e625b7f6f1b70958587}{%
+           family={Chu},
+           familyi={C\bibinitperiod},
+           given={M.\bibnamedelimi S.},
+           giveni={M\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=541f863813b9804f4978834670e39d03}{%
+           family={La\bibnamedelima Haye},
+           familyi={L\bibinitperiod\bibinitdelim H\bibinitperiod},
+           given={R.\bibnamedelimi J.},
+           giveni={R\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=9a2882c1ad6e8bcdec0358b4c8de0c7b}{%
+           family={Luce},
+           familyi={L\bibinitperiod},
+           given={T.\bibnamedelimi C.},
+           giveni={T\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=f4d173f08463aeeffc3d1f47b132b4c4}{%
+           family={Taylor},
+           familyi={T\bibinitperiod},
+           given={T.\bibnamedelimi S.},
+           giveni={T\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=cbea11e4f743e7dd931e37a314693d5f}{%
+           family={Kruger},
+           familyi={K\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=35b8f8db39d9ea78d5ca233d95d46ad5}{%
+           family={Pletzer},
+           familyi={P\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {AIP Publishing}%
+      }
+      \strng{namehash}{fcc6b468e1c3ea6a73e104b04a3ecceb}
+      \strng{fullhash}{a1c838c8370f812f2a6c2724bda61873}
+      \strng{fullhashraw}{a1c838c8370f812f2a6c2724bda61873}
+      \strng{bibnamehash}{fcc6b468e1c3ea6a73e104b04a3ecceb}
+      \strng{authorbibnamehash}{fcc6b468e1c3ea6a73e104b04a3ecceb}
+      \strng{authornamehash}{fcc6b468e1c3ea6a73e104b04a3ecceb}
+      \strng{authorfullhash}{a1c838c8370f812f2a6c2724bda61873}
+      \strng{authorfullhashraw}{a1c838c8370f812f2a6c2724bda61873}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1089-7674}
+      \field{journaltitle}{Physics of Plasmas}
+      \field{number}{7}
+      \field{title}{Tearing mode stability studies near ideal stability boundaries in DIII-D}
+      \field{volume}{9}
+      \field{year}{2002}
+      \field{pages}{2998\bibrangedash 3006}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1063/1.1481504
+      \endverb
+      \verb{urlraw}
+      \verb http://dx.doi.org/10.1063/1.1481504
+      \endverb
+      \verb{url}
+      \verb http://dx.doi.org/10.1063/1.1481504
+      \endverb
+    \endentry
+    \entry{egemen2023}{inproceedings}{}{}
+      \name{author}{7}{}{%
+        {{hash=6f319f6e41c6a00be8e5473c2a739b85}{%
+           family={Seo},
+           familyi={S\bibinitperiod},
+           given={Jaemin},
+           giveni={J\bibinitperiod}}}%
+        {{hash=dff86a85d8c2bf6506a4f35fdbecca79}{%
+           family={Conlin},
+           familyi={C\bibinitperiod},
+           given={Rory},
+           giveni={R\bibinitperiod}}}%
+        {{hash=d1d6fa405297e09ae500f4c18a7d29ae}{%
+           family={Rothstein},
+           familyi={R\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod}}}%
+        {{hash=c689dac03ab342e34398af5f3f2bd229}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={SangKyeun},
+           giveni={S\bibinitperiod}}}%
+        {{hash=b4905dcbfd0588a230769f5670e8972c}{%
+           family={Abbate},
+           familyi={A\bibinitperiod},
+           given={Joseph},
+           giveni={J\bibinitperiod}}}%
+        {{hash=de38b3d1d5b75e40e0bd0f75b2b938d4}{%
+           family={Jalalvand},
+           familyi={J\bibinitperiod},
+           given={Azarakhsh},
+           giveni={A\bibinitperiod}}}%
+        {{hash=5b8d9803835086bfeff30154021d7610}{%
+           family={Kolemen},
+           familyi={K\bibinitperiod},
+           given={Egemen},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{7a703854bcfe426f79bd7d6cf6846988}
+      \strng{fullhash}{6a78ca8018cea14091787d388bb9e790}
+      \strng{fullhashraw}{6a78ca8018cea14091787d388bb9e790}
+      \strng{bibnamehash}{7a703854bcfe426f79bd7d6cf6846988}
+      \strng{authorbibnamehash}{7a703854bcfe426f79bd7d6cf6846988}
+      \strng{authornamehash}{7a703854bcfe426f79bd7d6cf6846988}
+      \strng{authorfullhash}{6a78ca8018cea14091787d388bb9e790}
+      \strng{authorfullhashraw}{6a78ca8018cea14091787d388bb9e790}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2023 International Joint Conference on Neural Networks (IJCNN)}
+      \field{title}{Multimodal Prediction of Tearing Instabilities in a Tokamak}
+      \field{year}{2023}
+      \field{pages}{1\bibrangedash 8}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1109/IJCNN54540.2023.10191359
+      \endverb
+      \keyw{Neural networks;Fusion power generation;Fusion reactors;Tokamak devices;Plasmas;Magnetic fields;Fuels;deep neural network;multimodal prediction;nuclear fusion;tokamak;tearing instability}
+    \endentry
+    \entry{github}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=59b1059e68da31ebc0aeb48f70826920}{%
+           family={Jain},
+           familyi={J\bibinitperiod},
+           given={Jason},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {GitHub}%
+      }
+      \strng{namehash}{59b1059e68da31ebc0aeb48f70826920}
+      \strng{fullhash}{59b1059e68da31ebc0aeb48f70826920}
+      \strng{fullhashraw}{59b1059e68da31ebc0aeb48f70826920}
+      \strng{bibnamehash}{59b1059e68da31ebc0aeb48f70826920}
+      \strng{authorbibnamehash}{59b1059e68da31ebc0aeb48f70826920}
+      \strng{authornamehash}{59b1059e68da31ebc0aeb48f70826920}
+      \strng{authorfullhash}{59b1059e68da31ebc0aeb48f70826920}
+      \strng{authorfullhashraw}{59b1059e68da31ebc0aeb48f70826920}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{\url{https://github.com/starlightjason2/DLDL}}
+      \field{journaltitle}{GitHub repository}
+      \field{month}{8}
+      \field{title}{DLDL}
+      \field{year}{2026}
+    \endentry
     \entry{cursor2026}{misc}{}{}
       \name{author}{1}{}{%
         {{hash=57d86b485ab1c48f55e5f496538c2e38}{%
@@ -7381,8 +8068,8 @@
       \strng{authornamehash}{57d86b485ab1c48f55e5f496538c2e38}
       \strng{authorfullhash}{57d86b485ab1c48f55e5f496538c2e38}
       \strng{authorfullhashraw}{57d86b485ab1c48f55e5f496538c2e38}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{howpublished}{\url{https://www.cursor.com}}
@@ -7404,8 +8091,8 @@
       \strng{authornamehash}{f431db65cea024a5f19eab835afefee2}
       \strng{authorfullhash}{f431db65cea024a5f19eab835afefee2}
       \strng{authorfullhashraw}{f431db65cea024a5f19eab835afefee2}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{howpublished}{\url{https://www.anthropic.com/claude-code}}

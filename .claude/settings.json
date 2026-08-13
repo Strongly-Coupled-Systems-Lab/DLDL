@@ -16,7 +16,9 @@
       "Bash(python -c \"import multiprocessing as mp; print\\(mp.get_start_method\\(\\)\\)\")",
       "Bash(cd /Users/sparsj/Code/DLDL; rm -f main.bbl main.bcf main.aux main.blg main.run.xml; latexmk -pdf -interaction=nonstopmode main.tex > /tmp/latexmk.log 2>&1; echo \"exit=$?\"; echo \"--- biber backend detected? ---\"; grep -i \"run biber\\\\|Biber\\\\|biblatex\\\\|not created\" /tmp/latexmk.log | head)",
       "Bash(cd /Users/sparsj/Code/DLDL; rm -f main.aux main.bbl main.bcf main.blg main.run.xml main.log *)",
-      "Bash(latexmk -pdf -g -interaction=nonstopmode main.tex)"
+      "Bash(latexmk -pdf -g -interaction=nonstopmode main.tex)",
+      "Bash(python3 -c \"import ast; ast.parse\\(open\\('src/prediction_plots.py'\\).read\\(\\)\\); print\\('syntax OK'\\)\")",
+      "Bash(perl -i -pe 's/Reciever/Receiver/g; s/classication/classification/g; s/homogenous/homogeneous/g; s/plamsa/plasma/g; s/unusally/unusually/g; s/forcasting/forecasting/g; s/incoroporate/incorporate/g' main.tex)"
     ],
     "additionalDirectories": [
       "/Users/sparsj/Code/DLDL"

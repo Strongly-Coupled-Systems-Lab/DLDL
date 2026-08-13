@@ -1,13 +1,13 @@
 # Fdb version 4
-["biber main"] 1786493145.41364 "main.bcf" "main.bbl" "main" 1786496398.77591 0
-  "main.bcf" 1786496398.68174 109232 2f55db47e9926ba638b209813aad15e4 "pdflatex"
-  "references.bib" 1786493119.31339 37506 ba36fd800408e5fc80602ca538190ec8 ""
+["biber main"] 1786656930.90858 "main.bcf" "main.bbl" "main" 1786657210.25332 0
+  "main.bcf" 1786657210.15186 110019 431591137e5ebf76eef09982c9cde558 "pdflatex"
+  "references.bib" 1786656862.9401 43225 66dae211b202c0ed22699aa1bd177d36 ""
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1786496391.46149 "/Users/sparsj/Code/DLDL/main.tex" "main.pdf" "main" 1786496398.77632 0
-  "/Users/sparsj/Code/DLDL/main.tex" 1786496384.01578 19941 9b30cf04dd1f4a988e134ab68918bcc7 ""
+["pdflatex"] 1786657202.7093 "/Users/sparsj/Code/DLDL/main.tex" "main.pdf" "main" 1786657210.25371 0
+  "/Users/sparsj/Code/DLDL/main.tex" 1786657202.55851 22110 3e1d2afb4146f52dd2da7a948cf9c08b ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc" 1136849721 2971 def0b6c1f0b107b3b936def894055589 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -126,18 +126,18 @@
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1741450574 3345740 46b66fdb0378f7bf5921b5eabf1762b8 ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
   "arxiv.sty" 1785916494.00926 7490 a96b0cef0e35ec8e90b092792e37a0b7 ""
-  "best_model/disruption_time_diff_pred_root.png" 1786234015.83738 394450 4914b1ec558a2549daa3f748d1f10b2d ""
-  "best_model/disruption_time_diff_pred_start.png" 1786234016.52315 463600 8fbd68c7d5967b800fe62a09d6b0dd9f ""
-  "best_model/heuristic_example.png" 1786492188.41237 311848 3db7f027532b7c969098c162b72e6b5c ""
+  "best_model/disruption_time_diff_t_0.png" 1786573676.87203 438212 d57b40851a8aa56631639015b54e158a ""
+  "best_model/disruption_time_diff_t_root.png" 1786573676.19087 409482 79d8bb5bf600287acbfb1037e50edd38 ""
+  "best_model/heuristic_example.png" 1786525012.53167 360276 a26eb0d61bf57f676e7ad01708b08947 ""
   "best_model/model_diagram.png" 1785902447.41564 222407 2f3db73d14b2cb9dc5fda554f2b89001 ""
-  "best_model/predictions_scatter_pred_root.png" 1786234015.35687 179275 64ee2ac46872d5bf65238dd2c0928190 ""
-  "best_model/roc_curve.png" 1785968506.99472 425336 04e19d4c67d8386d18bd8129df5f14aa ""
-  "best_model/select_false_negatives.png" 1786496030.77497 327343 5ea9357545ef4ba4b598c81b820cf694 ""
-  "best_model/select_false_positives.png" 1786496022.55521 301711 6c677209f089c53174ca3777f6a868aa ""
-  "main.aux" 1786496398.67859 8258 c67bd1a0705f6865946ca8f4639ef84c "pdflatex"
-  "main.bbl" 1786493149.26874 281845 dcd6cfd85fccec8fdc1429168f322160 "biber main"
-  "main.run.xml" 1786496398.68322 2305 52095dfad395b381e9a32937e764a41c "pdflatex"
-  "main.tex" 1786496384.01578 19941 9b30cf04dd1f4a988e134ab68918bcc7 ""
+  "best_model/predictions_scatter_t_0.png" 1786573676.37771 180156 0c7a83a1a4623f5ec7745ff428edce74 ""
+  "best_model/roc_curve.png" 1786528106.78062 387006 7677a86bd2fd7928536bb0dc062dd737 ""
+  "best_model/select_false_negatives.png" 1786525005.21912 338190 e8d404f662574fd08b1dbdf8a2a5e000 ""
+  "best_model/select_false_positives.png" 1786524996.88208 385108 10aeb5b1f7ea0fe69672ae4028a9660c ""
+  "main.aux" 1786657210.1488 9831 e9f2a87e995cde32b84a26f7f3eda0fd "pdflatex"
+  "main.bbl" 1786656934.72989 308813 94166d8bc38b1ad75c910a1d82ba1eaf "biber main"
+  "main.run.xml" 1786657210.15295 2305 52095dfad395b381e9a32937e764a41c "pdflatex"
+  "main.tex" 1786657202.55851 22110 3e1d2afb4146f52dd2da7a948cf9c08b ""
   (generated)
   "main.aux"
   "main.bcf"

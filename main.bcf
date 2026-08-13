@@ -2377,25 +2377,37 @@
     <bcf:citekey order="2" intorder="2">WANG2023163</bcf:citekey>
     <bcf:citekey order="3" intorder="1">deVries2016</bcf:citekey>
     <bcf:citekey order="4" intorder="1">Pavone_2023</bcf:citekey>
-    <bcf:citekey order="5" intorder="1">Vega2022</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">Muruganandham03102025</bcf:citekey>
-    <bcf:citekey order="7" intorder="1">Zhu2020</bcf:citekey>
-    <bcf:citekey order="8" intorder="1">Zheng2023</bcf:citekey>
-    <bcf:citekey order="9" intorder="1">roc</bcf:citekey>
-    <bcf:citekey order="10" intorder="1">BRADLEY19971145</bcf:citekey>
-    <bcf:citekey order="11" intorder="1">Churchill2020</bcf:citekey>
-    <bcf:citekey order="12" intorder="1">Montes2021</bcf:citekey>
-    <bcf:citekey order="13" intorder="1">KatesHarbeck2019</bcf:citekey>
-    <bcf:citekey order="14" intorder="1">bn</bcf:citekey>
-    <bcf:citekey order="15" intorder="1">relu</bcf:citekey>
-    <bcf:citekey order="16" intorder="1">maxpool</bcf:citekey>
-    <bcf:citekey order="17" intorder="1">pytorch</bcf:citekey>
-    <bcf:citekey order="18" intorder="1">adam</bcf:citekey>
-    <bcf:citekey order="19" intorder="1">lr</bcf:citekey>
-    <bcf:citekey order="20" intorder="1">bayes</bcf:citekey>
-    <bcf:citekey order="21" intorder="1">fbeta</bcf:citekey>
-    <bcf:citekey order="22" intorder="1">cursor2026</bcf:citekey>
-    <bcf:citekey order="23" intorder="1">claude2026</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">Liu2025</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">Murari_2008</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">Pau2019</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">Vega2022</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">Muruganandham03102025</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">Zhu2020</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">Zheng2023</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">Churchill2020</bcf:citekey>
+    <bcf:citekey order="12" intorder="2">Aymerich2022</bcf:citekey>
+    <bcf:citekey order="12" intorder="3">AYMERICH2023113668</bcf:citekey>
+    <bcf:citekey order="13" intorder="1">roc</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">BRADLEY19971145</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">Churchill2020</bcf:citekey>
+    <bcf:citekey order="16" intorder="1">Montes2021</bcf:citekey>
+    <bcf:citekey order="17" intorder="1">KatesHarbeck2019</bcf:citekey>
+    <bcf:citekey order="18" intorder="1">astro</bcf:citekey>
+    <bcf:citekey order="19" intorder="1">Perdomo2019</bcf:citekey>
+    <bcf:citekey order="20" intorder="1">data</bcf:citekey>
+    <bcf:citekey order="21" intorder="1">bn</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">relu</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">maxpool</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">pytorch</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">adam</bcf:citekey>
+    <bcf:citekey order="26" intorder="1">lr</bcf:citekey>
+    <bcf:citekey order="27" intorder="1">bayes</bcf:citekey>
+    <bcf:citekey order="28" intorder="1">fbeta</bcf:citekey>
+    <bcf:citekey order="29" intorder="1">Brennan2002</bcf:citekey>
+    <bcf:citekey order="30" intorder="1">egemen2023</bcf:citekey>
+    <bcf:citekey order="31" intorder="1">github</bcf:citekey>
+    <bcf:citekey order="32" intorder="1">cursor2026</bcf:citekey>
+    <bcf:citekey order="33" intorder="1">claude2026</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

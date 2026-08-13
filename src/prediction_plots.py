@@ -78,11 +78,11 @@ def get_pred_type_label(prediction_type: "t_root" | "t_0" | "t_f"):
         return "t_f"
 
 
-def generate_histogram(df: pd.DataFrame, prediction_type: str) -> None:
+def generate_err_histogram(df: pd.DataFrame, prediction_type: str) -> None:
     # Errors in seconds; keep those within +/-10 ms, then convert to milliseconds.
     diff = df["diff"][(df["diff"] < 10e-3) & (df["diff"] > -10e-3)] * 1e3
     sigma = diff.std()
-    mu = diff.mean()
+    mu = np.abs(diff.mean())
     logger.success(
         f"Disruption time error (milliseconds, n={len(diff)}): "
         f"mean={mu:.3f}, median={diff.median():.3f}, variance={diff.var():.3f}, stddev={sigma:.3f}"
@@ -117,16 +117,15 @@ def generate_histogram(df: pd.DataFrame, prediction_type: str) -> None:
         ax,
         diff,
         color="#0072B2",
-        label=f"$\\mu={mu:.2f},\\;\\sigma={sigma:.2f}$",
+        label=f"Full test set",
     )
 
     three_sigma = diff[np.abs(diff) < (3 * sigma)]
-    range_label = rf"{(mu - 3*sigma):.2f} < \Delta t < {(mu + 3*sigma):.2f}"
-    mu_sigma_label = f"\\mu_{{3\\sigma}}={three_sigma.mean():.2f},\\;\\sigma_{{3\\sigma}}={three_sigma.std():.2f}"
+    logger.info(f"mu={(three_sigma.mean()):.1f};sigma={three_sigma.std():.1f}")
     plot_gaussian(
         ax,
         three_sigma,
-        label=f"No outliers",
+        label=f"Excluding outliers",
         color="#D55E00",
     )
     ax.legend()
@@ -140,6 +139,66 @@ def generate_histogram(df: pd.DataFrame, prediction_type: str) -> None:
     logger.info(f"Wrote {out_path}")
 
 
+def generate_range_histogram(df: pd.DataFrame) -> None:
+    # Errors in seconds; keep those within +/-10 ms, then convert to milliseconds.
+    df["range"] = df["t_f"] - df["t_0"]
+    disrupt_range = df["range"][(df["range"] > 0) & (df["range"] < 0.02)]
+    sigma = disrupt_range.std()
+    mu = np.abs(disrupt_range.mean())
+    logger.success(
+        f"Disruption time range (milliseconds, n={len(disrupt_range)}): "
+        f"mean={mu:.3f}, median={disrupt_range.median():.3f}, variance={disrupt_range.var():.3f}, stddev={sigma:.3f}"
+    )
+    first_quartile = disrupt_range[np.abs(disrupt_range) < sigma]
+    second_quartile = disrupt_range[np.abs(disrupt_range) < 2 * sigma]
+    third_quartile = disrupt_range[np.abs(disrupt_range) < 3 * sigma]
+    logger.success(
+        f"{100*len(first_quartile) / len(disrupt_range):2f}% shots within 1 stddev, {100*len(second_quartile) / len(disrupt_range):2f}% shots within 2 stddev, {(100*len(third_quartile) / len(disrupt_range)):2f}% shots within 3 stddev"
+    )
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    ax.hist(
+        disrupt_range,
+        bins=50,
+        density=True,
+        color="#B8C4D0",
+        edgecolor="#5A6B7B",
+        linewidth=0.5,
+        alpha=0.9,
+        range=(0, 0.02),
+    )
+    ax.axvline(0.0, color="black", linewidth=1)
+    ax.set_xlabel(f"$t_f-t_0$ (ms)")
+    ax.set_ylabel("Fraction of shots")
+
+    # Overlay the best-fit Gaussian. Explicit high-contrast accents against the
+    # neutral gray bars: full-data fit in blue, the 3-sigma-trimmed fit in orange.
+    plot_gaussian(
+        ax,
+        disrupt_range,
+        color="#0072B2",
+        label=f"Full test set",
+    )
+
+    three_sigma = disrupt_range[np.abs(disrupt_range) < (3 * sigma)]
+    logger.info(f"mu={(three_sigma.mean()):.1f};sigma={three_sigma.std():.1f}")
+    plot_gaussian(
+        ax,
+        three_sigma,
+        label=f"Excluding outliers",
+        color="#D55E00",
+    )
+    ax.legend()
+
+    ax.grid(True, alpha=0.3)
+    fig.tight_layout()
+
+    out_path = model_dir / f"disruption_time_range.png"
+    fig.savefig(out_path, dpi=600)
+    plt.close(fig)
+    logger.info(f"Wrote {out_path}")
+
+
 def generate_scatter_plot(
     df: pd.DataFrame, prediction_type: "t_root" | "t_0" | "t_f"
 ) -> None:
@@ -147,7 +206,13 @@ def generate_scatter_plot(
     ax.scatter(df[prediction_type], df["t_D"], alpha=0.85)
 
     _, hi = ax.get_xlim()
-    ax.plot([0, hi], [0, hi], "r--", linewidth=1, label="$t_D=t_\\mathrm{root}$")
+    ax.plot(
+        [0, hi],
+        [0, hi],
+        "r--",
+        linewidth=1,
+        label=f"$t_D={get_pred_type_label(prediction_type)}$",
+    )
 
     ax.set_xlabel(f"${get_pred_type_label(prediction_type)}$ (s)")
     ax.set_ylabel("$t_D$ (s)")
@@ -171,11 +236,12 @@ def main() -> None:
     logger.info(
         f"{len(shots_in_range)} / {len(df["t_D"])} shots in range ({len(shots_in_range) / len(df["t_D"])})."
     )
+    generate_range_histogram(df)
 
     for prediction_type in ["t_root", "t_0", "t_f"]:
         df["diff"] = df[prediction_type] - df["t_D"]
         generate_scatter_plot(df, prediction_type)
-        generate_histogram(df, prediction_type)
+        generate_err_histogram(df, prediction_type)
 
 
 if __name__ == "__main__":
