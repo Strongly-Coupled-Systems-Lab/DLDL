@@ -142,7 +142,7 @@ def generate_err_histogram(df: pd.DataFrame, prediction_type: str) -> None:
 def generate_range_histogram(df: pd.DataFrame) -> None:
     # Errors in seconds; keep those within +/-10 ms, then convert to milliseconds.
     df["range"] = df["t_f"] - df["t_0"]
-    disrupt_range = df["range"][(df["range"] > 0) & (df["range"] < 0.02)]
+    disrupt_range = 1e3 * df["range"][(df["range"] > 0) & (df["range"] < 0.02)]
     sigma = disrupt_range.std()
     mu = np.abs(disrupt_range.mean())
     logger.success(
@@ -165,7 +165,7 @@ def generate_range_histogram(df: pd.DataFrame) -> None:
         edgecolor="#5A6B7B",
         linewidth=0.5,
         alpha=0.9,
-        range=(0, 0.02),
+        range=(0, 20),
     )
     ax.axvline(0.0, color="black", linewidth=1)
     ax.set_xlabel(f"$t_f-t_0$ (ms)")
