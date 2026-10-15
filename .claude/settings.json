@@ -23,7 +23,9 @@
       "Bash(.venv/bin/python -m py_compile src/scrape_data.py)",
       "Bash(git check-ignore *)",
       "Bash(python3 -)",
-      "Bash(PYTHONPATH=src .venv/bin/python -m py_compile src/scrape_data.py src/preprocess_historical.py src/util/historical.py)"
+      "Bash(PYTHONPATH=src .venv/bin/python -m py_compile src/scrape_data.py src/preprocess_historical.py src/util/historical.py)",
+      "Bash(chmod +x scripts/run_preprocess_historical.sh)",
+      "Bash(bash -n scripts/run_preprocess_historical.sh scripts/run_predict_all.sh)"
     ],
     "additionalDirectories": [
       "/Users/sparsj/Code/DLDL"

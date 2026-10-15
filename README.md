@@ -279,10 +279,11 @@ python src/scrape_data.py             # model + disruption times -> all_shots.cs
 **On Polaris** (`debug-scaling` queue, 1 node, 1 h walltime), with `HDF5_DIR` and `HISTORICAL_DATA_PATH` set in `.env`:
 
 ```bash
-qsub scripts/run_predict_all.sh
+qsub scripts/run_preprocess_historical.sh   # 1. CPU preprocessing
+qsub scripts/run_predict_all.sh             # 2. GPU prediction, after step 1 finishes
 ```
 
-The job runs preprocessing only if `HISTORICAL_DATA_PATH` does not exist yet, then prediction. If preprocessing alone exceeds the walltime, run it once in an interactive session (`qsub -I`, see below) and submit the job afterwards. Requires `h5py` in the conda env.
+`debug-scaling` allows only one job per user (running or queued), so submit prediction after preprocessing finishes. Preprocessing is not resumable; if it exceeds the walltime, run `python src/preprocess_historical.py` in an interactive session (`qsub -I`, see below). Prediction can be resubmitted until it reports `0 new shots`. Requires `h5py` in the conda env.
 
 ## Polaris Batch Jobs
 
