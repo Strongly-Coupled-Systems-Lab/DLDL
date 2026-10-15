@@ -52,10 +52,14 @@ Everything is read from the process environment. There is no JSON config file. *
 | `LABELS_PATH`       | ✓        | Shot list with disruption times.                                  |
 | `DATA_PATH`         | ✓        | Full path to preprocessed dataset tensor (`.pt`).                 |
 | `TRAIN_LABELS_PATH` | ✓        | Full path to preprocessed labels tensor (`.pt`).                  |
+| `HDF5_DIR`          | ✓‡       | Archived D3D HDF5 shots (`{shot//1000}xxx/{shot}.h5`).            |
+| `HISTORICAL_DATA_PATH` | ✓‡    | Preprocessed historical shots tensor (`.pt`).                     |
 | `PROG_DIR`          | ✓        | Training logs, checkpoints, and validation outputs.               |
 | `JOB_ID`            | ✓        | Run identifier (filenames / logs).                                |
 
 \*Set `PROJECT_ROOT` in `.env` for local and PBS runs. PBS scripts `source` the project `.env` and `cd` to `PROJECT_ROOT`.
+
+‡Only for [applying the model to historical shots](#6-apply-the-model-to-historical-shots).
 
 #### Preprocessing and dataset
 
@@ -250,6 +254,35 @@ python src/plot_disruption_time_diff.py      # histogram of prediction error
 | `plot_disruption_time_diff.py` | `best_model/predictions.csv`                                           | `best_model/disruption_time_diff.png` |
 
 Run `validate.py` before the prediction plots so `best_model/predictions.csv` exists.
+
+### 6. Apply the model to historical shots
+
+Runs the `best_model/` CNN on every shot in `HDF5_DIR` and, for shots with `P_disrupt > 0.5`, predicts the disruption time. Two steps, both on a Polaris compute node:
+
+```bash
+python src/preprocess_historical.py   # HDF5 -> HISTORICAL_DATA_PATH
+python src/scrape_data.py             # model + disruption times -> all_shots.csv
+```
+
+**Preprocessing** (`preprocess_historical.py`) reads every `*.h5` under `HDF5_DIR` in parallel (all cores), interpolates each current trace to 4 kHz, normalizes by the mean/std of the whole archive (as `IpDataset` does), and zero-pads/truncates to the model's input length (read from `DATA_PATH`, so the training dataset must exist). Unreadable shots and shots with NaN/inf current are logged and skipped. Output is `{"shot_no", "data"}` at `HISTORICAL_DATA_PATH`; the full archive needs roughly 240 KB of RAM per shot.
+
+**Prediction** (`scrape_data.py`) runs the CNN on the GPU in batches of 256, then re-reads the raw HDF5 file for each shot above 0.5 and runs `predict_disruption_time` on it (as `predict.py` does). It writes `all_shots.csv` at the repo root:
+
+| Column                  | Description                                                     |
+| ----------------------- | --------------------------------------------------------------- |
+| `shot_no`               | Shot number.                                                    |
+| `P_disrupt`             | CNN disruption probability.                                     |
+| `t_0`, `t_root`, `t_f`  | Predicted disruption times [s]; `-1` if `P_disrupt ≤ 0.5`.      |
+
+**Resuming:** shots already in `all_shots.csv` are skipped and results are appended after every batch, so a job killed at walltime can just be resubmitted. Delete `all_shots.csv` to redo every shot (e.g. after changing the model), and delete `HISTORICAL_DATA_PATH` to rebuild the preprocessed tensor.
+
+**On Polaris** (`debug-scaling` queue, 1 node, 1 h walltime), with `HDF5_DIR` and `HISTORICAL_DATA_PATH` set in `.env`:
+
+```bash
+qsub scripts/run_predict_all.sh
+```
+
+The job runs preprocessing only if `HISTORICAL_DATA_PATH` does not exist yet, then prediction. If preprocessing alone exceeds the walltime, run it once in an interactive session (`qsub -I`, see below) and submit the job afterwards. Requires `h5py` in the conda env.
 
 ## Polaris Batch Jobs
 

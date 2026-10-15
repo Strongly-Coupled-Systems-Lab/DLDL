@@ -1,10 +1,10 @@
 #!/bin/bash
-# Train one model (single process, single GPU).
-#PBS -N dldl_train
+# Apply the best model to all historical shots (preprocess, then predict).
+#PBS -N dldl_predict_all
 #PBS -l select=1:system=polaris,place=scatter
 #PBS -l walltime=01:00:00
 #PBS -l filesystems=home:eagle
-#PBS -q debug
+#PBS -q debug-scaling
 #PBS -A fusiondl_aesp
 #PBS -k doe
 #PBS -j oe
@@ -19,10 +19,10 @@ source .env
 set +a
 
 # Activate the conda environment that has PyTorch etc.
-# module activate cuda/16.0
 source "$DLDL_CONDASH"
 conda activate "$CONDA_ENV"
-module load 
 export PYTHONPATH="$PROJECT_ROOT/src"
 
+# Preprocess once; delete HISTORICAL_DATA_PATH to rebuild.
+[[ -f "$HISTORICAL_DATA_PATH" ]] || python src/preprocess_historical.py
 python src/scrape_data.py

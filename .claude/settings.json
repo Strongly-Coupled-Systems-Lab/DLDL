@@ -18,7 +18,12 @@
       "Bash(cd /Users/sparsj/Code/DLDL; rm -f main.aux main.bbl main.bcf main.blg main.run.xml main.log *)",
       "Bash(latexmk -pdf -g -interaction=nonstopmode main.tex)",
       "Bash(python3 -c \"import ast; ast.parse\\(open\\('src/prediction_plots.py'\\).read\\(\\)\\); print\\('syntax OK'\\)\")",
-      "Bash(perl -i -pe 's/Reciever/Receiver/g; s/classication/classification/g; s/homogenous/homogeneous/g; s/plamsa/plasma/g; s/unusally/unusually/g; s/forcasting/forecasting/g; s/incoroporate/incorporate/g' main.tex)"
+      "Bash(perl -i -pe 's/Reciever/Receiver/g; s/classication/classification/g; s/homogenous/homogeneous/g; s/plamsa/plasma/g; s/unusally/unusually/g; s/forcasting/forecasting/g; s/incoroporate/incorporate/g' main.tex)",
+      "Bash(PYTHONPATH=/tmp/dldl_smoke/pkgs .venv/bin/python /tmp/dldl_smoke/run.py)",
+      "Bash(.venv/bin/python -m py_compile src/scrape_data.py)",
+      "Bash(git check-ignore *)",
+      "Bash(python3 -)",
+      "Bash(PYTHONPATH=src .venv/bin/python -m py_compile src/scrape_data.py src/preprocess_historical.py src/util/historical.py)"
     ],
     "additionalDirectories": [
       "/Users/sparsj/Code/DLDL"
